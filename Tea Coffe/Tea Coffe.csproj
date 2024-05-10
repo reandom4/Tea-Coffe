@@ -60,6 +60,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DataBase.cs" />
+    <Compile Include="FullProductInfo.xaml.cs">
+      <DependentUpon>FullProductInfo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Page1.xaml.cs">
       <DependentUpon>Page1.xaml</DependentUpon>
     </Compile>
@@ -69,6 +72,10 @@
     <Compile Include="Window1.xaml.cs">
       <DependentUpon>Window1.xaml</DependentUpon>
     </Compile>
+    <Page Include="FullProductInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -124,49 +131,58 @@
     <Resource Include="Resources\R.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\plus.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\minus.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="minus.png" />
+    <Resource Include="Resources\plus.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="plus.png" />
+    <Resource Include="Resources\menu.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="menu.png" />
+    <Resource Include="Resources\menus.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="menus.png" />
+    <Resource Include="Resources\list.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="list.png" />
+    <Resource Include="Resources\hamburger.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="hamburger.png" />
+    <Resource Include="Resources\hamburger %281%29.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="hamburger %281%29.png" />
+    <Resource Include="Resources\more.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="more.png" />
+    <Resource Include="Resources\menu %281%29.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="menu %281%29.png" />
+    <Resource Include="Resources\user %281%29.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="user %281%29.png" />
+    <Resource Include="Resources\heart.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="heart.png" />
+    <Resource Include="Resources\shopping-cart.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="shopping-cart.png" />
+    <Resource Include="Resources\search.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="search.png" />
+    <Resource Include="Resources\leftarrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="leftarrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="80rgek830dt32ecvateiewt23f0u3n7o.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="close.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

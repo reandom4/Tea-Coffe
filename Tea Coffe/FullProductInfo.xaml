@@ -1,0 +1,94 @@
+﻿<Window x:Class="Tea_Coffe.FullProductInfo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Tea_Coffe"
+        mc:Ignorable="d"
+        Title="" Height="770" Width="955"  WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid x:Name="FullProductMenu" Margin="0,20,0,0" Height="auto" Width="951" VerticalAlignment="Top" Background="White" Visibility="Visible">
+            <Image x:Name="image"  Stretch="UniformToFill" Height="549" Margin="10,10,0,0" VerticalAlignment="Top" Source="/80rgek830dt32ecvateiewt23f0u3n7o.jpg" HorizontalAlignment="Left" Width="549" />
+            <TextBlock x:Name="name" Text="Чай чёрный цейлонский с типсами FBOP TIP" FontSize="28" TextWrapping="Wrap" Margin="10,559,0,0" FontWeight="Bold" FontFamily="Calibri" Height="120" VerticalAlignment="Top" HorizontalAlignment="Left" Width="549" />
+            <StackPanel  Orientation="Horizontal" Margin="23,694,786,10">
+                <TextBlock x:Name="cost" Text="238" FontSize="24" TextWrapping="NoWrap" FontWeight="Bold"  Height="46" VerticalAlignment="Top" />
+                <TextBlock Text="₽" FontSize="24" Margin="6,0,0,0" FontWeight="Bold"></TextBlock>
+            </StackPanel>
+
+
+            <Grid Margin="188,684,0,0" Height="50" VerticalAlignment="Top" HorizontalAlignment="Left" Width="375">
+                <Button Content="В корзину" Background="#FF2FAC66" BorderBrush="{x:Null}" Foreground="White" FontSize="14" BorderThickness="0,1,1,1" SnapsToDevicePixels="False"  Margin="193,8,10,8" >
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="border"
+        Background="{TemplateBinding Background}"
+        CornerRadius="5">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <!-- Триггер для изменения внешнего вида при наведении на кнопку -->
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="border" Property="Background" Value="#1f8b4f"/>
+                                    <Setter Property="Cursor" Value="Hand"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Border BorderBrush="#e2e3e8" BorderThickness="1" Margin="10,8,215,8" CornerRadius="5">
+                    <Grid>
+                        <Image Source="/Resources/plus.png" Margin="0,0,8,0" Height="16" VerticalAlignment="Center"  HorizontalAlignment="Right" Width="auto" PreviewMouseLeftButtonDown="PlusButton">
+                            <Image.Style>
+                                <Style TargetType="Image">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Cursor" Value="Hand"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+
+                        <Image Source="/Resources/minus.png" Margin="8,0,0,0" Height="16" VerticalAlignment="Center"  HorizontalAlignment="Left" Width="auto" PreviewMouseLeftButtonDown="MinusButton">
+                            <Image.Style>
+                                <Style TargetType="Image">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Cursor" Value="Hand"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+                        <Grid Margin="57,0,57,0">
+                            <StackPanel Orientation="Horizontal">
+                                <Label x:Name="Quantity" Content="100" VerticalAlignment="Center" Height="32" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="auto" />
+                                <Label x:Name="unit" Content="г" Height="32" Width="auto" VerticalContentAlignment="Center" VerticalAlignment="Center" Padding="0,0,0,0" />
+                            </StackPanel>
+                        </Grid>
+
+                    </Grid>
+
+
+
+                </Border>
+            </Grid>
+            <StackPanel Margin="575,10,10,0" Height="auto" VerticalAlignment="Top">
+                <TextBlock x:Name="descriptionHead" Text="Описание" FontSize="24" FontWeight="Bold"/>
+                <TextBlock x:Name="description" Text="" FontSize="14" TextWrapping="Wrap" />
+                <TextBlock x:Name="cooking_methodHead" Text="Способ приготовления" FontSize="24" FontWeight="Bold"/>
+                <TextBlock x:Name="cooking_method" Text="" FontSize="14" TextWrapping="Wrap"/>
+                <TextBlock x:Name="taste_and_aromaHead" Text="Вкус и аромат" FontSize="24" FontWeight="Bold"/>
+                <TextBlock x:Name="taste_and_aroma" Text="" FontSize="14" TextWrapping="Wrap"/>
+            </StackPanel>
+            <Border BorderBrush="#e2e3e8" BorderThickness="1" Margin="568,0,382,0"/>
+        </Grid>
+        <Image Height="15" VerticalAlignment="Top" HorizontalAlignment="Right" Width="15" Source="/close.png" Margin="0,5,5,0" MouseLeftButtonDown="Image_MouseLeftButtonDown" Cursor="Hand"/>
+        <Border BorderBrush="#e2e3e8" BorderThickness="1"/>
+        <Grid x:Name="MaxQuantity" Margin="201,712,0,0" Background="#7F000000" Width="355" HorizontalAlignment="Left" Visibility="Hidden" Height="36" VerticalAlignment="Top">
+            <TextBlock x:Name="MaxQuantityText" Text="Сейчас в наличии только 2000г" FontSize="12" Foreground="White" TextWrapping="Wrap" Margin="3,0,3,19"/>
+
+            <TextBlock Text="" FontSize="12" Foreground="White" TextWrapping="Wrap" Margin="3,14,3,0"/>
+        </Grid>
+    </Grid>
+</Window>
