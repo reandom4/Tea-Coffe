@@ -23,14 +23,16 @@ namespace Tea_Coffe
     public partial class FullProductInfo : Window
     {
         ProductItem productItem = new ProductItem();
-        public FullProductInfo(ProductItem item)
+
+        Window1 mainWindow;
+        public FullProductInfo(ProductItem item,Window1 main)
         {
             InitializeComponent();
-
+            mainWindow = main;
             try
             {
                 productItem = item;
-                FullProductMenu.Visibility = Visibility.Visible;
+                
                 name.Text = productItem.Name;
                 cost.Text = productItem.Cost.ToString();
 
@@ -50,23 +52,23 @@ namespace Tea_Coffe
                 description.Visibility = Visibility.Collapsed;
                 cooking_method.Visibility = Visibility.Collapsed;
                 taste_and_aroma.Visibility = Visibility.Collapsed;
-                if (productItem.description != null && productItem.description != "")
+                if (productItem.Description != null && productItem.Description != "")
                 {
                     descriptionHead.Visibility = Visibility.Visible;
                     description.Visibility = Visibility.Visible;
-                    description.Text = productItem.description;
+                    description.Text = productItem.Description;
                 }
-                if (productItem.cooking_method != null && productItem.cooking_method != "")
+                if (productItem.Cooking_method != null && productItem.Cooking_method != "")
                 {
                     cooking_methodHead.Visibility = Visibility.Visible;
                     cooking_method.Visibility = Visibility.Visible;
-                    cooking_method.Text = productItem.cooking_method;
+                    cooking_method.Text = productItem.Cooking_method;
                 }
-                if (productItem.taste_and_aroma != null && productItem.taste_and_aroma != "")
+                if (productItem.Taste_and_aroma != null && productItem.Taste_and_aroma != "")
                 {
                     taste_and_aromaHead.Visibility = Visibility.Visible;
                     taste_and_aroma.Visibility = Visibility.Visible;
-                    taste_and_aroma.Text = productItem.taste_and_aroma;
+                    taste_and_aroma.Text = productItem.Taste_and_aroma;
                 }
             }
             catch(Exception ex)
@@ -112,6 +114,39 @@ namespace Tea_Coffe
             productItem.Cost -= productItem.DefaultCost;
             Quantity.Content = productItem.Quantity;
             cost.Text = productItem.Cost.ToString();
+        }
+
+        private void InBasket(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+
+                var existingItem = mainWindow.Basket.FirstOrDefault(p => p.Id == productItem.Id);
+                
+                if (existingItem != null)
+                {
+                    // Увеличиваем количество товара в корзине
+                    if (existingItem.BasketQuantity + productItem.Quantity > productItem.QuantityInStock)
+                    {
+                        productItem.BasketQuantity = productItem.QuantityInStock;
+                    }
+                    else
+                    {
+                        productItem.BasketQuantity += productItem.Quantity;
+                    }
+
+                }
+                else
+                {
+                    // Добавляем новый товар в корзину
+                    productItem.BasketQuantity = productItem.Quantity;
+                    mainWindow.Basket.Add(productItem);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

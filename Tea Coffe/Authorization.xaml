@@ -1,0 +1,197 @@
+﻿<Window x:Class="Tea_Coffe.Authorization"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Tea_Coffe"
+        mc:Ignorable="d"
+        Title="authorization" Height="385" Width="370" WindowStyle="None" WindowStartupLocation="CenterScreen">
+    <Grid>
+
+        <TextBlock Text="Войти в личный кабинет" FontSize="26" FontWeight="Bold" Margin="36,19,36,0" TextWrapping="Wrap" TextAlignment="Center" Height="69" VerticalAlignment="Top"/>
+        <Border BorderBrush="#e2e3e8" Margin="10,105,10,0" BorderThickness="1" CornerRadius="5" Height="39" VerticalAlignment="Top">
+            <Grid>
+                <TextBox x:Name="textBoxLogin" VerticalAlignment="Center" Height="38" Padding="0,9,0,9" FontSize="14" SelectionBrush="{x:Null}" BorderBrush="{x:Null}"   Margin="5,0,25,0">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="TextBox">
+                                        <Grid>
+                                            <Border Background="Transparent"/>
+                                            <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                            <TextBlock x:Name="watermarkText" Text="Login" Foreground="#FFE2E3E8" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2,9,0,10" Visibility="Collapsed"/>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding Text.Length, RelativeSource={RelativeSource Self}}" Value="0">
+                                                <Setter TargetName="watermarkText" Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+
+                <Image Source="/Resources/close2.png" Stretch="UniformToFill" Margin="0,13,5,12" Cursor="Hand"  HorizontalAlignment="Right" Width="12" PreviewMouseLeftButtonDown="ClearLogin" />
+            </Grid>
+        </Border>
+
+
+        <Border BorderBrush="#e2e3e8" Margin="10,160,10,0" BorderThickness="1" CornerRadius="5" Height="39" VerticalAlignment="Top">
+            <Grid>
+                <PasswordBox x:Name="passwordBox" 
+             VerticalAlignment="Center"
+             Height="38"
+             Padding="0,9,0,9"
+             FontSize="14"
+             SelectionBrush="{x:Null}"
+             BorderBrush="{x:Null}" Margin="5,0,25,0">
+                    <PasswordBox.Style>
+                        <Style TargetType="PasswordBox">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="PasswordBox">
+                                        <Grid>
+                                            <Border Background="Transparent"/>
+                                            <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                            <TextBlock x:Name="watermarkText" Text="Password" Foreground="#FFE2E3E8"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left"
+                                       Margin="2,9,0,10"
+                                       Visibility="Visible"/>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <EventTrigger RoutedEvent="PasswordBox.PasswordChanged">
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="watermarkText" 
+                                                                           Storyboard.TargetProperty="Visibility">
+                                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Hidden}"/>
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </PasswordBox.Style>
+                </PasswordBox>
+                <Image x:Name="ShowPassowrdIcon" Source="/Resources/free-icon-eye-158746.png" Stretch="UniformToFill" Margin="0,11,4,11" Cursor="Hand"  HorizontalAlignment="Right" Width="15" PreviewMouseLeftButtonDown="ShowPassword" />
+                <Image x:Name="HidePassowrdIcon" Source="/Resources/free-icon-hide-2767146.png" Stretch="UniformToFill" Margin="0,11,4,11" Cursor="Hand"  HorizontalAlignment="Right" Width="15" PreviewMouseLeftButtonDown="HidePassword" Visibility="Collapsed" />
+                <TextBox x:Name="PasswordTextBox" VerticalAlignment="Center" Height="38" Padding="0,9,0,9" FontSize="14" SelectionBrush="{x:Null}" BorderBrush="{x:Null}"   Margin="5,0,25,0" Visibility="Collapsed">
+                    <TextBox.Style>
+                        <Style TargetType="{x:Type TextBox}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type TextBox}">
+                                        <Grid>
+                                            <Border Background="Transparent"/>
+                                            <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                            <TextBlock x:Name="watermarkText" Text="" Foreground="#FFE2E3E8" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2,9,0,10" Visibility="Collapsed"/>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding Text.Length, RelativeSource={RelativeSource Mode=Self}}" Value="0">
+                                                <Setter TargetName="watermarkText" Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+            </Grid>
+        </Border>
+
+        <Button HorizontalAlignment="Center" Margin="0,272,0,0" Height="33" Width="150" Background="#FF2FAC66" BorderBrush="{x:Null}" Foreground="White" FontFamily="Calibri"  VerticalAlignment="Top" Click="Button_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border"
+                Background="{TemplateBinding Background}"
+                CornerRadius="5">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <!-- Триггер для изменения внешнего вида при наведении на кнопку -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#1f8b4f"/>
+                            <Setter Property="Cursor" Value="Hand"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+            <StackPanel Orientation="Horizontal">
+
+                <TextBlock Text="Войти" FontSize="14"/>
+            </StackPanel>
+        </Button>
+        <Label x:Name="ErrorMessage" Content="Неверный логин или пароль" Margin="10,214,10,0" VerticalAlignment="Top" Foreground="Red" Visibility="Collapsed"/>
+
+        <Grid x:Name="CaptchaPanel" Margin="10" Background="White" Visibility="Collapsed">
+            <Image x:Name="imageCaptcha" Width="300" Margin="25,10,25,0" Height="245" VerticalAlignment="Top" Source="/Resources/R.png"/>
+            <Border BorderBrush="#e2e3e8" Margin="10,260,10,0" BorderThickness="1" CornerRadius="5" Height="37" VerticalAlignment="Top">
+                <Grid Margin="0,0,0,-1">
+                    <TextBox x:Name="CaptchaTB" VerticalAlignment="Center" Height="36" Padding="0,9,0,9" FontSize="14" Margin="10,0,36,0" SelectionBrush="{x:Null}" BorderBrush="{x:Null}">
+                        <TextBox.Style>
+                            <Style TargetType="TextBox">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="TextBox">
+                                            <Grid>
+                                                <Border Background="Transparent"/>
+                                                <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                                <TextBlock x:Name="watermarkText" Text="" Foreground="#FFE2E3E8"
+           VerticalAlignment="Center"
+           HorizontalAlignment="Left"
+           Margin="2,9,0,10"
+           Visibility="Collapsed"/>
+                                            </Grid>
+                                            <ControlTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding Text.Length, RelativeSource={RelativeSource Self}}" Value="0">
+                                                    <Setter TargetName="watermarkText" Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+                    <Button x:Name="captchabutton" Background="#FF2FAC66" BorderBrush="{x:Null}" Foreground="White" FontFamily="Calibri" Height="35" VerticalAlignment="Center" HorizontalAlignment="Right" Width="36" Click="Entercaptcha">
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border x:Name="border"
+                               Background="{TemplateBinding Background}"
+                               CornerRadius="5">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <!-- Триггер для изменения внешнего вида при наведении на кнопку -->
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="border" Property="Background" Value="#1f8b4f"/>
+                                        <Setter Property="Cursor" Value="Hand"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Resources/arrow-left.png" Width="25" Height="25"/>
+
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </Border>
+            <Image HorizontalAlignment="Right" Height="24" Margin="0,230,28,0" VerticalAlignment="Top" Width="24" Source="/Resources/refresh.png" Cursor="Hand" MouseLeftButtonDown="RefreshCaptcha"/>
+            <Label x:Name="CaptchaErr" Content="Попробуйте снова через 10 секунд" HorizontalAlignment="Center" Margin="0,302,0,0" VerticalAlignment="Top" Width="216" Foreground="Red" Visibility="Collapsed"/>
+        </Grid>
+        <Image Height="15" VerticalAlignment="Top" HorizontalAlignment="Right" Width="15" Source="/Resources/close.png" MouseLeftButtonDown="Image_MouseLeftButtonDown" Cursor="Hand" Margin="0,3,3,0" />
+
+    </Grid>
+</Window>
