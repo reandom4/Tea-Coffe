@@ -1,43 +1,81 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using static Tea_Coffe.Window1;
 
 namespace Tea_Coffe
 {
     /// <summary>
-    /// Логика взаимодействия для AddProduct.xaml
+    /// Логика взаимодействия для ChangeRemoveProduct.xaml
     /// </summary>
-    public partial class AddProduct : Window
+    public partial class ChangeRemoveProduct : Window
     {
-        readonly DataBase dataBase = new DataBase();
-        public AddProduct()
+        DataBase dataBase = new DataBase();
+        ProductItem item = null;
+        public ChangeRemoveProduct(ProductItem productItem)
         {
             InitializeComponent();
-            Init();
+            try
+            {
+                Init(productItem);
+            }
+            catch
+            { 
+            
+            }
+            item = productItem;
         }
 
         private void Close(object sender, MouseButtonEventArgs e)
         {
             this.Close();
         }
-        private DataTable dt = new DataTable();
-        private void Init()
+
+        private void RemoveProduct(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult result = MessageBox.Show("Вы действительно хотите удалить этот товар?", "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
+            {
+                try
+                {
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+
+        }
+
+        private void ChangeProduct(object sender, RoutedEventArgs e)
+        {
+
+        }
+        DataTable dt = new DataTable();
+        private string imgname = "R.png";
+        private void Init(ProductItem productItem)
+        {
+            name.Text = productItem.Name;
+            cost.Text = productItem.Cost.ToString();
+
+            BitmapImage bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.UriSource = new Uri(productItem.ImageData);
+            bitmap.EndInit();
+
+            image.Source = bitmap;
+            imgname = System.IO.Path.GetFileName(productItem.ImageData);
+            description.Text = productItem.Description;
+            cooking_method.Text = productItem.Cooking_method;
+            taste_and_aroma.Text = productItem.Taste_and_aroma;
             try
             {
                 dt = dataBase.LoadData("products_unit");
@@ -45,33 +83,13 @@ namespace Tea_Coffe
                 unitComboBox.ItemsSource = dt.DefaultView;
                 unitComboBox.DisplayMemberPath = "Products_unitname";
                 unitComboBox.SelectedValuePath = "Products_unitname";
-
-                // Устанавливаем начальное значение для ComboBox
-                unitComboBox.SelectedValue = "г";
+                unitComboBox.SelectedValue = productItem.Unit;
 
                 categoryComboBox.ItemsSource = dataBase.LoadData("product_category").DefaultView;
                 categoryComboBox.DisplayMemberPath = "Product_categoryname";
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+                categoryComboBox.SelectedValuePath = "Product_categoryname";
+                categoryComboBox.SelectedValue = productItem.Category;
 
-        }
-
-        private void ChangeUnit(object sender, SelectionChangedEventArgs e)
-        {
-            try
-            {
-                if (unitComboBox.SelectedItem != null)
-                {
-                    DataRowView selectedRow = unitComboBox.SelectedItem as DataRowView;
-                    if (selectedRow != null)
-                    {
-                        // Обновляем текст в TextBlock
-                        quantityTextBlock.Text = selectedRow["products_unitcol"].ToString();
-                    }
-                }
             }
             catch (Exception ex)
             {
@@ -79,7 +97,6 @@ namespace Tea_Coffe
             }
         }
 
-        private string imgname = "R.png";
         private void AddImage(object sender, MouseButtonEventArgs e)
         {
             try
@@ -153,42 +170,24 @@ namespace Tea_Coffe
                 e.Handled = true;
             }
         }
-        private void CreateProduct(object sender, RoutedEventArgs e)
+
+        private void ChangeUnit(object sender, SelectionChangedEventArgs e)
         {
             try
             {
-                ProductItem productItem = new ProductItem();
-
-                productItem.Name = name.Text;
-                if(productItem.Name == "")
+                if (unitComboBox.SelectedItem != null)
                 {
-                    MessageBox.Show("Наименование не заполненно");
-                    return;
+                    DataRowView selectedRow = unitComboBox.SelectedItem as DataRowView;
+                    if (selectedRow != null)
+                    {
+                        // Обновляем текст в TextBlock
+                        quantityTextBlock.Text = selectedRow["products_unitcol"].ToString();
+                    }
                 }
-                productItem.Description = description.Text;
-                if (productItem.Name == "")
-                {
-                    MessageBox.Show("Описание не заполненно");
-                    return;
-                }
-                
-                if (cost.Text == "0" || cost.Text == "")
-                {
-                    MessageBox.Show("Цена не заполненно");
-                    return;
-                }
-                productItem.Cost = Convert.ToInt32(cost.Text);
-                productItem.Unit = unitComboBox.Text;
-                productItem.Category = categoryComboBox.Text;
-                productItem.Cooking_method = cooking_method.Text;
-                productItem.Taste_and_aroma = taste_and_aroma.Text;
-                productItem.ImageData = imgname;
-                dataBase.AddProduct(productItem);
-                MessageBox.Show(productItem.Name+" Успешно добавлен");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                Console.WriteLine(ex.Message);
             }
         }
     }

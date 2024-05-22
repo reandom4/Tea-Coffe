@@ -69,6 +69,9 @@
     <Compile Include="BasketWindow.xaml.cs">
       <DependentUpon>BasketWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ChangeRemoveProduct.xaml.cs">
+      <DependentUpon>ChangeRemoveProduct.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CRUDProduct.xaml.cs">
       <DependentUpon>CRUDProduct.xaml</DependentUpon>
     </Compile>
@@ -98,6 +101,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="BasketWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ChangeRemoveProduct.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -251,6 +258,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\pencil.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\pencil %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\pencil %282%29.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

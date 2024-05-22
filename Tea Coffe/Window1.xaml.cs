@@ -57,7 +57,8 @@ namespace Tea_Coffe
                         Unit = row["Products_unitname"].ToString(),
                         MinUnit = Convert.ToInt32(row["products_unitcol"]),
                         Quantity = Convert.ToInt32(row["products_unitcol"]),
-                        QuantityInStock = Convert.ToInt32(row["quantity"])
+                        QuantityInStock = Convert.ToInt32(row["quantity"]),
+                        Category = row["Product_categoryname"].ToString(),
                     };
                     if (item.QuantityInStock < item.MinUnit)
                     {
@@ -608,7 +609,7 @@ namespace Tea_Coffe
 
         private async void PlusButtonImageAsync(object sender, MouseButtonEventArgs e)
         {
-            var item = ((FrameworkElement)sender).DataContext as ProductItem; // Замените YourItemType на ваш тип данных
+            var item = ((FrameworkElement)sender).DataContext as ProductItem;  
 
             if (item.Quantity + item.MinUnit > item.QuantityInStock)
             {
@@ -625,7 +626,7 @@ namespace Tea_Coffe
         }
         private void MinusButtonImage(object sender, MouseButtonEventArgs e)
         {
-            var item = ((FrameworkElement)sender).DataContext as ProductItem; // Замените YourItemType на ваш тип данных
+            var item = ((FrameworkElement)sender).DataContext as ProductItem; 
 
             if (item.Quantity == item.MinUnit)
             {
@@ -763,6 +764,13 @@ namespace Tea_Coffe
         {
             AddProduct addProduct = new AddProduct();
             addProduct.ShowDialog();
+        }
+
+        private void ChangeProduct(object sender, RoutedEventArgs e)
+        {
+            var item = ((FrameworkElement)sender).DataContext as ProductItem;
+            ChangeRemoveProduct changeRemoveProduct = new ChangeRemoveProduct(item);
+            changeRemoveProduct.ShowDialog();
         }
     }
 }
