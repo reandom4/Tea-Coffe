@@ -261,6 +261,18 @@ namespace Tea_Coffe
                 return Convert.ToBase64String(hash);
             }
         }
+
+        public void AddProduct(ProductItem item)
+        {
+            MySqlConnection connection = new MySqlConnection(connectionString);
+
+            connection.Open();
+
+            string com = $"INSERT INTO `tea_coffe`.`product` (`name`, `description`, `cost`, `photo`, `quantity`, `unit`, `category`, `cooking_method`, `taste_and_aroma`) VALUES ('{item.Name}', '{item.Description}', '{item.Cost}', '{item.ImageData}', '0', (SELECT idProducts_unit FROM tea_coffe.products_unit where Products_unitname = '{item.Unit}'), (SELECT idProduct_category FROM tea_coffe.product_category where Product_categoryname = '{item.Category}'), '{item.Cooking_method}', '{item.Taste_and_aroma}');";
+            MySqlCommand command = new MySqlCommand(com, connection);
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
     }
 
     

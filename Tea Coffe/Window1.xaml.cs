@@ -51,7 +51,7 @@ namespace Tea_Coffe
                         // Присвоение значения свойствам из данных строки таблицы
                         Id = Convert.ToInt32(row["idProducts"]),
                         Name = row["name"].ToString(),
-                        ImageData = "E:/Diplom/Tea Coffe/Tea Coffe/image/" + row["photo"].ToString(),
+                        ImageData = System.IO.Directory.GetCurrentDirectory() + "\\image\\" + row["photo"].ToString(),
                         Cost = Convert.ToInt32(row["cost"]),
                         DefaultCost = Convert.ToInt32(row["cost"]),
                         Unit = row["Products_unitname"].ToString(),

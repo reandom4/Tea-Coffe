@@ -15,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static Tea_Coffe.Window1;
 
 namespace Tea_Coffe
 {
@@ -47,6 +48,9 @@ namespace Tea_Coffe
 
                 // Устанавливаем начальное значение для ComboBox
                 unitComboBox.SelectedValue = "г";
+
+                categoryComboBox.ItemsSource = dataBase.LoadData("product_category").DefaultView;
+                categoryComboBox.DisplayMemberPath = "Product_categoryname";
             }
             catch (Exception ex)
             {
@@ -75,6 +79,7 @@ namespace Tea_Coffe
             }
         }
 
+        private string imgname = "R.png";
         private void AddImage(object sender, MouseButtonEventArgs e)
         {
             try
@@ -94,11 +99,19 @@ namespace Tea_Coffe
                     image.Source = BitmapToImageSource(bitmap);
 
                     // Копируем изображение в нужную папку (здесь "C:\\Images" - пример пути)
-                    string destinationFolder = "C:\\Images";
+                    string destinationFolder = System.IO.Directory.GetCurrentDirectory() + "\\image\\";
                     string destinationPath = System.IO.Path.Combine(destinationFolder, System.IO.Path.GetFileName(imagePath));
-                    File.Copy(imagePath, destinationPath, true);
+                    if (!File.Exists(destinationPath))
+                    {
+                        File.Copy(imagePath, destinationPath);
+                        imgname = System.IO.Path.GetFileName(imagePath);
+                    }
+                    else
+                    {
+                        imgname = System.IO.Path.GetFileName(imagePath);
+                    }
 
-                    MessageBox.Show("Изображение успешно выбрано и скопировано в папку: " + destinationFolder);
+
                 }
             }
             catch (Exception ex)
@@ -120,6 +133,63 @@ namespace Tea_Coffe
             bitmapImage.EndInit();
 
             return bitmapImage;
+        }
+        private void NumericTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            foreach (char c in e.Text)
+            {
+                if (!char.IsDigit(c))
+                {
+                    e.Handled = true; // Отменить ввод, если символ не является цифрой
+                    break;
+                }
+            }
+        }
+        private void NumericTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            // Запрещаем использование пробела
+            if (e.Key == Key.Space)
+            {
+                e.Handled = true;
+            }
+        }
+        private void CreateProduct(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ProductItem productItem = new ProductItem();
+
+                productItem.Name = name.Text;
+                if(productItem.Name == "")
+                {
+                    MessageBox.Show("Наименование не заполненно");
+                    return;
+                }
+                productItem.Description = description.Text;
+                if (productItem.Name == "")
+                {
+                    MessageBox.Show("Описание не заполненно");
+                    return;
+                }
+                
+                if (cost.Text == "0" || cost.Text == "")
+                {
+                    MessageBox.Show("Цена не заполненно");
+                    return;
+                }
+                productItem.Cost = Convert.ToInt32(cost.Text);
+                productItem.Unit = unitComboBox.Text;
+                productItem.Category = categoryComboBox.Text;
+                productItem.Cooking_method = cooking_method.Text;
+                productItem.Taste_and_aroma = taste_and_aroma.Text;
+                productItem.ImageData = imgname;
+                dataBase.AddProduct(productItem);
+                MessageBox.Show(productItem.Name+" Успешно добавлен");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

@@ -31,7 +31,30 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid Height="491" Width="360">
+                            
                             <Image Source="{Binding ImageData}" VerticalAlignment="Stretch" Stretch="UniformToFill" Height="340" Margin="10,10,10,141" PreviewMouseLeftButtonDown="OpenFullProductMenu" Cursor="Hand" />
+                            <Button Background="#FF2FAC66" BorderBrush="{x:Null}" Foreground="White" FontFamily="Calibri" HorizontalAlignment="Right" Width="40" Margin="0,10,10,441">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="border"
+Background="{TemplateBinding Background}"
+CornerRadius="5">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <!-- Триггер для изменения внешнего вида при наведении на кнопку -->
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="border" Property="Background" Value="#1f8b4f"/>
+                                                <Setter Property="Cursor" Value="Hand"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Resources/search.png" Width="27" Height="25"/>
+
+                                </StackPanel>
+                            </Button>
                             <TextBlock Text="{Binding Name}" Height="46" FontSize="14" TextWrapping="Wrap" Margin="10,360,10,95" PreviewMouseLeftButtonDown="OpenFullProductMenu" Cursor="Hand"/>
                             <StackPanel  Orientation="Horizontal" Margin="10,402,10,50">
                                 <TextBlock Text="{Binding Cost}" FontSize="24" TextWrapping="NoWrap" FontWeight="Bold"  Height="46" VerticalAlignment="Top" />
