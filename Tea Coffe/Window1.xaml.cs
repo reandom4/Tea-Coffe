@@ -24,15 +24,15 @@ namespace Tea_Coffe
     public partial class Window1 : Window
     {
         readonly DataBase dataBase = new DataBase();
-
-        public Window1(/*string role = null*/)
+        private string curRole = null;
+        public Window1(string role = "Admin")
         {
             InitializeComponent();
-
+            curRole = role;
             Showdata();
             
         }
-
+        // Метод для отображения данных продуктов
         public void Showdata()
         {
             try
@@ -59,10 +59,16 @@ namespace Tea_Coffe
                         Quantity = Convert.ToInt32(row["products_unitcol"]),
                         QuantityInStock = Convert.ToInt32(row["quantity"]),
                         Category = row["Product_categoryname"].ToString(),
+                        AllowChange = "Collapsed"
+
                     };
                     if (item.QuantityInStock < item.MinUnit)
                     {
                         item.Quantity = 0;
+                    }
+                    if(curRole == "admin")
+                    {
+                        item.AllowChange = "Visible";
                     }
                     // Добавление объекта ProductItem в список
                     productList.Add(item);
@@ -76,7 +82,7 @@ namespace Tea_Coffe
                 ProductView.ItemsSource = null;
                 ProductView.ItemsSource = productList;
                 Productcount.Text = $"найдено {productList.Count}";
-
+                
                 CurrentTabTB.Text = $"Все товары";
                 mainsortTB.Text = "Популярные";
                 expensiveTB.Background = Brushes.White; ;
@@ -88,7 +94,7 @@ namespace Tea_Coffe
                 Console.WriteLine(ex.Message);
             }
         }
-
+        // Метод для отображения данных продуктов
         void Showdata(DataTable dataTable)
         {
 
@@ -105,13 +111,14 @@ namespace Tea_Coffe
                         // Присвоение значения свойствам из данных строки таблицы
                         Id = Convert.ToInt32(row["idProducts"]),
                         Name = row["name"].ToString(),
-                        ImageData = "E:/Diplom/Tea Coffe/Tea Coffe/image/" + row["photo"].ToString(),
+                        ImageData = System.IO.Directory.GetCurrentDirectory() + "\\image\\" + row["photo"].ToString(),
                         Cost = Convert.ToInt32(row["cost"]),
                         DefaultCost = Convert.ToInt32(row["cost"]),
                         Unit = row["Products_unitname"].ToString(),
                         MinUnit = Convert.ToInt32(row["products_unitcol"]),
                         Quantity = Convert.ToInt32(row["products_unitcol"]),
-                        QuantityInStock = Convert.ToInt32(row["quantity"])
+                        QuantityInStock = Convert.ToInt32(row["quantity"]),
+                        Category = row["Product_categoryname"].ToString()
                     };
                     if (item.QuantityInStock < item.MinUnit)
                     {
@@ -137,6 +144,7 @@ namespace Tea_Coffe
 
 
         public List<ProductItem> Basket = new List<ProductItem>();
+        // Метод для добавления продукта в корзину
         private void InBasketButton(object sender, RoutedEventArgs e)
         {
             try
@@ -176,6 +184,7 @@ namespace Tea_Coffe
        
 
         FullProductInfo fullProductInfo;
+        // Метод для открытия полного описания продукта
         private void OpenFullProductMenu(object sender, MouseButtonEventArgs e)
         {
             var item = ((FrameworkElement)sender).DataContext as ProductItem;
@@ -187,7 +196,7 @@ namespace Tea_Coffe
             fullProductInfo.Activate();
             fullProductInfo.Focus();
         }
-
+        // Метод для поиска и сортировки продуктов
         private void Search_Sort(object sender, TextChangedEventArgs e)
         {
             string search = SearchTB.Text;
@@ -229,7 +238,7 @@ namespace Tea_Coffe
                 MessageBox.Show(ex.Message);
             }
         }
-
+        // Метод для фильтрации продуктов
         private void Filtr_Sort(object sender, MouseButtonEventArgs e)
         {
             TextBlock textBlock = sender as TextBlock;
@@ -254,7 +263,7 @@ namespace Tea_Coffe
                 MessageBox.Show(ex.Message);
             }
         }
-
+        // Метод для фильтрации больших категорий продуктов
         private void BigFiltr_Sort(object sender, MouseButtonEventArgs e)
         {
             TextBlock textBlock = sender as TextBlock;
@@ -279,6 +288,7 @@ namespace Tea_Coffe
                 MessageBox.Show(ex.Message);
             }
         }
+        // Метод для отображения всех продуктов
         private void ShowallFiltr(object sender, MouseButtonEventArgs e)
         {
 
@@ -294,6 +304,7 @@ namespace Tea_Coffe
                 MessageBox.Show(ex.Message);
             }
         }
+        // Метод для фильтрации какао продуктов
         private void CacaoFiltr_Sort(object sender, MouseButtonEventArgs e)
         {
             TextBlock textBlock = sender as TextBlock;
@@ -318,13 +329,14 @@ namespace Tea_Coffe
                 MessageBox.Show(ex.Message);
             }
         }
-        //Анимации
+
+        // Метод для обработки прокрутки мыши на ListView
         private void ListView_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             // Предотвращаем прокрутку колесиком мыши для ListView
             e.Handled = false;
         }
-
+        // Метод для установки стилей кнопок сортировки
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             // Перенаправляем событие колесика мыши из ScrollViewer в ListView
@@ -359,7 +371,7 @@ namespace Tea_Coffe
                 throw new NotImplementedException();
             }
         }
-        
+        // Метод для закрытия левого меню
         private void ShowCatalogButton(object sender, RoutedEventArgs e)
         {
             if (leftPanel.Visibility == Visibility.Visible)
@@ -741,6 +753,7 @@ namespace Tea_Coffe
                     }
                 }
             }
+            public string AllowChange { get; set; }
         }
 
 
@@ -764,6 +777,7 @@ namespace Tea_Coffe
         {
             AddProduct addProduct = new AddProduct();
             addProduct.ShowDialog();
+            Refresh();
         }
 
         private void ChangeProduct(object sender, RoutedEventArgs e)
@@ -771,6 +785,41 @@ namespace Tea_Coffe
             var item = ((FrameworkElement)sender).DataContext as ProductItem;
             ChangeRemoveProduct changeRemoveProduct = new ChangeRemoveProduct(item);
             changeRemoveProduct.ShowDialog();
+            Refresh();
+        }
+
+        private void Refresh()
+        {
+            {
+                string filter = CurrentTabTB.Text;
+                string search = SearchTB.Text;
+                string sorrt = mainsortTB.Text;
+                try
+                {
+                    DataTable dt = new DataTable();
+                    if (CurrentTabTB.Text.Split(' ')[0] == "Результаты" || CurrentTabTB.Text.Split(' ')[0] == "Все")
+                    {
+                        dt = dataBase.SearchProducts(search, sorrt);
+                    }
+                    else if (filter == "Какао")
+                    {
+                        dt = dataBase.CacaoFiltrProducts("Горячий шоколад", "Какао", sorrt);
+                    }
+                    else if (filter == "ЧАЙ" || filter == "КОФЕ")
+                    {
+                        dt = dataBase.BigFiltrProducts(filter, sorrt);
+                    }
+                    else
+                    {
+                        dt = dataBase.FiltrProducts(filter, sorrt);
+                    }
+                    Showdata(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
         }
     }
 }

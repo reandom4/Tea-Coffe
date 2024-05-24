@@ -17,27 +17,28 @@ namespace Tea_Coffe
     /// </summary>
     public partial class ChangeRemoveProduct : Window
     {
-        DataBase dataBase = new DataBase();
-        ProductItem item = null;
+        readonly DataBase dataBase = new DataBase();
+        readonly ProductItem item = null;
         public ChangeRemoveProduct(ProductItem productItem)
         {
             InitializeComponent();
             try
             {
                 Init(productItem);
+                item = productItem;
             }
-            catch
-            { 
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
             
-            }
-            item = productItem;
         }
-
+        // Обработчик для закрытия окна при нажатии на изображение
         private void Close(object sender, MouseButtonEventArgs e)
         {
             this.Close();
         }
-
+        // Обработчик для удаления продукта из базы данных
         private void RemoveProduct(object sender, RoutedEventArgs e)
         {
             MessageBoxResult result = MessageBox.Show("Вы действительно хотите удалить этот товар?", "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Warning);
@@ -45,7 +46,9 @@ namespace Tea_Coffe
             {
                 try
                 {
-
+                    dataBase.RemoveProduct(item.Id.ToString());
+                    MessageBox.Show("Товар успешно удален", "Подтверждение удаления", MessageBoxButton.OK, MessageBoxImage.Information);
+                    this.Close();
                 }
                 catch (Exception ex)
                 {
@@ -54,13 +57,56 @@ namespace Tea_Coffe
             }
 
         }
-
+        // Обработчик для изменения данных продукта
         private void ChangeProduct(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult result = MessageBox.Show("Вы действительно хотите изменить этот товар?", "Подтверждение изменения", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
+            {
+                try
+                {
 
+                    ProductItem productItem = new ProductItem
+                    {
+                        Name = name.Text
+                    };
+                    if (productItem.Name == "")
+                    {
+                        MessageBox.Show("Наименование не заполненно");
+                        return;
+                    }
+                    productItem.Description = description.Text;
+                    if (productItem.Name == "")
+                    {
+                        MessageBox.Show("Описание не заполненно");
+                        return;
+                    }
+
+                    if (cost.Text == "0" || cost.Text == "")
+                    {
+                        MessageBox.Show("Цена не заполненно");
+                        return;
+                    }
+                    productItem.Cost = Convert.ToInt32(cost.Text);
+                    productItem.Unit = unitComboBox.Text;
+                    productItem.Category = categoryComboBox.Text;
+                    productItem.Cooking_method = cooking_method.Text;
+                    productItem.Taste_and_aroma = taste_and_aroma.Text;
+                    productItem.ImageData = imgname;
+                    productItem.Id = item.Id;
+                    dataBase.ChangeProduct(productItem);
+                    MessageBox.Show("Товар успешно изменен", "Подтверждение изменения", MessageBoxButton.OK, MessageBoxImage.Information);
+                    this.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
         }
         DataTable dt = new DataTable();
         private string imgname = "R.png";
+        // Инициализирует элементы интерфейса данными продукта
         private void Init(ProductItem productItem)
         {
             name.Text = productItem.Name;
@@ -96,14 +142,16 @@ namespace Tea_Coffe
                 Console.WriteLine(ex.Message);
             }
         }
-
+        // Обработчик для добавления изображения продукта
         private void AddImage(object sender, MouseButtonEventArgs e)
         {
             try
             {
                 // Открываем диалоговое окно для выбора файла изображения
-                OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.Filter = "Image Files (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg|All files (*.*)|*.*";
+                OpenFileDialog openFileDialog = new OpenFileDialog
+                {
+                    Filter = "Image Files (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg|All files (*.*)|*.*"
+                };
                 if (openFileDialog.ShowDialog() == true)
                 {
                     // Получаем путь к выбранному файлу
@@ -136,7 +184,7 @@ namespace Tea_Coffe
                 MessageBox.Show("Произошла ошибка: " + ex.Message);
             }
         }
-
+        // Преобразует Bitmap в ImageSource
         private ImageSource BitmapToImageSource(Bitmap bitmap)
         {
             MemoryStream memory = new MemoryStream();
@@ -151,6 +199,7 @@ namespace Tea_Coffe
 
             return bitmapImage;
         }
+        // Обработчик для ограничения ввода только числовых значений в текстовое поле
         private void NumericTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             foreach (char c in e.Text)
@@ -162,6 +211,7 @@ namespace Tea_Coffe
                 }
             }
         }
+        // Обработчик для запрета ввода пробела в текстовое поле
         private void NumericTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             // Запрещаем использование пробела
@@ -170,15 +220,14 @@ namespace Tea_Coffe
                 e.Handled = true;
             }
         }
-
+        // Обработчик для изменения единицы измерения продукта
         private void ChangeUnit(object sender, SelectionChangedEventArgs e)
         {
             try
             {
                 if (unitComboBox.SelectedItem != null)
                 {
-                    DataRowView selectedRow = unitComboBox.SelectedItem as DataRowView;
-                    if (selectedRow != null)
+                    if (unitComboBox.SelectedItem is DataRowView selectedRow)
                     {
                         // Обновляем текст в TextBlock
                         quantityTextBlock.Text = selectedRow["products_unitcol"].ToString();

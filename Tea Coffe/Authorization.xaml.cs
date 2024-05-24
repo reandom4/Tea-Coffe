@@ -28,16 +28,18 @@ namespace Tea_Coffe
         public Authorization()
         {
             InitializeComponent();
+            //
+            //Window1 window1 = new Window1("admin");
+            //window1.Show();
+            //this.Close();
+            //
         }
-
+        // Обработчик события для закрытия окна при нажатии на изображение
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             this.Close();
         }
-
-       
-
-        
+        // Обработчик события для кнопки входа
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -71,8 +73,7 @@ namespace Tea_Coffe
                 Console.WriteLine(ex.Message);
             }
         }
-
-
+        // Обработчик события для отображения пароля
         private void ShowPassword(object sender, MouseButtonEventArgs e)
         {
 
@@ -84,12 +85,12 @@ namespace Tea_Coffe
             HidePassowrdIcon.Visibility = Visibility.Visible;
 
         }
-
+        // Обработчик события для очистки поля ввода логина
         private void ClearLogin(object sender, MouseButtonEventArgs e)
         {
             textBoxLogin.Text = string.Empty;
         }
-
+        // Обработчик события для скрытия пароля
         private void HidePassword(object sender, MouseButtonEventArgs e)
         {
             Keyboard.ClearFocus();
@@ -101,13 +102,14 @@ namespace Tea_Coffe
             PasswordTextBox.Visibility = Visibility.Collapsed;
 
         }
-
+        // Генерирует случайный текст для капчи
         private string GenerateRandomCaptcha()
         {
             Random random = new Random();
             const string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             return new string(Enumerable.Repeat(chars, 4).Select(s => s[random.Next(s.Length)]).ToArray());
         }
+        // Создает изображение с текстом капчи
         private Bitmap CreateImage(int Width, int Height, string text)
         {
             Random rnd = new Random();
@@ -187,11 +189,12 @@ namespace Tea_Coffe
 
             return result;
         }
+        // Обновляет изображение капчи при нажатии на кнопку обновления
         private void RefreshCaptcha(object sender, MouseButtonEventArgs e)
         {
             Refreshimage();
         }
-
+        // Проверяет введенный текст капчи и скрывает панель капчи при правильном вводе
         private void Entercaptcha(object sender, RoutedEventArgs e)
         {
             if (CaptchaTB.Text == capt)
@@ -211,7 +214,7 @@ namespace Tea_Coffe
                 Refreshimage();
             }
         }
-
+        // Разблокирует поле ввода капчи после истечения времени таймера
         private void Timer_Tick(object sender, EventArgs e)
         {
             // Разблокировать поле для ввода
@@ -223,7 +226,7 @@ namespace Tea_Coffe
             timer.Stop();
             timer.Tick -= Timer_Tick;
         }
-
+        // Обновляет изображение капчи
         private void Refreshimage()
         {
             capt = GenerateRandomCaptcha();

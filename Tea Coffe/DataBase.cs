@@ -273,6 +273,29 @@ namespace Tea_Coffe
             command.ExecuteNonQuery();
             connection.Close();
         }
+        public void RemoveProduct(string id)
+        {
+            MySqlConnection connection = new MySqlConnection(connectionString);
+
+            connection.Open();
+
+            string com = $"DELETE FROM `tea_coffe`.`product` WHERE (`idProducts` = '{id}');";
+            MySqlCommand command = new MySqlCommand(com, connection);
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
+
+        public void ChangeProduct(ProductItem item)
+        {
+            MySqlConnection connection = new MySqlConnection(connectionString);
+
+            connection.Open();
+
+            string com = $"UPDATE `tea_coffe`.`product` SET `name` = '{item.Name}', `description` = '{item.Description}', `cost` = '{item.Cost}', `photo` = '{item.ImageData}', `unit` = (SELECT idProducts_unit FROM tea_coffe.products_unit where Products_unitname = '{item.Unit}'), `category` = (SELECT idProduct_category FROM tea_coffe.product_category where Product_categoryname = '{item.Category}'), `cooking_method` = '{item.Cooking_method}', `taste_and_aroma` = '{item.Taste_and_aroma}' WHERE (`idProducts` = '{item.Id}');";
+            MySqlCommand command = new MySqlCommand(com, connection);
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
     }
 
     

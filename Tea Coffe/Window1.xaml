@@ -33,7 +33,7 @@
                         <Grid Height="491" Width="360">
 
                             <Image Source="{Binding ImageData}" VerticalAlignment="Stretch" Stretch="UniformToFill" Height="340" Margin="10,10,10,141" PreviewMouseLeftButtonDown="OpenFullProductMenu" Cursor="Hand" />
-                            <Button Background="#FF2FAC66" BorderBrush="{x:Null}" Foreground="White" FontFamily="Calibri" HorizontalAlignment="Right" Width="40" Margin="0,10,10,441" Click="ChangeProduct">
+                            <Button Background="#FF2FAC66" BorderBrush="{x:Null}" Foreground="White" FontFamily="Calibri" HorizontalAlignment="Right" Width="40" Margin="0,10,10,441" Click="ChangeProduct" Visibility="{Binding AllowChange}">
                                 <Button.Template>
                                     <ControlTemplate TargetType="{x:Type Button}">
                                         <Border x:Name="border"

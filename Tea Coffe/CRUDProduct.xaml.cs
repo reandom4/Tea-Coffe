@@ -58,9 +58,6 @@ namespace Tea_Coffe
 
             ProductItem productItem = productList[0];
 
-
-
-
             try
             {
                 

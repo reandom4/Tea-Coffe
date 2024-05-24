@@ -25,6 +25,7 @@ namespace Tea_Coffe
         ProductItem productItem = new ProductItem();
 
         Window1 mainWindow;
+        // Конструктор для инициализации окна с подробной информацией о продукте
         public FullProductInfo(ProductItem item,Window1 main)
         {
             InitializeComponent();
@@ -76,12 +77,12 @@ namespace Tea_Coffe
                 MessageBox.Show(ex.Message);
             }
         }
-
+        // Закрытие окна при нажатии на изображение
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             this.Close();
         }
-
+        // Увеличение количества продукта при нажатии кнопки "+"
         private async void PlusButton(object sender, MouseButtonEventArgs e)
         {
             if (productItem.Quantity + productItem.MinUnit > productItem.QuantityInStock)
@@ -102,7 +103,7 @@ namespace Tea_Coffe
             
 
         }
-
+        // Уменьшение количества продукта при нажатии кнопки "-"
         private void MinusButton(object sender, MouseButtonEventArgs e)
         {
             if (productItem.Quantity == productItem.MinUnit)
@@ -115,7 +116,7 @@ namespace Tea_Coffe
             Quantity.Content = productItem.Quantity;
             cost.Text = productItem.Cost.ToString();
         }
-
+        // Добавление продукта в корзину
         private void InBasket(object sender, RoutedEventArgs e)
         {
             try

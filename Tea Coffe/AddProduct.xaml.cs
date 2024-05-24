@@ -30,12 +30,13 @@ namespace Tea_Coffe
             InitializeComponent();
             Init();
         }
-
+        // Закрывает окно при нажатии на элемент с этим обработчиком события
         private void Close(object sender, MouseButtonEventArgs e)
         {
             this.Close();
         }
         private DataTable dt = new DataTable();
+        // Инициализирует данные для ComboBox'ов unitComboBox и categoryComboBox
         private void Init()
         {
             try
@@ -58,15 +59,14 @@ namespace Tea_Coffe
             }
 
         }
-
+        // Обработчик события изменения выбранного элемента в unitComboBox
         private void ChangeUnit(object sender, SelectionChangedEventArgs e)
         {
             try
             {
                 if (unitComboBox.SelectedItem != null)
                 {
-                    DataRowView selectedRow = unitComboBox.SelectedItem as DataRowView;
-                    if (selectedRow != null)
+                    if (unitComboBox.SelectedItem is DataRowView selectedRow)
                     {
                         // Обновляем текст в TextBlock
                         quantityTextBlock.Text = selectedRow["products_unitcol"].ToString();
@@ -80,13 +80,16 @@ namespace Tea_Coffe
         }
 
         private string imgname = "R.png";
+        // Обработчик события для добавления изображения
         private void AddImage(object sender, MouseButtonEventArgs e)
         {
             try
             {
                 // Открываем диалоговое окно для выбора файла изображения
-                OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.Filter = "Image Files (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg|All files (*.*)|*.*";
+                OpenFileDialog openFileDialog = new OpenFileDialog
+                {
+                    Filter = "Image Files (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg|All files (*.*)|*.*"
+                };
                 if (openFileDialog.ShowDialog() == true)
                 {
                     // Получаем путь к выбранному файлу
@@ -119,7 +122,7 @@ namespace Tea_Coffe
                 MessageBox.Show("Произошла ошибка: " + ex.Message);
             }
         }
-
+        // Конвертирует Bitmap изображение в ImageSource для отображения в WPF
         private ImageSource BitmapToImageSource(Bitmap bitmap)
         {
             MemoryStream memory = new MemoryStream();
@@ -134,6 +137,7 @@ namespace Tea_Coffe
 
             return bitmapImage;
         }
+        // Ограничивает ввод только чисел в текстовое поле
         private void NumericTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             foreach (char c in e.Text)
@@ -145,6 +149,7 @@ namespace Tea_Coffe
                 }
             }
         }
+        // Запрещает использование пробела в текстовом поле
         private void NumericTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             // Запрещаем использование пробела
@@ -153,14 +158,16 @@ namespace Tea_Coffe
                 e.Handled = true;
             }
         }
+        // Создает новый продукт на основе введенных данных и добавляет его в базу данных
         private void CreateProduct(object sender, RoutedEventArgs e)
         {
             try
             {
-                ProductItem productItem = new ProductItem();
-
-                productItem.Name = name.Text;
-                if(productItem.Name == "")
+                ProductItem productItem = new ProductItem
+                {
+                    Name = name.Text
+                };
+                if (productItem.Name == "")
                 {
                     MessageBox.Show("Наименование не заполненно");
                     return;
@@ -185,6 +192,7 @@ namespace Tea_Coffe
                 productItem.ImageData = imgname;
                 dataBase.AddProduct(productItem);
                 MessageBox.Show(productItem.Name+" Успешно добавлен");
+                this.Close();
             }
             catch (Exception ex)
             {

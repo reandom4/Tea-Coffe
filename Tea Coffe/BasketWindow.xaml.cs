@@ -38,13 +38,13 @@ namespace Tea_Coffe
                 MessageBox.Show(ex.Message);
             }
         }
-
+        // Обработчик события для закрытия окна при нажатии на изображение
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             this.Close();
 
         }
-
+        // Обработчик события для увеличения количества продукта в корзине
         private async void PlusButton(object sender, MouseButtonEventArgs e)
         {
             try
@@ -70,6 +70,7 @@ namespace Tea_Coffe
                 Console.WriteLine(ex.Message);
             }
         }
+        // Обработчик события для уменьшения количества продукта в корзине
         private void MinusButton(object sender, MouseButtonEventArgs e)
         {
             try
@@ -90,7 +91,7 @@ namespace Tea_Coffe
                 Console.WriteLine(ex.Message);
             }
         }
-
+        // Обновляет отображение общей стоимости и количества товаров в корзине
         private void count_menu(List<ProductItem> productItem)
         {
             int FullCost = 0;
@@ -130,7 +131,7 @@ namespace Tea_Coffe
                 Console.WriteLine(ex.Message);
             }
         }
-
+        // Обработчик события для удаления продукта из корзины
         private void DeleteBasketItem(object sender, MouseButtonEventArgs e)
         {
             try
@@ -153,7 +154,7 @@ namespace Tea_Coffe
                 Console.WriteLine(ex.Message);
             }
         }
-
+        // Обработчик события для оформления заказа
         private void AddOrderButton(object sender, RoutedEventArgs e)
         {
             try

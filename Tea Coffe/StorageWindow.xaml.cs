@@ -22,6 +22,8 @@ namespace Tea_Coffe
     public partial class StorageWindow : Window
     {
         DataBase dataBase = new DataBase();
+
+        // Конструктор для инициализации окна хранилища
         public StorageWindow()
         {
             InitializeComponent();
