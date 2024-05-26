@@ -103,6 +103,29 @@ namespace Tea_Coffe
             {
                 MessageBox.Show(ex.Message);
             }
+
+
+        }
+
+        private void NumericTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            foreach (char c in e.Text)
+            {
+                if (!char.IsDigit(c))
+                {
+                    e.Handled = true; // Отменить ввод, если символ не является цифрой
+                    break;
+                }
+            }
+        }
+        // Запрещает использование пробела в текстовом поле
+        private void NumericTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            // Запрещаем использование пробела
+            if (e.Key == Key.Space)
+            {
+                e.Handled = true;
+            }
         }
     }
 }

@@ -53,7 +53,7 @@ namespace Tea_Coffe
                 string role = database.ValidateLogin(login, password);
                 if (role != null)
                 {
-                    Window1 window1 = new Window1(/*role*/);
+                    Window1 window1 = new Window1(role);
                     window1.Show();
                     this.Close();
                 }

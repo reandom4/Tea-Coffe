@@ -11,11 +11,11 @@
         <Image x:Name="image"  Stretch="UniformToFill" Height="549" Margin="10,10,0,0" VerticalAlignment="Top"  HorizontalAlignment="Left" Width="549" />
         <TextBox x:Name="name" Text="Чай чёрный цейлонский с типсами FBOP TIP" FontSize="28" TextWrapping="Wrap" Margin="10,559,0,0" FontWeight="Bold" FontFamily="Calibri" Height="120" VerticalAlignment="Top" HorizontalAlignment="Left" Width="549" />
         <StackPanel  Orientation="Horizontal" Margin="23,0,0,10" HorizontalAlignment="Left" Width="145" Height="29" VerticalAlignment="Bottom">
-            <TextBox x:Name="cost" Text="238" FontSize="24" TextWrapping="NoWrap" FontWeight="Bold"  Height="29" VerticalAlignment="Top" />
+            <TextBox x:Name="cost" Text="238" FontSize="24" TextWrapping="NoWrap" FontWeight="Bold"  Height="29" VerticalAlignment="Top" PreviewTextInput="NumericTextBox_PreviewTextInput" PreviewKeyDown="NumericTextBox_PreviewKeyDown"/>
             <TextBlock Text="₽" FontSize="24" Margin="6,0,0,0" FontWeight="Bold"></TextBlock>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="112,0,0,10" HorizontalAlignment="Left" Width="56" Height="25" VerticalAlignment="Bottom">
-            <TextBox x:Name="Quantity" Text="100" VerticalAlignment="Center" Height="24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="31" />
+            <TextBox x:Name="Quantity" Text="100" VerticalAlignment="Center" Height="24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="31" PreviewTextInput="NumericTextBox_PreviewTextInput" PreviewKeyDown="NumericTextBox_PreviewKeyDown"/>
             <TextBox x:Name="unit" Text="г" Height="24" Width="auto" VerticalContentAlignment="Center" VerticalAlignment="Center" Padding="0,0,0,0" />
         </StackPanel>
         <Button Content="Удалить" Background="#FFEA4722" BorderBrush="{x:Null}" Foreground="White" FontSize="14" BorderThickness="0,1,1,1" SnapsToDevicePixels="False"  Margin="457,0,0,10"  HorizontalAlignment="Left" Width="101" Height="31" VerticalAlignment="Bottom" >

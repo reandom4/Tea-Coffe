@@ -24,13 +24,21 @@ namespace Tea_Coffe
     public partial class Window1 : Window
     {
         readonly DataBase dataBase = new DataBase();
-        private string curRole = null;
-        public Window1(string role = "Admin")
+        private readonly string curRole = null;
+        public Window1(string role = "admin")
         {
             InitializeComponent();
             curRole = role;
             Showdata();
-            
+            if(role == "storekeeper")
+            {
+                Storage.Visibility = Visibility.Visible;
+            }
+            if(role == "admin")
+            {
+                Users.Visibility = Visibility.Visible;
+                Reports.Visibility = Visibility.Visible;
+            }
         }
         // Метод для отображения данных продуктов
         public void Showdata()
@@ -65,6 +73,10 @@ namespace Tea_Coffe
                     if (item.QuantityInStock < item.MinUnit)
                     {
                         item.Quantity = 0;
+                        if(curRole != "admin")
+                        {
+                            continue;
+                        }
                     }
                     if(curRole == "admin")
                     {
@@ -298,11 +310,13 @@ namespace Tea_Coffe
                 CurrentTabTB.Text = $"Все товары";
                 DataTable dt = dataBase.SearchProducts("", sorrt);
                 Showdata(dt);
+                CloseLeftMenu();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+            
         }
         // Метод для фильтрации какао продуктов
         private void CacaoFiltr_Sort(object sender, MouseButtonEventArgs e)
@@ -754,6 +768,7 @@ namespace Tea_Coffe
                 }
             }
             public string AllowChange { get; set; }
+            public int total_quantity { get; set; }
         }
 
 
@@ -820,6 +835,27 @@ namespace Tea_Coffe
                     MessageBox.Show(ex.Message);
                 }
             }
+        }
+
+        private void OpenStorage(object sender, MouseButtonEventArgs e)
+        {
+            CloseLeftMenu();
+            StorageWindow storageWindow = new StorageWindow();
+            storageWindow.ShowDialog();
+
+        }
+
+        private void ShowUsers(object sender, MouseButtonEventArgs e)
+        {
+            CloseLeftMenu();
+            Users users = new Users();
+            users.ShowDialog();
+        }
+
+        private void ShowReports(object sender, MouseButtonEventArgs e)
+        {
+            ReportGenerator reportGenerator = new ReportGenerator();
+            reportGenerator.ShowDialog();
         }
     }
 }

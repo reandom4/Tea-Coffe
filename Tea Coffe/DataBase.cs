@@ -34,7 +34,20 @@ namespace Tea_Coffe
             return dataTable;
 
         }
+        public DataTable LoadUsers()
+        {
 
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            connection.Open();
+            string query1 = "SELECT * FROM tea_coffe.user join user_role where role = idUser_role;";
+            MySqlCommand mySqlCommand = new MySqlCommand(query1, connection);
+            MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
+            DataTable dataTable = new DataTable();
+            mySqlDataAdapter.Fill(dataTable);
+            connection.Close();
+            return dataTable;
+
+        }
         public DataTable LoadProducts()
         {
 
@@ -66,7 +79,7 @@ namespace Tea_Coffe
             }
             MySqlConnection connection = new MySqlConnection(connectionString);
             connection.Open();
-            string query1 = $"SELECT p.*,u.*,c.*,IFNULL(o.total_quantity, 0) AS total_quantity FROM tea_coffe.product p LEFT JOIN (SELECT product_id, SUM(quantity) AS total_quantity FROM tea_coffe.order_items GROUP BY product_id) o ON p.idProducts = o.product_id JOIN products_unit u ON p.unit = u.idProducts_unit JOIN product_category c ON p.category = c.idProduct_category Where name like '%{search}%' Order by {sort};";
+            string query1 = $"SELECT p.*,u.*,c.*,IFNULL(o.total_Position, 0) AS total_Position,IFNULL(o.total_quantity, 0) AS total_quantity FROM tea_coffe.product p LEFT JOIN (SELECT product_id, SUM(quantity) AS total_Position, Sum(unitquantity) AS total_quantity FROM tea_coffe.order_items GROUP BY product_id) o ON p.idProducts = o.product_id JOIN products_unit u ON p.unit = u.idProducts_unit JOIN product_category c ON p.category = c.idProduct_category Where name like '%{search}%' Order by {sort};";
             MySqlCommand mySqlCommand = new MySqlCommand(query1, connection);
             MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
             DataTable dataTable = new DataTable();
@@ -92,7 +105,7 @@ namespace Tea_Coffe
             }
             MySqlConnection connection = new MySqlConnection(connectionString);
             connection.Open();
-            string query1 = $"SELECT p.*,u.*,c.*,IFNULL(o.total_quantity, 0) AS total_quantity FROM tea_coffe.product p LEFT JOIN (SELECT product_id, SUM(quantity) AS total_quantity FROM tea_coffe.order_items GROUP BY product_id) o ON p.idProducts = o.product_id JOIN products_unit u ON p.unit = u.idProducts_unit JOIN product_category c ON p.category = c.idProduct_category Where Product_categoryname = '{Filtr}' Order by {sort};";
+            string query1 = $"SELECT p.*,u.*,c.*,IFNULL(o.total_quantity, 0) AS total_quantity FROM tea_coffe.product p LEFT JOIN (SELECT product_id, SUM(unitquantity) AS total_quantity FROM tea_coffe.order_items GROUP BY product_id) o ON p.idProducts = o.product_id JOIN products_unit u ON p.unit = u.idProducts_unit JOIN product_category c ON p.category = c.idProduct_category Where Product_categoryname = '{Filtr}' Order by {sort};";
             MySqlCommand mySqlCommand = new MySqlCommand(query1, connection);
             MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
             DataTable dataTable = new DataTable();
@@ -121,7 +134,7 @@ namespace Tea_Coffe
             }
             MySqlConnection connection = new MySqlConnection(connectionString);
             connection.Open();
-            string query1 = $"SELECT p.*,u.*,c.*,IFNULL(o.total_quantity, 0) AS total_quantity FROM tea_coffe.product p LEFT JOIN (SELECT product_id, SUM(quantity) AS total_quantity FROM tea_coffe.order_items GROUP BY product_id) o ON p.idProducts = o.product_id JOIN products_unit u ON p.unit = u.idProducts_unit JOIN product_category c ON p.category = c.idProduct_category Where Product_categoryname = '{Filtr}' {search} Order by {sort};";
+            string query1 = $"SELECT p.*,u.*,c.*,IFNULL(o.total_quantity, 0) AS total_quantity FROM tea_coffe.product p LEFT JOIN (SELECT product_id, SUM(unitquantity) AS total_quantity FROM tea_coffe.order_items GROUP BY product_id) o ON p.idProducts = o.product_id JOIN products_unit u ON p.unit = u.idProducts_unit JOIN product_category c ON p.category = c.idProduct_category Where Product_categoryname = '{Filtr}' {search} Order by {sort};";
             MySqlCommand mySqlCommand = new MySqlCommand(query1, connection);
             MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
             DataTable dataTable = new DataTable();
@@ -146,7 +159,7 @@ namespace Tea_Coffe
             }
             MySqlConnection connection = new MySqlConnection(connectionString);
             connection.Open();
-            string query1 = $"SELECT p.*,u.*,c.*,IFNULL(o.total_quantity, 0) AS total_quantity FROM tea_coffe.product p LEFT JOIN (SELECT product_id, SUM(quantity) AS total_quantity FROM tea_coffe.order_items GROUP BY product_id) o ON p.idProducts = o.product_id JOIN products_unit u ON p.unit = u.idProducts_unit JOIN product_category c ON p.category = c.idProduct_category Where Product_categoryname like '%{Filtr}%' Order by {sort};";
+            string query1 = $"SELECT p.*,u.*,c.*,IFNULL(o.total_quantity, 0) AS total_quantity FROM tea_coffe.product p LEFT JOIN (SELECT product_id, SUM(unitquantity) AS total_quantity FROM tea_coffe.order_items GROUP BY product_id) o ON p.idProducts = o.product_id JOIN products_unit u ON p.unit = u.idProducts_unit JOIN product_category c ON p.category = c.idProduct_category Where Product_categoryname like '%{Filtr}%' Order by {sort};";
             MySqlCommand mySqlCommand = new MySqlCommand(query1, connection);
             MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
             DataTable dataTable = new DataTable();
@@ -171,7 +184,7 @@ namespace Tea_Coffe
             }
             MySqlConnection connection = new MySqlConnection(connectionString);
             connection.Open();
-            string query1 = $"SELECT p.*,u.*,c.*,IFNULL(o.total_quantity, 0) AS total_quantity FROM tea_coffe.product p LEFT JOIN (SELECT product_id, SUM(quantity) AS total_quantity FROM tea_coffe.order_items GROUP BY product_id) o ON p.idProducts = o.product_id JOIN products_unit u ON p.unit = u.idProducts_unit JOIN product_category c ON p.category = c.idProduct_category Where Product_categoryname like '%{Filtr1}%' or Product_categoryname like '%{Filtr2}%' Order by {sort};";
+            string query1 = $"SELECT p.*,u.*,c.*,IFNULL(o.total_quantity, 0) AS total_quantity FROM tea_coffe.product p LEFT JOIN (SELECT product_id, SUM(unitquantity) AS total_quantity FROM tea_coffe.order_items GROUP BY product_id) o ON p.idProducts = o.product_id JOIN products_unit u ON p.unit = u.idProducts_unit JOIN product_category c ON p.category = c.idProduct_category Where Product_categoryname like '%{Filtr1}%' or Product_categoryname like '%{Filtr2}%' Order by {sort};";
             MySqlCommand mySqlCommand = new MySqlCommand(query1, connection);
             MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
             DataTable dataTable = new DataTable();
@@ -262,6 +275,24 @@ namespace Tea_Coffe
             }
         }
 
+        public static string GenerateSalt(int length)
+        {
+            // Создаем массив байтов для хранения случайных значений
+            byte[] saltBytes = new byte[length];
+
+            // Используем RNGCryptoServiceProvider для заполнения массива случайными байтами
+            using (var rng = new RNGCryptoServiceProvider())
+            {
+                rng.GetBytes(saltBytes);
+            }
+
+            // Преобразуем байты в строку в формате Base64
+            string salt = Convert.ToBase64String(saltBytes);
+
+            // Обрезаем строку до нужной длины, если она длиннее
+            return salt.Substring(0, length);
+        }
+
         public void AddProduct(ProductItem item)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -295,6 +326,64 @@ namespace Tea_Coffe
             MySqlCommand command = new MySqlCommand(com, connection);
             command.ExecuteNonQuery();
             connection.Close();
+        }
+
+        public void ChangeQuantity(ProductItem item)
+        {
+            MySqlConnection connection = new MySqlConnection(connectionString);
+
+            connection.Open();
+            string com = $"UPDATE `tea_coffe`.`product` SET `quantity` = '{item.QuantityInStock}' WHERE (`idProducts` = '{item.Id}');";
+            MySqlCommand command = new MySqlCommand(com, connection);
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
+
+        public void CreateUser(User user)
+        {
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            string salt = GenerateSalt(16);
+            string password = HashPassword(user.Password, salt);
+            connection.Open();
+            string com = $"INSERT INTO `tea_coffe`.`user` (`login`, `password`, `salt`, `surname`, `name`, `patronymic`, `role`) VALUES ('{user.Login}', '{password}', '{salt}', '{user.Surname}', '{user.Name}', '{user.Patronymic}', (SELECT idUser_role from user_role where User_roleName = '{user.Role}'));";
+            MySqlCommand command = new MySqlCommand(com, connection);
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
+        public void ChangeUser(User user)
+        {
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            string salt = GenerateSalt(16);
+            string password = HashPassword(user.Password, salt);
+            connection.Open();
+            string com = $"UPDATE `tea_coffe`.`user` SET `login` = '{user.Login}', `password` = '{password}', `salt` = '{salt}', `surname` = '{user.Surname}', `name` = '{user.Name}', `patronymic` = '{user.Patronymic}', `role` = (SELECT idUser_role from user_role where User_roleName = '{user.Role}') WHERE (`idUser` = '{user.idUser}');";
+            MySqlCommand command = new MySqlCommand(com, connection);
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
+        public void DeleteUser(User user)
+        {
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            connection.Open();
+            string com = $"DELETE FROM `tea_coffe`.`user` WHERE (`idUser` = '{user.idUser}');";
+            MySqlCommand command = new MySqlCommand(com, connection);
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
+
+        public double AverageBill(string datestart,string dateend)
+        {
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            connection.Open();
+            string com = $"SELECT AVG(OrderPrice) AS AverageOrderPrice FROM `order` WHERE `date` BETWEEN '{datestart}' AND DATE_ADD('{dateend}', INTERVAL 1 DAY);";
+            MySqlCommand mySqlCommand = new MySqlCommand(com, connection);
+            MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
+            DataTable dataTable = new DataTable();
+            mySqlDataAdapter.Fill(dataTable);
+            string avg = dataTable.Rows[0][0].ToString();
+            
+            connection.Close();
+            return(Convert.ToDouble(avg));
         }
     }
 

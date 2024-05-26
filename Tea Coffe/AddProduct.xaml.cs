@@ -95,6 +95,18 @@ namespace Tea_Coffe
                     // Получаем путь к выбранному файлу
                     string imagePath = openFileDialog.FileName;
 
+                    FileInfo fileInfo = new FileInfo(imagePath);
+                    long fileSizeInBytes = fileInfo.Length;
+                    long fileSizeInKB = fileSizeInBytes / 1024; // переводим байты в килобайты
+
+                    // Устанавливаем максимальный размер файла (например, 5 МБ)
+                    long maxSizeInKB = 10 * 1024;
+
+                    if (fileSizeInKB > maxSizeInKB)
+                    {
+                        MessageBox.Show("Файл слишком большой. Максимальный размер файла: 10 МБ.");
+                        return;
+                    }
                     // Загружаем изображение
                     Bitmap bitmap = new Bitmap(imagePath);
 

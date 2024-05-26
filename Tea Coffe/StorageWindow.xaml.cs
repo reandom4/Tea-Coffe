@@ -21,31 +21,37 @@ namespace Tea_Coffe
     /// </summary>
     public partial class StorageWindow : Window
     {
-        DataBase dataBase = new DataBase();
+        readonly DataBase dataBase = new DataBase();
 
         // Конструктор для инициализации окна хранилища
         public StorageWindow()
         {
             InitializeComponent();
             DataTable dataTable = dataBase.SearchProducts("", "Популярные");
+            Showdata(dataTable);
+        }
+
+        private void Showdata(DataTable dataTable)
+        {
             List<ProductItem> productList = new List<ProductItem>();
 
 
             foreach (DataRow row in dataTable.Rows)
             {
                 // Создание нового объекта ProductItem
-                ProductItem item = new ProductItem();
-
-                // Присвоение значения свойствам из данных строки таблицы
-                item.Id = Convert.ToInt32(row["idProducts"]);
-                item.Name = row["name"].ToString();
-                item.ImageData = "E:/Diplom/Tea Coffe/Tea Coffe/image/" + row["photo"].ToString();
-                item.Cost = Convert.ToInt32(row["cost"]);
-                item.DefaultCost = Convert.ToInt32(row["cost"]);
-                item.Unit = row["Products_unitname"].ToString();
-                item.MinUnit = Convert.ToInt32(row["products_unitcol"]);
-                item.Quantity = Convert.ToInt32(row["products_unitcol"]);
-                item.QuantityInStock = Convert.ToInt32(row["quantity"]);
+                ProductItem item = new ProductItem
+                {
+                    // Присвоение значения свойствам из данных строки таблицы
+                    Id = Convert.ToInt32(row["idProducts"]),
+                    Name = row["name"].ToString(),
+                    ImageData = System.IO.Directory.GetCurrentDirectory() + "\\image\\" + row["photo"].ToString(),
+                    Cost = Convert.ToInt32(row["cost"]),
+                    DefaultCost = Convert.ToInt32(row["cost"]),
+                    Unit = row["Products_unitname"].ToString(),
+                    MinUnit = Convert.ToInt32(row["products_unitcol"]),
+                    Quantity = Convert.ToInt32(row["products_unitcol"]),
+                    QuantityInStock = Convert.ToInt32(row["quantity"])
+                };
                 if (item.QuantityInStock < item.MinUnit)
                 {
                     item.Quantity = 0;
@@ -59,6 +65,59 @@ namespace Tea_Coffe
             }
 
             ProductView.ItemsSource = productList;
+        }
+
+        private void Search(object sender, TextChangedEventArgs e)
+        {
+            string search = SearchTB.Text;
+
+
+            try
+            {
+               
+                DataTable dt = dataBase.SearchProducts(search, "quantity");
+                Showdata(dt);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void QuantityChange(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                
+                ProductItem item = ((FrameworkElement)sender).DataContext as ProductItem;
+                dataBase.ChangeQuantity(item);
+                MessageBox.Show("Успешно изменено","Изменения",MessageBoxButton.OK);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error",MessageBoxButton.OK,MessageBoxImage.Error);
+            }
+        }
+
+        private void NumericTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            foreach (char c in e.Text)
+            {
+                if (!char.IsDigit(c))
+                {
+                    e.Handled = true; // Отменить ввод, если символ не является цифрой
+                    break;
+                }
+            }
+        }
+        // Запрещает использование пробела в текстовом поле
+        private void NumericTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            // Запрещаем использование пробела
+            if (e.Key == Key.Space)
+            {
+                e.Handled = true;
+            }
         }
     }
 }
