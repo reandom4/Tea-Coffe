@@ -23,8 +23,8 @@ namespace Tea_Coffe
     /// </summary>
     public partial class ReportGenerator : System.Windows.Window
     {
-        DataBase dataBase = new DataBase();
-        WordHelper wordHelper = new WordHelper();
+        readonly DataBase dataBase = new DataBase();
+        readonly WordHelper wordHelper = new WordHelper();
         public ReportGenerator()
         {
             InitializeComponent();
@@ -96,7 +96,7 @@ namespace Tea_Coffe
                             Quantity = Convert.ToInt32(row["products_unitcol"]),
                             QuantityInStock = Convert.ToInt32(row["quantity"]),
                             Category = row["Product_categoryname"].ToString(),
-                            total_quantity = Convert.ToInt32(row["total_Position"]),
+                            Total_quantity = Convert.ToInt32(row["total_Position"]),
                             AllowChange = "Collapsed"
 
                         };
@@ -131,7 +131,7 @@ namespace Tea_Coffe
                             Quantity = Convert.ToInt32(row["products_unitcol"]),
                             QuantityInStock = Convert.ToInt32(row["quantity"]),
                             Category = row["Product_categoryname"].ToString(),
-                            total_quantity = Convert.ToInt32(row["total_Position"]),
+                            Total_quantity = Convert.ToInt32(row["total_Position"]),
                             AllowChange = "Collapsed"
 
                         };
@@ -157,13 +157,13 @@ namespace Tea_Coffe
 
 
 
-        private void startDatePicker_MouseLeave(object sender, MouseEventArgs e)
+        private void StartDatePicker_MouseLeave(object sender, MouseEventArgs e)
         {
             if(startDatePicker.SelectedDate != null)
                 endDatePicker.DisplayDateStart = startDatePicker.SelectedDate.Value;
         }
 
-        private void endDatePicker_MouseLeave(object sender, MouseEventArgs e)
+        private void EndDatePicker_MouseLeave(object sender, MouseEventArgs e)
         {
             if (endDatePicker.SelectedDate != null)
                 startDatePicker.DisplayDateEnd = endDatePicker.SelectedDate.Value;

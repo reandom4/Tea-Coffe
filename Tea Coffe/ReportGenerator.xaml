@@ -17,10 +17,10 @@
         </ComboBox>
 
         <TextBlock Text="Выберите дату начала:" FontWeight="Bold" Margin="0,45,0,0" Height="20" VerticalAlignment="Top"/>
-        <DatePicker x:Name="startDatePicker" Margin="0,65,0,0" Height="25" VerticalAlignment="Top" MouseLeave="startDatePicker_MouseLeave" />
+        <DatePicker x:Name="startDatePicker" Margin="0,65,0,0" Height="25" VerticalAlignment="Top" MouseLeave="StartDatePicker_MouseLeave" />
 
         <TextBlock Grid.Row="4" Text="Выберите дату окончания:" FontWeight="Bold" Height="20" VerticalAlignment="Top"/>
-        <DatePicker x:Name="endDatePicker" Margin="0,110,0,0" Height="25" VerticalAlignment="Top" MouseLeave="endDatePicker_MouseLeave" />
+        <DatePicker x:Name="endDatePicker" Margin="0,110,0,0" Height="25" VerticalAlignment="Top" MouseLeave="EndDatePicker_MouseLeave" />
 
         <Button Content="Сгенерировать отчет" Background="#FF2FAC66" BorderBrush="{x:Null}" Foreground="White" FontSize="14" BorderThickness="0,1,1,1" SnapsToDevicePixels="False" Margin="0,140,0,0" Click="Generate" Height="23" VerticalAlignment="Top" HorizontalAlignment="Center" Width="160">
             <Button.Style>

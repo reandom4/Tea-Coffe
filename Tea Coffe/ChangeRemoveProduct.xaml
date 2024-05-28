@@ -5,43 +5,41 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tea_Coffe"
         mc:Ignorable="d"
-                       Title="" Height="783" Width="955"  WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+                       Title="" Height="783" Width="955"   ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
 
-        <Image x:Name="image"  Stretch="UniformToFill" Height="549" Margin="10,25,0,0" VerticalAlignment="Top" Source="/Resources/R.png" HorizontalAlignment="Left" Width="549" Cursor="Hand" MouseLeftButtonDown="AddImage" />
-        <TextBox x:Name="name" Text="Чай чёрный цейлонский с типсами FBOP TIP" FontSize="28" TextWrapping="Wrap" Margin="10,579,0,0" FontWeight="Bold" FontFamily="Calibri" Height="105" VerticalAlignment="Top" HorizontalAlignment="Left" Width="549" MaxLength="115" />
-        <StackPanel  Orientation="Horizontal" Margin="10,700,799,34">
+        <Image x:Name="image"  Stretch="UniformToFill" Height="549" Margin="14,10,0,0" VerticalAlignment="Top" Source="/Resources/R.png" HorizontalAlignment="Left" Width="549" Cursor="Hand" MouseLeftButtonDown="AddImage" />
+        <TextBox x:Name="name" Text="Чай чёрный цейлонский с типсами FBOP TIP" FontSize="28" TextWrapping="Wrap" Margin="10,559,0,0" FontWeight="Bold" FontFamily="Calibri" Height="105" VerticalAlignment="Top" HorizontalAlignment="Left" Width="549" MaxLength="115" />
+        <StackPanel  Orientation="Horizontal" Margin="10,668,0,0" Height="37" VerticalAlignment="Top" HorizontalAlignment="Left" Width="146">
             <TextBox x:Name="cost" Text="200" FontSize="24" TextWrapping="NoWrap" FontWeight="Bold" VerticalAlignment="Top" MaxLength="8" PreviewTextInput="NumericTextBox_PreviewTextInput" PreviewKeyDown="NumericTextBox_PreviewKeyDown"/>
             <TextBlock Text="₽" FontSize="24" Margin="6,0,0,0" FontWeight="Bold" Height="auto"></TextBlock>
         </StackPanel>
 
 
 
-        <StackPanel Margin="575,25,10,0" Height="auto" VerticalAlignment="Top">
+        <StackPanel Margin="575,10,10,0" Height="auto" VerticalAlignment="Top">
             <TextBlock x:Name="descriptionHead" Text="Описание" FontSize="24" FontWeight="Bold" Margin="2,2,2,2"/>
             <TextBox x:Name="description" Text="" FontSize="14" TextWrapping="Wrap" Height="210" MaxLength="350" />
             <TextBlock x:Name="cooking_methodHead" Text="Способ приготовления" FontSize="24" FontWeight="Bold" Margin="2,2,2,2"/>
             <TextBox x:Name="cooking_method" Text="" FontSize="14" TextWrapping="Wrap" Height="210" MaxLength="344" />
             <TextBlock x:Name="taste_and_aromaHead" Text="Вкус и аромат" FontSize="24" FontWeight="Bold" Margin="2,2,2,2"/>
-            <TextBox x:Name="taste_and_aroma" Text="" FontSize="14" TextWrapping="Wrap" Height="223" MaxLength="350"/>
+            <TextBox x:Name="taste_and_aroma" Text="" FontSize="14" TextWrapping="Wrap" Height="199" MaxLength="350"/>
         </StackPanel>
-        <Border BorderBrush="#e2e3e8" BorderThickness="1" Margin="568,0,385,0"/>
-
-        <Image Height="15" VerticalAlignment="Top" HorizontalAlignment="Right" Width="15" Source="/Resources/close.png" Margin="0,5,5,0"  Cursor="Hand" PreviewMouseLeftButtonDown="Close"/>
+        <Border BorderBrush="#e2e3e8" BorderThickness="1" Margin="568,0,0,0" HorizontalAlignment="Left" Width="2"/>
 
         <Grid x:Name="MaxQuantity" Margin="201,712,0,0" Background="#7F000000" Width="355" HorizontalAlignment="Left" Visibility="Hidden" Height="36" VerticalAlignment="Top">
             <TextBlock x:Name="MaxQuantityText" Text="Сейчас в наличии только 2000г" FontSize="12" Foreground="White" TextWrapping="Wrap" Margin="3,0,3,19"/>
 
             <TextBlock Text="" FontSize="12" Foreground="White" TextWrapping="Wrap" Margin="3,14,3,0"/>
         </Grid>
-        <StackPanel  Orientation="Horizontal" Margin="0,700,610,46" HorizontalAlignment="Right">
+        <StackPanel  Orientation="Horizontal" Margin="168,668,0,0" HorizontalAlignment="Left" Height="37" VerticalAlignment="Top">
             <TextBlock x:Name="quantityTextBlock" Text="100" FontSize="24" TextWrapping="NoWrap" FontWeight="Bold" VerticalAlignment="Top"  />
             <ComboBox x:Name="unitComboBox" Width="131" Height="34" Margin="5,0,0,0" FontSize="16" VerticalAlignment="Top" SelectedIndex="0" VerticalContentAlignment="Stretch" Padding="6,4,5,4" SelectionChanged="ChangeUnit"  >
 
             </ComboBox>
         </StackPanel>
-        <ComboBox x:Name="categoryComboBox" FontSize="16" SelectedIndex="2" VerticalContentAlignment="Stretch" Padding="6,4,5,0" SelectionChanged="ChangeUnit"  Margin="359,700,396,0" Height="34" VerticalAlignment="Top"  />
-        <Button Content="Редактировать" Background="#FF2FAC66" BorderBrush="{x:Null}" Foreground="White" FontSize="14" BorderThickness="0,1,1,1" SnapsToDevicePixels="False"  Margin="145,742,610,0" Click="ChangeProduct" Height="34" VerticalAlignment="Top" RenderTransformOrigin="0.477,1" >
+        <ComboBox x:Name="categoryComboBox" FontSize="16" SelectedIndex="2" VerticalContentAlignment="Stretch" Padding="6,4,5,0" SelectionChanged="ChangeUnit"  Margin="359,668,0,0" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="200"  />
+        <Button Content="Редактировать" Background="#FF2FAC66" BorderBrush="{x:Null}" Foreground="White" FontSize="14" BorderThickness="0,1,1,1" SnapsToDevicePixels="False"  Margin="145,707,0,0" Click="ChangeProduct" Height="34" VerticalAlignment="Top" RenderTransformOrigin="0.477,1" HorizontalAlignment="Left" Width="200" >
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border x:Name="border"
@@ -59,7 +57,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button Content="Удалить" Background="Red" BorderBrush="{x:Null}" Foreground="White" FontSize="14" BorderThickness="0,1,1,1" SnapsToDevicePixels="False"  Margin="359,742,396,0" Click="RemoveProduct" Height="34" VerticalAlignment="Top" RenderTransformOrigin="0.477,1" >
+        <Button Content="Удалить" Background="Red" BorderBrush="{x:Null}" Foreground="White" FontSize="14" BorderThickness="0,1,1,1" SnapsToDevicePixels="False"  Margin="359,707,0,0" Click="RemoveProduct" Height="34" VerticalAlignment="Top" RenderTransformOrigin="0.477,1" HorizontalAlignment="Left" Width="200" >
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border x:Name="border"

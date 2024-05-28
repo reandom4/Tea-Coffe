@@ -165,7 +165,7 @@ namespace Tea_Coffe
                 if(result)
                 {
                     MessageBox.Show("Заказ успешно оформлен");
-                    wordHelper.creatcheque(pr, dateTime);
+                    wordHelper.Creatcheque(pr, dateTime);
                     pr.Clear();
                     Window1.Showdata();
                 }

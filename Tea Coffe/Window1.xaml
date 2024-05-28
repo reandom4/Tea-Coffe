@@ -30,10 +30,10 @@
                 </ListView.ItemsPanel>
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Height="491" Width="360">
+                        <Grid Height="490" Width="360">
 
-                            <Image Source="{Binding ImageData}" VerticalAlignment="Stretch" Stretch="UniformToFill" Height="340" Margin="10,10,10,141" PreviewMouseLeftButtonDown="OpenFullProductMenu" Cursor="Hand" />
-                            <Button Background="#FF2FAC66" BorderBrush="{x:Null}" Foreground="White" FontFamily="Calibri" HorizontalAlignment="Right" Width="40" Margin="0,10,10,441" Click="ChangeProduct" Visibility="{Binding AllowChange}">
+                            <Image Source="{Binding ImageData}" VerticalAlignment="Top" Stretch="UniformToFill" Height="340" Margin="10,10,10,0" PreviewMouseLeftButtonDown="OpenFullProductMenu" Cursor="Hand" />
+                            <Button Background="#FF2FAC66" BorderBrush="{x:Null}" Foreground="White" FontFamily="Calibri" HorizontalAlignment="Right" Width="40" Margin="0,10,10,0" Click="ChangeProduct" Visibility="{Binding AllowChange}" Height="40" VerticalAlignment="Top">
                                 <Button.Template>
                                     <ControlTemplate TargetType="{x:Type Button}">
                                         <Border x:Name="border"
@@ -55,14 +55,14 @@ CornerRadius="5">
 
                                 </StackPanel>
                             </Button>
-                            <TextBlock Text="{Binding Name}" Height="46" FontSize="14" TextWrapping="Wrap" Margin="10,360,10,95" PreviewMouseLeftButtonDown="OpenFullProductMenu" Cursor="Hand"/>
-                            <StackPanel  Orientation="Horizontal" Margin="10,402,10,50">
+                            <TextBlock Text="{Binding Name}" Height="46" FontSize="14" TextWrapping="Wrap" Margin="10,360,10,0" PreviewMouseLeftButtonDown="OpenFullProductMenu" Cursor="Hand" VerticalAlignment="Top"/>
+                            <StackPanel  Orientation="Horizontal" Margin="10,402,10,0" Height="39" VerticalAlignment="Top">
                                 <TextBlock Text="{Binding Cost}" FontSize="24" TextWrapping="NoWrap" FontWeight="Bold"  Height="46" VerticalAlignment="Top" />
                                 <TextBlock Text="₽" FontSize="24" Margin="6,0,0,0"></TextBlock>
                             </StackPanel>
 
 
-                            <Grid Margin="0,441,0,0" Height="50" VerticalAlignment="Top">
+                            <Grid Margin="0,441,0,0" Height="50" VerticalAlignment="Top" Visibility="{Binding AllowBasket}">
                                 <Button Content="В корзину" Background="#FF2FAC66" BorderBrush="{x:Null}" Foreground="White" FontSize="14" BorderThickness="0,1,1,1" SnapsToDevicePixels="False" Margin="170,8,10,8" Click="InBasketButton">
                                     <Button.Style>
                                         <Style TargetType="Button">
@@ -273,8 +273,10 @@ CornerRadius="5">
                         <Image HorizontalAlignment="Left" Margin="355,26,0,26" Width="16" Source="/Resources/leftarrow.png" RenderTransformOrigin="1.688,0.61"/>
                     </Grid>
                     <TextBlock x:Name="Storage" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Склад" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" Padding="20,20,10,20" FontFamily="Calibri" Width="381" PreviewMouseLeftButtonDown="OpenStorage" Margin="0,286,0,0" MouseEnter="Hover_AllTB" MouseLeave="AllTb_MouseLeave" Cursor="Hand" Visibility="Collapsed"/>
+                    <TextBlock x:Name="Orders" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Заказы" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" Padding="20,20,10,20" FontFamily="Calibri" Width="381" PreviewMouseLeftButtonDown="OpenOrder" Margin="0,286,0,0" MouseEnter="Hover_AllTB" MouseLeave="AllTb_MouseLeave" Cursor="Hand" Visibility="Collapsed"/>
                     <TextBlock x:Name="Users" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Пользователи" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" Padding="20,20,10,20" FontFamily="Calibri" Width="381" PreviewMouseLeftButtonDown="ShowUsers" MouseEnter="Hover_AllTB" MouseLeave="AllTb_MouseLeave" Margin="0,286,0,0" Cursor="Hand" Visibility="Collapsed"/>
                     <TextBlock x:Name="Reports" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Отчеты" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" Padding="20,20,10,20" FontFamily="Calibri" Width="381" PreviewMouseLeftButtonDown="ShowReports" MouseEnter="Hover_AllTB" MouseLeave="AllTb_MouseLeave" Margin="0,355,0,0" Cursor="Hand" Visibility="Collapsed"/>
+                    <TextBlock x:Name="BD" HorizontalAlignment="Center" TextWrapping="Wrap" Text="База данных" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" Padding="20,20,10,20" FontFamily="Calibri" Width="381" PreviewMouseLeftButtonDown="ShowBD" MouseEnter="Hover_AllTB" MouseLeave="AllTb_MouseLeave" Margin="0,424,0,0" Cursor="Hand" Visibility="Collapsed"/>
                 </Grid>
 
                 <Grid x:Name="RightMenuTeaPanel" Background="White" HorizontalAlignment="Left" Width="381" Margin="381,0,0,0" Visibility="Collapsed" MouseEnter="Panel_MouseEnter">

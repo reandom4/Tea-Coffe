@@ -13,10 +13,12 @@ namespace Tea_Coffe
 {
     internal class WordHelper
     {
-        public void creatcheque(List<ProductItem> items,DateTime dateTime)
+        public void Creatcheque(List<ProductItem> items, DateTime dateTime)
         {
-            Word.Application wordApp = new Word.Application();
-            wordApp.Visible = true;
+            Word.Application wordApp = new Word.Application
+            {
+                Visible = true
+            };
 
             // Создаем новый документ
             Word.Document doc = wordApp.Documents.Add();
@@ -86,7 +88,7 @@ namespace Tea_Coffe
                               "СНО: ОСН\n" +
                               "ЗН ККТ: 0123456789\n" +
                               "Чек №: 9876543210\n" +
-                              $"Дата и время: {dateTime.ToString("dd.MM.yyyy HH.mm.ss")}" +
+                              $"Дата и время: {dateTime:dd.MM.yyyy HH.mm.ss}" +
                               "ИНН: 123456789012\n" +
                               "РК ККТ: 456789\n" +
                               "ФН № 987654321098\n" +
@@ -98,7 +100,7 @@ namespace Tea_Coffe
             string exePath = Assembly.GetExecutingAssembly().Location;
             string programPath = Path.GetDirectoryName(exePath);
             string chequesFolderPath = Path.Combine(programPath, "Отчеты", "чеки");
-            string filePath = Path.Combine(chequesFolderPath, $"чек{dateTime.ToString("dd.MM.yyyy HH.mm.ss")}.docx");
+            string filePath = Path.Combine(chequesFolderPath, $"чек{dateTime:dd.MM.yyyy HH.mm.ss}.docx");
             doc.SaveAs2(filePath);
 
             // Закрываем документ и приложение Word
@@ -108,11 +110,13 @@ namespace Tea_Coffe
             Console.WriteLine("Чек успешно создан.");
         }
 
-        public void createAvg(double avg)
+        public void CreateAvg(double avg)
         {
             // Создаем объект приложения Word
-            Word.Application wordApp = new Word.Application();
-            wordApp.Visible = true;
+            Word.Application wordApp = new Word.Application
+            {
+                Visible = true
+            };
             // Создаем новый документ
             Document doc = wordApp.Documents.Add();
 
@@ -133,7 +137,7 @@ namespace Tea_Coffe
 
             // Добавляем информацию о среднем чеке
             Paragraph averageCheckParagraph = doc.Paragraphs.Add();
-            averageCheckParagraph.Range.Text = $"Средний чек = {averageCheck.ToString("0.00")}";
+            averageCheckParagraph.Range.Text = $"Средний чек = {averageCheck:0.00}";
             averageCheckParagraph.Range.Font.Size = 16;
             averageCheckParagraph.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
             averageCheckParagraph.Range.InsertParagraphAfter();
@@ -142,7 +146,7 @@ namespace Tea_Coffe
             string exePath = Assembly.GetExecutingAssembly().Location;
             string programPath = Path.GetDirectoryName(exePath);
             string chequesFolderPath = Path.Combine(programPath, "Отчеты", "Средний чек");
-            string filePath = Path.Combine(chequesFolderPath, $"Средний чек{DateTime.Now.ToString("dd.MM.yyyy HH.mm.ss")}.docx");
+            string filePath = Path.Combine(chequesFolderPath, $"Отчет о средним чеке{DateTime.Now:dd.MM.yyyy HH.mm.ss}.docx");
             doc.SaveAs2(filePath);
 
             // Закрываем документ и выходим из Word
@@ -154,8 +158,10 @@ namespace Tea_Coffe
 
         public void Createpopular(List<ProductItem> items )
         {
-            Word.Application wordApp = new Word.Application();
-            wordApp.Visible = true;
+            Word.Application wordApp = new Word.Application
+            {
+                Visible = true
+            };
 
             // Создаем новый документ
             Word.Document doc = wordApp.Documents.Add();
@@ -208,9 +214,9 @@ namespace Tea_Coffe
 
                 table.Cell(i + 2, 3).Range.Text = items[i].Name;
                 
-                table.Cell(i + 2, 4).Range.Text = items[i].total_quantity.ToString() + items[i].Unit;
+                table.Cell(i + 2, 4).Range.Text = items[i].Total_quantity.ToString() + items[i].Unit;
 
-                table.Cell(i + 2, 5).Range.Text = (items[i].Cost * items[i].total_quantity / items[i].MinUnit).ToString("0.00") + "₽";
+                table.Cell(i + 2, 5).Range.Text = (items[i].Cost * items[i].Total_quantity / items[i].MinUnit).ToString("0.00") + "₽";
                 
             }
 
@@ -220,7 +226,7 @@ namespace Tea_Coffe
             string exePath = Assembly.GetExecutingAssembly().Location;
             string programPath = Path.GetDirectoryName(exePath);
             string chequesFolderPath = Path.Combine(programPath, "Отчеты", "чеки");
-            string filePath = Path.Combine(chequesFolderPath, $"Популярные{DateTime.Now.ToString("dd.MM.yyyy HH.mm.ss")}.docx");
+            string filePath = Path.Combine(chequesFolderPath, $"Отчет о наиболее популярных товарах{DateTime.Now:dd.MM.yyyy HH.mm.ss}.docx");
             doc.SaveAs2(filePath);
 
             // Закрываем документ и приложение Word
@@ -232,8 +238,10 @@ namespace Tea_Coffe
 
         public void CreateBill(List<ProductItem> items)
         {
-            Word.Application wordApp = new Word.Application();
-            wordApp.Visible = true;
+            Word.Application wordApp = new Word.Application
+            {
+                Visible = true
+            };
 
             // Создаем новый документ
             Word.Document doc = wordApp.Documents.Add();
@@ -286,10 +294,10 @@ namespace Tea_Coffe
 
                 table.Cell(i + 2, 3).Range.Text = items[i].Name;
 
-                table.Cell(i + 2, 4).Range.Text = items[i].total_quantity.ToString() + items[i].Unit;
+                table.Cell(i + 2, 4).Range.Text = items[i].Total_quantity.ToString() + items[i].Unit;
 
-                table.Cell(i + 2, 5).Range.Text = (items[i].Cost * items[i].total_quantity / items[i].MinUnit).ToString("0.00") + "₽";
-                fulcost += (items[i].Cost * items[i].total_quantity / items[i].MinUnit);
+                table.Cell(i + 2, 5).Range.Text = (items[i].Cost * items[i].Total_quantity / items[i].MinUnit).ToString("0.00") + "₽";
+                fulcost += (items[i].Cost * items[i].Total_quantity / items[i].MinUnit);
             }
 
             Word.Paragraph textAfterTable = doc.Paragraphs.Add();
@@ -297,12 +305,12 @@ namespace Tea_Coffe
             textAfterTable.Range.Font.Bold = 0;
             textAfterTable.Range.Font.Size = 8;
             textAfterTable.Format.SpaceAfter = 0;
-            textAfterTable.Range.Text = $"Общая выручка {fulcost.ToString("0.00")}₽";
+            textAfterTable.Range.Text = $"Общая выручка {fulcost:0.00}₽";
             // Сохраняем документ
             string exePath = Assembly.GetExecutingAssembly().Location;
             string programPath = Path.GetDirectoryName(exePath);
             string chequesFolderPath = Path.Combine(programPath, "Отчеты", "Популярные товары");
-            string filePath = Path.Combine(chequesFolderPath, $"Популярные{DateTime.Now.ToString("dd.MM.yyyy HH.mm.ss")}.docx");
+            string filePath = Path.Combine(chequesFolderPath, $"Отчет о выручке{DateTime.Now:dd.MM.yyyy HH.mm.ss}.docx");
             doc.SaveAs2(filePath);
 
             // Закрываем документ и приложение Word
@@ -317,7 +325,7 @@ namespace Tea_Coffe
             string programPath = Path.GetDirectoryName(exePath);
             string fileInfo = Path.Combine(programPath, "avg.docx");
             Word.Application app = new Word.Application();
-            Word.Application app2 = null;
+            
 
             //создание экземпляра класса
             app = new Word.Application();
@@ -351,12 +359,78 @@ namespace Tea_Coffe
             }
             //сохранение в новый файл
             string chequesFolderPath = Path.Combine(programPath, "Отчеты", "Средний чек");
-            string filePath = Path.Combine(chequesFolderPath, $"Средний чек{DateTime.Now.ToString("dd.MM.yyyy HH.mm.ss")}.docx");
+            string filePath = Path.Combine(chequesFolderPath, $"Средний чек{DateTime.Now:dd.MM.yyyy HH.mm.ss}.docx");
             app.ActiveDocument.SaveAs(filePath);
             //app.ActiveDocument.Close();
             //app.Quit();
 
         }
 
+        public void CreateStorage(List<ProductItem> items)
+        {
+            Word.Application wordApp = new Word.Application
+            {
+                Visible = true
+            };
+
+            // Создаем новый документ
+            Word.Document doc = wordApp.Documents.Add();
+
+            doc.PageSetup.PageWidth = wordApp.InchesToPoints(4.2f);  // Ширина в дюймах
+            doc.PageSetup.PageHeight = wordApp.InchesToPoints(11f);
+
+            doc.PageSetup.LeftMargin = wordApp.CentimetersToPoints(1f);
+            doc.PageSetup.RightMargin = wordApp.CentimetersToPoints(1f);
+            doc.PageSetup.TopMargin = wordApp.CentimetersToPoints(1f);
+            doc.PageSetup.BottomMargin = wordApp.CentimetersToPoints(1f);
+
+
+            // Создаем новый параграф и добавляем текст перед таблицей
+            Word.Paragraph titlePara2 = doc.Paragraphs.Add();
+            titlePara2.Range.Text = "Магазин чая и кофе";
+            titlePara2.Range.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphLeft;
+            titlePara2.Format.SpaceAfter = 12; // 12 единиц - это расстояние в точках
+            titlePara2.Range.Font.Bold = 1;
+            titlePara2.Range.Font.Size = 12;
+            titlePara2.Format.SpaceAfter = 0;
+            doc.Paragraphs.Add();
+            Word.Paragraph paradoc = doc.Paragraphs.Add();
+
+            // Добавляем таблицу
+            Word.Table table = doc.Tables.Add(paradoc.Range, items.Count + 1, 3);
+
+            table.Borders.Enable = 1;
+            table.Range.Font.Size = 8; // Размер шрифта для всей таблицы
+            table.Range.Font.Bold = 0; // Не жирный для всей таблицы
+            table.Range.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphLeft;
+            table.Columns[1].Width = 3.50f * 28.35f;
+            table.Columns[2].Width = 1.9f * 28.35f;
+            table.Columns[3].Width = 1.9f * 28.35f;
+
+
+            table.Cell(1, 1).Range.Text = "Товар";
+            table.Cell(1, 2).Range.Text = "Количество на складе";
+            table.Cell(1, 3).Range.Text = "Реальное количество";
+
+            for (int i = 0; i < items.Count; i++)
+            {
+                table.Cell(i + 2, 1).Range.Text = items[i].Name;
+
+                table.Cell(i + 2, 2).Range.Text = items[i].Quantity.ToString() + items[i].Unit.ToString();
+            }
+
+            // Сохраняем документ
+            string exePath = Assembly.GetExecutingAssembly().Location;
+            string programPath = Path.GetDirectoryName(exePath);
+            string chequesFolderPath = Path.Combine(programPath, "Отчеты", "Инвентаризация");
+            string filePath = Path.Combine(chequesFolderPath, $"Инвентаризация{DateTime.Now:dd.MM.yyyy HH.mm.ss}.docx");
+            doc.SaveAs2(filePath);
+
+            // Закрываем документ и приложение Word
+            //doc.Close();
+            //wordApp.Quit();
+
+            Console.WriteLine("Чек успешно создан.");
+        }
     }
 }

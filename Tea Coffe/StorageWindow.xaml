@@ -80,7 +80,7 @@ CornerRadius="5">
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Border BorderBrush="#e2e3e8" Margin="10,10,10,0" BorderThickness="1" CornerRadius="5" Height="38" VerticalAlignment="Top">
+        <Border BorderBrush="#e2e3e8" Margin="10,10,52,0" BorderThickness="1" CornerRadius="5" Height="38" VerticalAlignment="Top">
             <Grid Margin="0,0,0,0">
                 <TextBox x:Name="SearchTB" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
                     VerticalAlignment="Center"
@@ -140,6 +140,27 @@ CornerRadius="5">
                 </Button>
             </Grid>
         </Border>
+        <Button Background="#FF2FAC66" BorderBrush="{x:Null}" Foreground="White" FontFamily="Calibri" Margin="0,11,12,0" Click="Button_Click" Height="36" VerticalAlignment="Top" HorizontalAlignment="Right" Width="38">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border"
+                Background="{TemplateBinding Background}"
+                CornerRadius="5">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <!-- Триггер для изменения внешнего вида при наведении на кнопку -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#1f8b4f"/>
+                            <Setter Property="Cursor" Value="Hand"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+            <StackPanel Orientation="Horizontal">
+                <Image Source="/Resources/printing.png" Width="27" Height="25"/>
 
+            </StackPanel>
+        </Button>
     </Grid>
 </Window>

@@ -51,7 +51,7 @@ namespace Tea_Coffe
             try
             {
                 User user = new User();
-                user.idUser = startuser.idUser;
+                user.IdUser = startuser.IdUser;
                 user.Name = name.Text;
                 user.Surname = surname.Text;
                 user.Patronymic = patronymic.Text;

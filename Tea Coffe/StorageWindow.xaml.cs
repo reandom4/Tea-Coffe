@@ -22,13 +22,21 @@ namespace Tea_Coffe
     public partial class StorageWindow : Window
     {
         readonly DataBase dataBase = new DataBase();
+        readonly WordHelper wordHelper = new WordHelper();
 
         // Конструктор для инициализации окна хранилища
         public StorageWindow()
         {
             InitializeComponent();
-            DataTable dataTable = dataBase.LoadProductsStorage();
-            Showdata(dataTable);
+            try
+            {
+                DataTable dataTable = dataBase.LoadProductsStorage();
+                Showdata(dataTable);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         private void Showdata(DataTable dataTable)
@@ -117,6 +125,40 @@ namespace Tea_Coffe
             if (e.Key == Key.Space)
             {
                 e.Handled = true;
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                DataTable dataTable = dataBase.LoadProductsStorage();
+
+                List<ProductItem> productList = new List<ProductItem>();
+
+
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    // Создание нового объекта ProductItem
+                    ProductItem item = new ProductItem
+                    {
+                        // Присвоение значения свойствам из данных строки таблицы
+                        Id = Convert.ToInt32(row["idProducts"]),
+                        Name = row["name"].ToString(),
+                        Unit = row["Products_unitname"].ToString(),
+                        MinUnit = Convert.ToInt32(row["products_unitcol"]),
+                        Quantity = Convert.ToInt32(row["quantity"]),
+                        QuantityInStock = Convert.ToInt32(row["quantity"])
+                    };
+                    
+                    // Добавление объекта ProductItem в список
+                    productList.Add(item);
+                }
+                wordHelper.CreateStorage(productList);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
     }

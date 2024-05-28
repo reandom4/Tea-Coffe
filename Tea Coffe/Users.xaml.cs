@@ -22,7 +22,7 @@ namespace Tea_Coffe
     /// </summary>
     public partial class Users : Window
     {
-        DataBase dataBase = new DataBase();
+        readonly DataBase dataBase = new DataBase();
         public Users()
         {
             InitializeComponent();
@@ -35,7 +35,7 @@ namespace Tea_Coffe
                     User item = new User
                     {
                         // Присвоение значения свойствам из данных строки таблицы
-                        idUser = Convert.ToInt32(dr["idUser"]),
+                        IdUser = Convert.ToInt32(dr["idUser"]),
                         Login = (string)dr["login"],
                         Password = dr["password"].ToString(),
                         Salt = dr["salt"].ToString(),
@@ -52,12 +52,12 @@ namespace Tea_Coffe
             }
             catch(Exception ex)
             {
-                
+                MessageBox.Show(ex.Message);
             }
 
         }
 
-        private void refresh()
+        private void Refresh()
         {
             SearchTB.Text = string.Empty;
             DataTable dt = dataBase.LoadUsers();
@@ -67,7 +67,7 @@ namespace Tea_Coffe
                 User item = new User
                 {
                     // Присвоение значения свойствам из данных строки таблицы
-                    idUser = Convert.ToInt32(dr["idUser"]),
+                    IdUser = Convert.ToInt32(dr["idUser"]),
                     Login = (string)dr["login"],
                     Password = dr["password"].ToString(),
                     Salt = dr["salt"].ToString(),
@@ -94,7 +94,7 @@ namespace Tea_Coffe
             var item = ((FrameworkElement)sender).DataContext as User;
             AddChangeUser addChangeUser = new AddChangeUser(item);
             addChangeUser.ShowDialog();
-            refresh();
+            Refresh();
         }
 
         private void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
@@ -107,7 +107,7 @@ namespace Tea_Coffe
                 {
                     dataBase.DeleteUser(item);
                     MessageBox.Show("Пользователь успешно удален", "Подтверждение удаления", MessageBoxButton.OK, MessageBoxImage.Information);
-                    refresh();
+                    Refresh();
                 }
                 catch (Exception ex)
                 {
@@ -120,13 +120,13 @@ namespace Tea_Coffe
         {
             AddChangeUser addChangeUser = new AddChangeUser();
             addChangeUser.ShowDialog();
-            refresh();
+            Refresh();
         }
     }
 
     public class User
     {
-        public int idUser { get; set; }
+        public int IdUser { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
         public string Salt { get; set; }

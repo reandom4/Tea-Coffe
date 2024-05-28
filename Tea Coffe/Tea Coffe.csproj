@@ -38,6 +38,9 @@
     <Reference Include="MySql.Data">
       <HintPath>..\..\..\EXAM\LastExam\LastExam\MySql.Data.dll</HintPath>
     </Reference>
+    <Reference Include="MySqlBackup">
+      <HintPath>C:\Users\Дом\Desktop\MySqlBackup.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -69,14 +72,14 @@
     <Compile Include="Authorization.xaml.cs">
       <DependentUpon>Authorization.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Backup.xaml.cs">
+      <DependentUpon>Backup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="BasketWindow.xaml.cs">
       <DependentUpon>BasketWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ChangeRemoveProduct.xaml.cs">
       <DependentUpon>ChangeRemoveProduct.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="CRUDProduct.xaml.cs">
-      <DependentUpon>CRUDProduct.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataBase.cs" />
     <Compile Include="FullProductInfo.xaml.cs">
@@ -84,6 +87,12 @@
     </Compile>
     <Compile Include="ReportGenerator.xaml.cs">
       <DependentUpon>ReportGenerator.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShowOrderItems.xaml.cs">
+      <DependentUpon>ShowOrderItems.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShowOrders.xaml.cs">
+      <DependentUpon>ShowOrders.xaml</DependentUpon>
     </Compile>
     <Compile Include="StorageWindow.xaml.cs">
       <DependentUpon>StorageWindow.xaml</DependentUpon>
@@ -107,15 +116,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Backup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="BasketWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ChangeRemoveProduct.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="CRUDProduct.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -128,6 +137,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ReportGenerator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ShowOrderItems.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ShowOrders.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -274,6 +291,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\pencil %282%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\printing.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

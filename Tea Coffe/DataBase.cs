@@ -12,6 +12,8 @@ using System.Transactions;
 using System.Collections;
 using MySqlX.XDevAPI.Common;
 using System.Security.Cryptography;
+using System.Reflection;
+using System.IO;
 
 namespace Tea_Coffe
 {
@@ -95,6 +97,32 @@ namespace Tea_Coffe
             MySqlConnection connection = new MySqlConnection(connectionString);
             connection.Open();
             string query1 = $"SELECT p.*,u.*,c.*,IFNULL(o.total_Position, 0) AS total_Position,IFNULL(o.total_quantity, 0) AS total_quantity FROM tea_coffe.product p LEFT JOIN (SELECT product_id, SUM(quantity) AS total_Position, Sum(unitquantity) AS total_quantity FROM tea_coffe.order_items GROUP BY product_id) o ON p.idProducts = o.product_id JOIN products_unit u ON p.unit = u.idProducts_unit JOIN product_category c ON p.category = c.idProduct_category Where name like '%{search}%' Order by {sort};";
+            MySqlCommand mySqlCommand = new MySqlCommand(query1, connection);
+            MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
+            DataTable dataTable = new DataTable();
+            mySqlDataAdapter.Fill(dataTable);
+            connection.Close();
+            return dataTable;
+
+        }
+
+        public DataTable SearchProducts(string search, string sort, int curtab, int itemontab)
+        {
+            if (sort == "Популярные")
+            {
+                sort = "total_quantity DESC";
+            }
+            if (sort == "Сначала дешёвые")
+            {
+                sort = "cost";
+            }
+            if (sort == "Сначала дорогие")
+            {
+                sort = "cost DESC";
+            }
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            connection.Open();
+            string query1 = $"SELECT p.*,u.*,c.*,IFNULL(o.total_Position, 0) AS total_Position,IFNULL(o.total_quantity, 0) AS total_quantity FROM tea_coffe.product p LEFT JOIN (SELECT product_id, SUM(quantity) AS total_Position, Sum(unitquantity) AS total_quantity FROM tea_coffe.order_items GROUP BY product_id) o ON p.idProducts = o.product_id JOIN products_unit u ON p.unit = u.idProducts_unit JOIN product_category c ON p.category = c.idProduct_category Where name like '%{search}%' Order by {sort} Limit {itemontab} Offset {curtab*itemontab}; ";
             MySqlCommand mySqlCommand = new MySqlCommand(query1, connection);
             MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
             DataTable dataTable = new DataTable();
@@ -371,7 +399,7 @@ namespace Tea_Coffe
             string salt = GenerateSalt(16);
             string password = HashPassword(user.Password, salt);
             connection.Open();
-            string com = $"UPDATE `tea_coffe`.`user` SET `login` = '{user.Login}', `password` = '{password}', `salt` = '{salt}', `surname` = '{user.Surname}', `name` = '{user.Name}', `patronymic` = '{user.Patronymic}', `role` = (SELECT idUser_role from user_role where User_roleName = '{user.Role}') WHERE (`idUser` = '{user.idUser}');";
+            string com = $"UPDATE `tea_coffe`.`user` SET `login` = '{user.Login}', `password` = '{password}', `salt` = '{salt}', `surname` = '{user.Surname}', `name` = '{user.Name}', `patronymic` = '{user.Patronymic}', `role` = (SELECT idUser_role from user_role where User_roleName = '{user.Role}') WHERE (`idUser` = '{user.IdUser}');";
             MySqlCommand command = new MySqlCommand(com, connection);
             command.ExecuteNonQuery();
             connection.Close();
@@ -380,7 +408,7 @@ namespace Tea_Coffe
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
             connection.Open();
-            string com = $"DELETE FROM `tea_coffe`.`user` WHERE (`idUser` = '{user.idUser}');";
+            string com = $"DELETE FROM `tea_coffe`.`user` WHERE (`idUser` = '{user.IdUser}');";
             MySqlCommand command = new MySqlCommand(com, connection);
             command.ExecuteNonQuery();
             connection.Close();
@@ -432,7 +460,72 @@ namespace Tea_Coffe
             connection.Close();
             return dataTable;
         }
+
+        public void Backup()
+        {
+            string exePath = Assembly.GetExecutingAssembly().Location;
+            string programPath = Path.GetDirectoryName(exePath);
+            string file = Path.Combine(programPath, "Backup", $"backup{DateTime.Now:dd.MM.yyyy HH.mm.ss}.sql");
+            
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            {
+                using (MySqlCommand cmd = new MySqlCommand())
+                {
+                    using (MySqlBackup mb = new MySqlBackup(cmd))
+                    {
+                        cmd.Connection = conn;
+                        conn.Open();
+                        mb.ExportToFile(file);
+                        conn.Close();
+                    }
+                }
+            }
+        }
+        public void Restore(string file)
+        {
+
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            {
+                using (MySqlCommand cmd = new MySqlCommand())
+                {
+                    using (MySqlBackup mb = new MySqlBackup(cmd))
+                    {
+                        cmd.Connection = conn;
+                        conn.Open();
+                        mb.ImportFromFile(file);
+                        conn.Close();
+                    }
+                }
+            }
+        }
+
+        public DataTable GetOrders()
+        {
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            connection.Open();
+            string com = $"SELECT idOrder,OrderProducts,OrderPrice,date,surname,name,patronymic FROM tea_coffe.order Join user on employeid = idUser;";
+            MySqlCommand mySqlCommand = new MySqlCommand(com, connection);
+            MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
+            DataTable dataTable = new DataTable();
+            mySqlDataAdapter.Fill(dataTable);
+
+            connection.Close();
+            return dataTable;
+        }
+
+        public DataTable GetOrderItem(int id)
+        {
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            connection.Open();
+            string com = $"SELECT idOrder_Items,product_id,order_items.quantity,product.name,photo,Products_unitname FROM tea_coffe.order_items join product on product_id = idProducts join products_unit on unit = idProducts_unit where idOrder_Items = {id}";
+            MySqlCommand mySqlCommand = new MySqlCommand(com, connection);
+            MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
+            DataTable dataTable = new DataTable();
+            mySqlDataAdapter.Fill(dataTable);
+
+            connection.Close();
+            return dataTable;
+        }
     }
 
-    
 }

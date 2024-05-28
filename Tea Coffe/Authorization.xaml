@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tea_Coffe"
         mc:Ignorable="d"
-        Title="authorization" Height="385" Width="370" WindowStyle="None" WindowStartupLocation="CenterScreen">
+        Title="authorization" Height="385" Width="370" WindowStyle="None" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
 
         <TextBlock Text="Войти в личный кабинет" FontSize="26" FontWeight="Bold" Margin="36,19,36,0" TextWrapping="Wrap" TextAlignment="Center" Height="69" VerticalAlignment="Top"/>

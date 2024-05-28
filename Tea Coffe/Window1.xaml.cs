@@ -4,17 +4,13 @@ using System.ComponentModel;
 using System.Data;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Tea_Coffe
 {
@@ -23,6 +19,9 @@ namespace Tea_Coffe
     /// </summary>
     public partial class Window1 : Window
     {
+        int currenttab = 0;
+        readonly int itemontab = 20;
+
         readonly DataBase dataBase = new DataBase();
         private readonly string curRole = null;
         public Window1(string role = "admin")
@@ -30,19 +29,21 @@ namespace Tea_Coffe
             InitializeComponent();
             curRole = role;
             Showdata();
-            if(role == "storekeeper")
+            if (role == "storekeeper")
             {
                 Storage.Visibility = Visibility.Visible;
             }
-            if(role == "admin")
+            if (role == "admin")
             {
                 Users.Visibility = Visibility.Visible;
                 Reports.Visibility = Visibility.Visible;
                 AddProductImage.Visibility = Visibility.Visible;
+                BD.Visibility = Visibility.Visible;
             }
-            if(role == "cashier")
+            if (role == "cashier")
             {
                 BasketImage.Visibility = Visibility.Visible;
+                Orders.Visibility = Visibility.Visible;
             }
         }
         // Метод для отображения данных продуктов
@@ -72,21 +73,26 @@ namespace Tea_Coffe
                         Quantity = Convert.ToInt32(row["products_unitcol"]),
                         QuantityInStock = Convert.ToInt32(row["quantity"]),
                         Category = row["Product_categoryname"].ToString(),
-                        AllowChange = "Collapsed"
+                        AllowChange = "Collapsed",
+                        AllowBasket = "Collapsed"
 
                     };
                     if (item.QuantityInStock < item.MinUnit)
                     {
                         item.Quantity = 0;
-                        if(curRole != "admin")
+                        if (curRole != "admin")
                         {
                             continue;
                         }
                     }
-                    if(curRole == "admin")
+                    if (curRole == "admin")
                     {
                         item.AllowChange = "Visible";
 
+                    }
+                    if (curRole == "cashier")
+                    {
+                        item.AllowBasket = "Visible";
                     }
                     // Добавление объекта ProductItem в список
                     productList.Add(item);
@@ -94,13 +100,14 @@ namespace Tea_Coffe
                     item.Cooking_method = row["cooking_method"].ToString();
                     item.Taste_and_aroma = row["taste_and_aroma"].ToString();
                     item.MaxQuantity = "Collapsed";
+
                 }
-                
+
 
                 ProductView.ItemsSource = null;
                 ProductView.ItemsSource = productList;
                 Productcount.Text = $"найдено {productList.Count}";
-                
+
                 CurrentTabTB.Text = $"Все товары";
                 mainsortTB.Text = "Популярные";
                 expensiveTB.Background = Brushes.White; ;
@@ -137,7 +144,8 @@ namespace Tea_Coffe
                         Quantity = Convert.ToInt32(row["products_unitcol"]),
                         QuantityInStock = Convert.ToInt32(row["quantity"]),
                         Category = row["Product_categoryname"].ToString(),
-                        AllowChange = "Collapsed"
+                        AllowChange = "Collapsed",
+                        AllowBasket = "Collapsed"
                     };
                     if (item.QuantityInStock < item.MinUnit)
                     {
@@ -152,6 +160,10 @@ namespace Tea_Coffe
                         item.AllowChange = "Visible";
 
                     }
+                    if (curRole == "cashier")
+                    {
+                        item.AllowBasket = "Visible";
+                    }
                     // Добавление объекта ProductItem в список
                     productList.Add(item);
                     item.Description = row["description"].ToString();
@@ -160,7 +172,7 @@ namespace Tea_Coffe
                     item.MaxQuantity = "Collapsed";
                 }
 
-                
+
                 ProductView.ItemsSource = productList;
                 Productcount.Text = $"найдено {productList.Count}";
             }
@@ -209,7 +221,7 @@ namespace Tea_Coffe
             }
         }
 
-       
+
 
         FullProductInfo fullProductInfo;
         // Метод для открытия полного описания продукта
@@ -219,7 +231,7 @@ namespace Tea_Coffe
 
             fullProductInfo?.Close();
 
-            fullProductInfo = new FullProductInfo(item,this);
+            fullProductInfo = new FullProductInfo(item, this);
             fullProductInfo.Show();
             fullProductInfo.Activate();
             fullProductInfo.Focus();
@@ -233,7 +245,7 @@ namespace Tea_Coffe
 
             try
             {
-                if(search == "")
+                if (search == "")
                 {
                     CurrentTabTB.Text = $"Все товары";
                 }
@@ -242,7 +254,7 @@ namespace Tea_Coffe
                     CurrentTabTB.Text = $"Результаты по запросу «{search}»";
                 }
                 DataTable dt = new DataTable();
-                if (CurrentTabTB.Text.Split(' ')[0] == "Результаты" || CurrentTabTB.Text.Split(' ')[0] =="Все")
+                if (CurrentTabTB.Text.Split(' ')[0] == "Результаты" || CurrentTabTB.Text.Split(' ')[0] == "Все")
                 {
                     dt = dataBase.SearchProducts(search, sorrt);
                 }
@@ -258,7 +270,7 @@ namespace Tea_Coffe
                 {
                     dt = dataBase.SearchFiltrProducts(search, filter, sorrt);
                 }
-                
+
                 Showdata(dt);
             }
             catch (Exception ex)
@@ -332,7 +344,7 @@ namespace Tea_Coffe
             {
                 MessageBox.Show(ex.Message);
             }
-            
+
         }
         // Метод для фильтрации какао продуктов
         private void CacaoFiltr_Sort(object sender, MouseButtonEventArgs e)
@@ -434,7 +446,7 @@ namespace Tea_Coffe
                 Duration = TimeSpan.FromSeconds(2)  // Длительность анимации
             };
 
-            
+
             leftPanel.Visibility = Visibility.Visible;
             // Запускаем анимацию
             leftPanelFon.BeginAnimation(UIElement.OpacityProperty, DimmingMenuanimation);
@@ -443,7 +455,7 @@ namespace Tea_Coffe
         private void CloseLeftMenu()
         {
             if (leftPanel.Visibility == Visibility.Collapsed)
-            {               
+            {
                 return;
             }
             //Анимация выдвигание левого меню
@@ -475,7 +487,7 @@ namespace Tea_Coffe
             // Запускаем анимацию
             leftPanelFon.BeginAnimation(UIElement.OpacityProperty, DimmingMenuanimation);
             leftMenuPanel.BeginAnimation(MarginProperty, PromotionLeftMenuanimation);
-            
+
         }
 
         private void TextBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -485,7 +497,7 @@ namespace Tea_Coffe
 
         private void Hover_AllTB(object sender, MouseEventArgs e)
         {
-            TextBlock tb  = sender as TextBlock;
+            TextBlock tb = sender as TextBlock;
 
             tb.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0x2F, 0xAC, 0x66));
             RightMenuTeaPanel.Visibility = Visibility.Collapsed;
@@ -563,11 +575,11 @@ namespace Tea_Coffe
 
         private void SortTB_MouseEnter(object sender, MouseEventArgs e)
         {
-            if(sender is Border)
+            if (sender is Border)
             {
-                Border border =  sender as Border;
+                Border border = sender as Border;
                 border.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xED, 0xED, 0xED));
-                
+
             }
         }
 
@@ -575,10 +587,10 @@ namespace Tea_Coffe
         {
             if (sender is Border)
             {
-                
+
                 Border border = sender as Border;
                 TextBlock tb = border.Child as TextBlock;
-                if(tb.Text == mainsortTB.Text)
+                if (tb.Text == mainsortTB.Text)
                 {
                     return;
                 }
@@ -598,9 +610,9 @@ namespace Tea_Coffe
                     return;
                 }
                 mainsortTB.Text = tb.Text;
-                
-               
-                if(border.Name == "popularTB")
+
+
+                if (border.Name == "popularTB")
                 {
                     expensiveTB.Background = Brushes.White; ;
                     cheapTB.Background = Brushes.White;
@@ -625,7 +637,7 @@ namespace Tea_Coffe
             try
             {
                 DataTable dt = new DataTable();
-                if (CurrentTabTB.Text.Split(' ')[0] == "Результаты" || CurrentTabTB.Text.Split(' ')[0] =="Все")
+                if (CurrentTabTB.Text.Split(' ')[0] == "Результаты" || CurrentTabTB.Text.Split(' ')[0] == "Все")
                 {
                     dt = dataBase.SearchProducts(search, sorrt);
                 }
@@ -651,7 +663,7 @@ namespace Tea_Coffe
 
         private async void PlusButtonImageAsync(object sender, MouseButtonEventArgs e)
         {
-            var item = ((FrameworkElement)sender).DataContext as ProductItem;  
+            var item = ((FrameworkElement)sender).DataContext as ProductItem;
 
             if (item.Quantity + item.MinUnit > item.QuantityInStock)
             {
@@ -668,7 +680,7 @@ namespace Tea_Coffe
         }
         private void MinusButtonImage(object sender, MouseButtonEventArgs e)
         {
-            var item = ((FrameworkElement)sender).DataContext as ProductItem; 
+            var item = ((FrameworkElement)sender).DataContext as ProductItem;
 
             if (item.Quantity == item.MinUnit)
             {
@@ -778,13 +790,14 @@ namespace Tea_Coffe
                 {
                     if (Basketcost != value)
                     {
-                        Basketcost = value; 
+                        Basketcost = value;
                         OnPropertyChanged(nameof(Basketcost));
                     }
                 }
             }
             public string AllowChange { get; set; }
-            public int total_quantity { get; set; }
+            public string AllowBasket { get; set; }
+            public int Total_quantity { get; set; }
         }
 
 
@@ -793,7 +806,7 @@ namespace Tea_Coffe
         {
             basketWindow?.Close();
 
-            basketWindow = new BasketWindow(Basket,this);
+            basketWindow = new BasketWindow(Basket, this);
             basketWindow.Show();
         }
 
@@ -872,6 +885,18 @@ namespace Tea_Coffe
         {
             ReportGenerator reportGenerator = new ReportGenerator();
             reportGenerator.ShowDialog();
+        }
+
+        private void ShowBD(object sender, MouseButtonEventArgs e)
+        {
+            Backup backup = new Backup();
+            backup.ShowDialog();
+        }
+
+        private void OpenOrder(object sender, MouseButtonEventArgs e)
+        {
+            ShowOrders showOrders = new ShowOrders();
+            showOrders.ShowDialog();
         }
     }
 }
