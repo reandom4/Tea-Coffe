@@ -38,6 +38,11 @@ namespace Tea_Coffe
             {
                 Users.Visibility = Visibility.Visible;
                 Reports.Visibility = Visibility.Visible;
+                AddProductImage.Visibility = Visibility.Visible;
+            }
+            if(role == "cashier")
+            {
+                BasketImage.Visibility = Visibility.Visible;
             }
         }
         // Метод для отображения данных продуктов
@@ -81,6 +86,7 @@ namespace Tea_Coffe
                     if(curRole == "admin")
                     {
                         item.AllowChange = "Visible";
+
                     }
                     // Добавление объекта ProductItem в список
                     productList.Add(item);
@@ -130,11 +136,21 @@ namespace Tea_Coffe
                         MinUnit = Convert.ToInt32(row["products_unitcol"]),
                         Quantity = Convert.ToInt32(row["products_unitcol"]),
                         QuantityInStock = Convert.ToInt32(row["quantity"]),
-                        Category = row["Product_categoryname"].ToString()
+                        Category = row["Product_categoryname"].ToString(),
+                        AllowChange = "Collapsed"
                     };
                     if (item.QuantityInStock < item.MinUnit)
                     {
                         item.Quantity = 0;
+                        if (curRole != "admin")
+                        {
+                            continue;
+                        }
+                    }
+                    if (curRole == "admin")
+                    {
+                        item.AllowChange = "Visible";
+
                     }
                     // Добавление объекта ProductItem в список
                     productList.Add(item);

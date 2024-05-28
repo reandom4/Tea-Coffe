@@ -180,7 +180,7 @@ CornerRadius="5">
                 </Button>
                 <Border BorderBrush="#e2e3e8" BorderThickness="1,0,1,1" Margin="0,-1,0,100" />
                 <Border BorderBrush="#e2e3e8" BorderThickness="1" Margin="0,99,0,0"/>
-                <Border BorderBrush="#e2e3e8" Margin="220,31,569,31" BorderThickness="1" CornerRadius="5">
+                <Border BorderBrush="#e2e3e8" Margin="220,31,387,31" BorderThickness="1" CornerRadius="5">
                     <Grid Margin="0,0,0,0">
                         <TextBox x:Name="SearchTB" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
          VerticalAlignment="Center"
@@ -241,9 +241,9 @@ CornerRadius="5">
                     </Grid>
                 </Border>
 
-                <Image Margin="0,31,70,31" Source="/Resources/shopping-cart.png" HorizontalAlignment="Right" Width="40" Cursor="Hand" PreviewMouseLeftButtonDown="ShowFullBasket"/>
+                <Image x:Name="BasketImage" Margin="0,31,70,31" Source="/Resources/shopping-cart.png" HorizontalAlignment="Right" Width="40" Cursor="Hand" PreviewMouseLeftButtonDown="ShowFullBasket" Visibility="Collapsed"/>
                 <Image Margin="0,31,140,31" Source="/Resources/user (1).png" HorizontalAlignment="Right" Width="40" Cursor="Hand"/>
-                <Image Margin="1653,31,0,31" Source="/Resources/plus.png" HorizontalAlignment="Left" Width="40" PreviewMouseLeftButtonDown="AddProductButton" Cursor="Hand"/>
+                <Image x:Name="AddProductImage" Margin="1653,31,0,31" Source="/Resources/plus.png" HorizontalAlignment="Left" Width="40" PreviewMouseLeftButtonDown="AddProductButton" Cursor="Hand" Visibility="Collapsed"/>
 
             </Grid>
             <StackPanel Margin="18,150,0,0" Height="auto" VerticalAlignment="Top" HorizontalAlignment="Left" Width="auto" Orientation="Horizontal">

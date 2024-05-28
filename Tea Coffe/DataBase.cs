@@ -63,6 +63,21 @@ namespace Tea_Coffe
 
         }
 
+        public DataTable LoadProductsStorage()
+        {
+
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            connection.Open();
+            string query1 = "SELECT * FROM tea_coffe.product join products_unit on unit = idProducts_unit join product_category on category = idProduct_category order by (quantity / products_unitcol);";
+            MySqlCommand mySqlCommand = new MySqlCommand(query1, connection);
+            MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
+            DataTable dataTable = new DataTable();
+            mySqlDataAdapter.Fill(dataTable);
+            connection.Close();
+            return dataTable;
+
+        }
+
         public DataTable SearchProducts(string search,string sort)
         {
             if(sort == "Популярные")
@@ -384,6 +399,38 @@ namespace Tea_Coffe
             
             connection.Close();
             return(Convert.ToDouble(avg));
+        }
+
+        public DataTable BillProduct(string datestart, string dateend)
+        {
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            connection.Open();
+            string com = $"SELECT p.*, u.*, c.*, " +
+                $"IFNULL(o.total_Position, 0) AS total_Position, " +
+                $"IFNULL(o.total_quantity, 0) AS total_quantity " +
+                $"FROM tea_coffe.product p " +
+                $"LEFT JOIN ( " +
+                $"SELECT oi.product_id, " +
+                $"SUM(oi.quantity) AS total_Position, " +
+                $"SUM(oi.unitquantity) AS total_quantity " +
+                $"FROM tea_coffe.order_items oi " +
+                $"JOIN tea_coffe.order o ON oi.idOrder_Items = o.OrderProducts " +
+                $"WHERE o.date BETWEEN '{datestart}' AND '{dateend}' " +
+                $"GROUP BY oi.product_id " +
+                $") " +
+                $"o ON p.idProducts = o.product_id " +
+                $"JOIN products_unit u ON p.unit = u.idProducts_unit " +
+                $"JOIN product_category c ON p.category = c.idProduct_category " +
+                $"WHERE p.name LIKE '%%' " +
+                $"AND total_Position > 0 " +
+                $"ORDER BY total_quantity DESC ";
+            MySqlCommand mySqlCommand = new MySqlCommand(com, connection);
+            MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
+            DataTable dataTable = new DataTable();
+            mySqlDataAdapter.Fill(dataTable);
+
+            connection.Close();
+            return dataTable;
         }
     }
 

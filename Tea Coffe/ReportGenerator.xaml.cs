@@ -37,12 +37,16 @@ namespace Tea_Coffe
             startDatePicker.DisplayDateEnd = DateTime.Now;
             endDatePicker.DisplayDateEnd = DateTime.Now;
             endDatePicker.DisplayDateStart = DateTime.Now.AddYears(-2);
-            endDatePicker.DisplayDate = DateTime.Now;
-            startDatePicker.DisplayDate = DateTime.Now;
+
+            
         }
 
         private void Generate(object sender, RoutedEventArgs e)
         {
+            if(startDatePicker.SelectedDate.Value == null || endDatePicker.SelectedDate.Value == null)
+            {
+                MessageBox.Show("Укажите даты");
+            }
             try
             {
 
@@ -56,11 +60,57 @@ namespace Tea_Coffe
                 if (reportTypeComboBox.Text == "Отчет о среднем чеке")
                 {
                     double avg = dataBase.AverageBill(startdate, enddate);
-                    wordHelper.createAvg(avg);
+
+                    var wwrd = new Dictionary<string, string>
+                        {
+                                { "{avgsum}" , avg.ToString("0.00") },
+                                { "{datestart}" , startdate },
+                                { "{dateend}" , enddate }
+
+                        };
+                    wordHelper.Process(wwrd);
+                    //wordHelper.createAvg(avg);
+
+
+                }
+                if (reportTypeComboBox.Text == "Отчет о выручке")
+                {
+                    System.Data.DataTable dt = dataBase.BillProduct(startdate, enddate);
+                    List<ProductItem> productList = new List<ProductItem>();
+
+
+                    foreach (DataRow row in dt.Rows)
+                    {
+
+                        // Создание нового объекта ProductItem
+                        ProductItem item = new ProductItem
+                        {
+                            // Присвоение значения свойствам из данных строки таблицы
+                            Id = Convert.ToInt32(row["idProducts"]),
+                            Name = row["name"].ToString(),
+                            ImageData = System.IO.Directory.GetCurrentDirectory() + "\\image\\" + row["photo"].ToString(),
+                            Cost = Convert.ToInt32(row["cost"]),
+                            DefaultCost = Convert.ToInt32(row["cost"]),
+                            Unit = row["Products_unitname"].ToString(),
+                            MinUnit = Convert.ToInt32(row["products_unitcol"]),
+                            Quantity = Convert.ToInt32(row["products_unitcol"]),
+                            QuantityInStock = Convert.ToInt32(row["quantity"]),
+                            Category = row["Product_categoryname"].ToString(),
+                            total_quantity = Convert.ToInt32(row["total_Position"]),
+                            AllowChange = "Collapsed"
+
+                        };
+
+                        // Добавление объекта ProductItem в список
+                        productList.Add(item);
+                        
+                        
+                    }
+                    wordHelper.CreateBill(productList);
                 }
                 if (reportTypeComboBox.Text == "Отчет о наиболее популярных товарах")
                 {
-                    System.Data.DataTable dt = dataBase.SearchProducts("", "Популярные");
+                    System.Data.DataTable dt = dataBase.BillProduct(startdate,enddate);
                     List<ProductItem> productList = new List<ProductItem>();
 
                     int i = 1;
@@ -94,7 +144,7 @@ namespace Tea_Coffe
                             break;
                         }
                     }
-                    wordHelper.createpopular(productList);
+                    wordHelper.Createpopular(productList);
                 }
                 
             }
@@ -103,6 +153,20 @@ namespace Tea_Coffe
                 MessageBox.Show(ex.Message);
             }
 
+        }
+
+
+
+        private void startDatePicker_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if(startDatePicker.SelectedDate != null)
+                endDatePicker.DisplayDateStart = startDatePicker.SelectedDate.Value;
+        }
+
+        private void endDatePicker_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (endDatePicker.SelectedDate != null)
+                startDatePicker.DisplayDateEnd = endDatePicker.SelectedDate.Value;
         }
     }
 }

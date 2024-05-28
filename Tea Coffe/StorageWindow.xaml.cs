@@ -27,7 +27,7 @@ namespace Tea_Coffe
         public StorageWindow()
         {
             InitializeComponent();
-            DataTable dataTable = dataBase.SearchProducts("", "Популярные");
+            DataTable dataTable = dataBase.LoadProductsStorage();
             Showdata(dataTable);
         }
 
