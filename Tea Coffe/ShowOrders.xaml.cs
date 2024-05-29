@@ -73,7 +73,7 @@ namespace Tea_Coffe
         private void OpenFullOrder(object sender, MouseButtonEventArgs e)
         {
             var item = ((FrameworkElement)sender).DataContext as OrderItem;
-            ShowOrderItems showOrderItems = new ShowOrderItems(item.Id);
+            ShowOrderItems showOrderItems = new ShowOrderItems(item.OrderProducts);
             showOrderItems.ShowDialog();
         }
     }
