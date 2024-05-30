@@ -1,19 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using static Tea_Coffe.Window1;
 
 namespace Tea_Coffe
 {
@@ -48,7 +37,7 @@ namespace Tea_Coffe
                         OrderProducts = Convert.ToInt32(row["OrderProducts"]),
                         OrderPrice = row["OrderPrice"].ToString(),
                         Date = row["date"].ToString().ToString(),
-                        NPS = $"{row["name"]} {row["patronymic"]} {row["surname"].ToString().ToCharArray()[0]}." ,
+                        NPS = $"{row["name"]} {row["patronymic"]} {row["surname"].ToString().ToCharArray()[0]}.",
                     };
                     OrderList.Add(item);
                 }

@@ -1,17 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Tea_Coffe
 {
@@ -31,9 +20,9 @@ namespace Tea_Coffe
             try
             {
                 dataBase.Backup();
-                MessageBox.Show("Бэкап успешно создан","Backup",MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Бэкап успешно создан", "Backup", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -55,7 +44,7 @@ namespace Tea_Coffe
                     MessageBox.Show("Бэкап успешно загружен", "Backup", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
 
-                
+
             }
             catch (Exception ex)
             {

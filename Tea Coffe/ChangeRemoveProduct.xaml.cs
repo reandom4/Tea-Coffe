@@ -31,7 +31,7 @@ namespace Tea_Coffe
             {
                 MessageBox.Show(ex.Message);
             }
-            
+
         }
         // Обработчик для закрытия окна при нажатии на изображение
         private void Close(object sender, MouseButtonEventArgs e)

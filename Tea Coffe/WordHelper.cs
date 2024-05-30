@@ -3,9 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Windows;
-using System.Windows.Controls;
 using static Tea_Coffe.Window1;
 using Word = Microsoft.Office.Interop.Word;
 
@@ -31,7 +28,7 @@ namespace Tea_Coffe
             doc.PageSetup.TopMargin = wordApp.CentimetersToPoints(1f);
             doc.PageSetup.BottomMargin = wordApp.CentimetersToPoints(1f);
 
-            
+
             // Создаем новый параграф и добавляем текст перед таблицей
             Word.Paragraph titlePara2 = doc.Paragraphs.Add();
             titlePara2.Range.Text = "Магазин чая и кофе";
@@ -73,8 +70,8 @@ namespace Tea_Coffe
             table.Cell(items.Count + 1, 1).Range.ParagraphFormat.SpaceAfter = 0;
             table.Cell(items.Count + 1, 2).Range.ParagraphFormat.SpaceAfter = 0;
             table.Cell(items.Count + 1, 3).Range.ParagraphFormat.SpaceAfter = 0;
-            
-            
+
+
 
             Word.Paragraph textAfterTable = doc.Paragraphs.Add();
             textAfterTable.Format.Alignment = Word.WdParagraphAlignment.wdAlignParagraphLeft; // Выравнивание по правому краю
@@ -141,7 +138,7 @@ namespace Tea_Coffe
             averageCheckParagraph.Range.Font.Size = 16;
             averageCheckParagraph.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
             averageCheckParagraph.Range.InsertParagraphAfter();
-            
+
             // Сохраняем документ
             string exePath = Assembly.GetExecutingAssembly().Location;
             string programPath = Path.GetDirectoryName(exePath);
@@ -156,7 +153,7 @@ namespace Tea_Coffe
             Console.WriteLine($"Документ успешно создан и сохранен по пути: {filePath}");
         }
 
-        public void Createpopular(List<ProductItem> items )
+        public void Createpopular(List<ProductItem> items)
         {
             Word.Application wordApp = new Word.Application
             {
@@ -187,7 +184,7 @@ namespace Tea_Coffe
             Word.Paragraph paradoc = doc.Paragraphs.Add();
 
             // Добавляем таблицу
-            Word.Table table = doc.Tables.Add(paradoc.Range, items.Count+1, 5);
+            Word.Table table = doc.Tables.Add(paradoc.Range, items.Count + 1, 5);
 
             table.Borders.Enable = 1;
             table.Range.Font.Size = 8; // Размер шрифта для всей таблицы
@@ -205,22 +202,22 @@ namespace Tea_Coffe
             table.Cell(1, 3).Range.Text = "Товар";
             table.Cell(1, 4).Range.Text = "Заказано";
             table.Cell(1, 5).Range.Text = "Сумма";
-            
+
             for (int i = 0; i < items.Count; i++)
             {
-                table.Cell(i + 2, 1).Range.Text = (i+1).ToString();
+                table.Cell(i + 2, 1).Range.Text = (i + 1).ToString();
 
                 table.Cell(i + 2, 2).Range.Text = items[i].Category;
 
                 table.Cell(i + 2, 3).Range.Text = items[i].Name;
-                
+
                 table.Cell(i + 2, 4).Range.Text = items[i].Total_quantity.ToString() + items[i].Unit;
 
                 table.Cell(i + 2, 5).Range.Text = (items[i].Cost * items[i].Total_quantity / items[i].MinUnit).ToString("0.00") + "₽";
-                
+
             }
 
-            
+
 
             // Сохраняем документ
             string exePath = Assembly.GetExecutingAssembly().Location;
@@ -325,7 +322,7 @@ namespace Tea_Coffe
             string programPath = Path.GetDirectoryName(exePath);
             string fileInfo = Path.Combine(programPath, "avg.docx");
             Word.Application app = new Word.Application();
-            
+
 
             //создание экземпляра класса
             app = new Word.Application();

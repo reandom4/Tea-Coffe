@@ -1,19 +1,8 @@
-﻿using Microsoft.Office.Interop.Word;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using static Tea_Coffe.Window1;
 
 namespace Tea_Coffe
@@ -38,12 +27,12 @@ namespace Tea_Coffe
             endDatePicker.DisplayDateEnd = DateTime.Now;
             endDatePicker.DisplayDateStart = DateTime.Now.AddYears(-2);
 
-            
+
         }
 
         private void Generate(object sender, RoutedEventArgs e)
         {
-            if(startDatePicker.SelectedDate.Value == null || endDatePicker.SelectedDate.Value == null)
+            if (startDatePicker.SelectedDate.Value == null || endDatePicker.SelectedDate.Value == null)
             {
                 MessageBox.Show("Укажите даты");
             }
@@ -103,14 +92,14 @@ namespace Tea_Coffe
 
                         // Добавление объекта ProductItem в список
                         productList.Add(item);
-                        
-                        
+
+
                     }
                     wordHelper.CreateBill(productList);
                 }
                 if (reportTypeComboBox.Text == "Отчет о наиболее популярных товарах")
                 {
-                    System.Data.DataTable dt = dataBase.BillProduct(startdate,enddate);
+                    System.Data.DataTable dt = dataBase.BillProduct(startdate, enddate);
                     List<ProductItem> productList = new List<ProductItem>();
 
                     int i = 1;
@@ -146,9 +135,9 @@ namespace Tea_Coffe
                     }
                     wordHelper.Createpopular(productList);
                 }
-                
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -159,7 +148,7 @@ namespace Tea_Coffe
 
         private void StartDatePicker_MouseLeave(object sender, MouseEventArgs e)
         {
-            if(startDatePicker.SelectedDate != null)
+            if (startDatePicker.SelectedDate != null)
                 endDatePicker.DisplayDateStart = startDatePicker.SelectedDate.Value;
         }
 

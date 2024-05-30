@@ -1,17 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using static Tea_Coffe.Window1;
 
 namespace Tea_Coffe
@@ -82,7 +74,7 @@ namespace Tea_Coffe
 
             try
             {
-               
+
                 DataTable dt = dataBase.SearchProducts(search, "quantity");
                 Showdata(dt);
             }
@@ -96,14 +88,14 @@ namespace Tea_Coffe
         {
             try
             {
-                
+
                 ProductItem item = ((FrameworkElement)sender).DataContext as ProductItem;
                 dataBase.ChangeQuantity(item);
-                MessageBox.Show("Успешно изменено","Изменения",MessageBoxButton.OK);
+                MessageBox.Show("Успешно изменено", "Изменения", MessageBoxButton.OK);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error",MessageBoxButton.OK,MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -150,13 +142,13 @@ namespace Tea_Coffe
                         Quantity = Convert.ToInt32(row["quantity"]),
                         QuantityInStock = Convert.ToInt32(row["quantity"])
                     };
-                    
+
                     // Добавление объекта ProductItem в список
                     productList.Add(item);
                 }
                 wordHelper.CreateStorage(productList);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }

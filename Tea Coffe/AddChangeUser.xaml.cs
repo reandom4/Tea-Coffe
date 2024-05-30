@@ -167,8 +167,7 @@ namespace Tea_Coffe
 
         private void Name_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            TextBox textBox = sender as TextBox;
-            if (textBox == null || string.IsNullOrEmpty(textBox.Text))
+            if (!(sender is TextBox textBox) || string.IsNullOrEmpty(textBox.Text))
                 return;
 
             int caretIndex = textBox.CaretIndex;

@@ -1,23 +1,17 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using MySql.Data.MySqlClient;
-using static Tea_Coffe.Window1;
-using System.Transactions;
-using System.Collections;
-using MySqlX.XDevAPI.Common;
-using System.Security.Cryptography;
-using System.Reflection;
 using System.IO;
+using System.Reflection;
+using System.Security.Cryptography;
+using System.Text;
+using System.Transactions;
+using static Tea_Coffe.Window1;
 
 namespace Tea_Coffe
 {
-    
+
     internal class DataBase
     {
         public string connectionString = "Server='localhost';database='tea_coffe';uid='root';pwd='root';";
@@ -94,17 +88,17 @@ namespace Tea_Coffe
 
         }
 
-        public DataTable SearchProducts(string search,string sort)
+        public DataTable SearchProducts(string search, string sort)
         {
-            if(sort == "Популярные")
+            if (sort == "Популярные")
             {
                 sort = "total_quantity DESC";
             }
-            if(sort == "Сначала дешёвые")
+            if (sort == "Сначала дешёвые")
             {
                 sort = "cost";
             }
-            if(sort == "Сначала дорогие")
+            if (sort == "Сначала дорогие")
             {
                 sort = "cost DESC";
             }
@@ -136,7 +130,7 @@ namespace Tea_Coffe
             }
             MySqlConnection connection = new MySqlConnection(connectionString);
             connection.Open();
-            string query1 = $"SELECT p.*,u.*,c.*,IFNULL(o.total_Position, 0) AS total_Position,IFNULL(o.total_quantity, 0) AS total_quantity FROM tea_coffe.product p LEFT JOIN (SELECT product_id, SUM(quantity) AS total_Position, Sum(unitquantity) AS total_quantity FROM tea_coffe.order_items GROUP BY product_id) o ON p.idProducts = o.product_id JOIN products_unit u ON p.unit = u.idProducts_unit JOIN product_category c ON p.category = c.idProduct_category Where name like '%{search}%' Order by {sort} Limit {itemontab} Offset {curtab*itemontab}; ";
+            string query1 = $"SELECT p.*,u.*,c.*,IFNULL(o.total_Position, 0) AS total_Position,IFNULL(o.total_quantity, 0) AS total_quantity FROM tea_coffe.product p LEFT JOIN (SELECT product_id, SUM(quantity) AS total_Position, Sum(unitquantity) AS total_quantity FROM tea_coffe.order_items GROUP BY product_id) o ON p.idProducts = o.product_id JOIN products_unit u ON p.unit = u.idProducts_unit JOIN product_category c ON p.category = c.idProduct_category Where name like '%{search}%' Order by {sort} Limit {itemontab} Offset {curtab * itemontab}; ";
             MySqlCommand mySqlCommand = new MySqlCommand(query1, connection);
             MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
             DataTable dataTable = new DataTable();
@@ -171,7 +165,7 @@ namespace Tea_Coffe
             return dataTable;
 
         }
-        public DataTable SearchFiltrProducts(string search,string Filtr, string sort)
+        public DataTable SearchFiltrProducts(string search, string Filtr, string sort)
         {
             if (sort == "Популярные")
             {
@@ -185,7 +179,7 @@ namespace Tea_Coffe
             {
                 sort = "cost DESC";
             }
-            if(search != "")
+            if (search != "")
             {
                 search = $"And p.name ='{search}'";
             }
@@ -200,7 +194,7 @@ namespace Tea_Coffe
             return dataTable;
 
         }
-        public DataTable BigFiltr(string Filtr, string sort, string search, int limit,int curtab)
+        public DataTable BigFiltr(string Filtr, string sort, string search, int limit, int curtab)
         {
             if (sort == "Популярные")
             {
@@ -241,7 +235,7 @@ namespace Tea_Coffe
                 $"Where  p.name like '%{search}%' " +
                 $"{Filtr} " +
                 $"Order by {sort} " +
-                $"limit {limit} offset {curtab*limit};";
+                $"limit {limit} offset {curtab * limit};";
             MySqlCommand mySqlCommand = new MySqlCommand(bigquery, connection);
             MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
             DataTable dataTable = new DataTable();
@@ -292,13 +286,13 @@ namespace Tea_Coffe
                 $"Where  p.name like '%{search}%' " +
                 $"{Filtr} " +
                 $"Order by {sort} ; ";
-            
+
             MySqlCommand mySqlCommand = new MySqlCommand(bigquery, connection);
             MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
             DataTable dataTable = new DataTable();
             mySqlDataAdapter.Fill(dataTable);
             connection.Close();
-            return Convert.ToInt32( dataTable.Rows[0][0].ToString());
+            return Convert.ToInt32(dataTable.Rows[0][0].ToString());
 
         }
 
@@ -330,7 +324,7 @@ namespace Tea_Coffe
             return dataTable;
 
         }
-        public DataTable CacaoFiltrProducts(string Filtr1,string Filtr2, string sort)
+        public DataTable CacaoFiltrProducts(string Filtr1, string Filtr2, string sort)
         {
             if (sort == "Популярные")
             {
@@ -356,7 +350,7 @@ namespace Tea_Coffe
 
         }
 
-        public bool AddOrder(List<ProductItem> items,int employeid,DateTime lastDate)
+        public bool AddOrder(List<ProductItem> items, int employeid, DateTime lastDate)
         {
             bool result = false;
             using (TransactionScope transaction = new TransactionScope())
@@ -371,14 +365,14 @@ namespace Tea_Coffe
                 int fulprice = 0;
                 foreach (ProductItem item in items)
                 {
-                    command2 = new MySqlCommand($"INSERT INTO `tea_coffe`.`order_items` (`idOrder_Items`, `product_id`, `quantity` , `unitquantity`) VALUES('{lastId}', '{item.Id}', '{item.BasketQuantity}','{item.BasketQuantity/item.MinUnit}');", connection);
+                    command2 = new MySqlCommand($"INSERT INTO `tea_coffe`.`order_items` (`idOrder_Items`, `product_id`, `quantity` , `unitquantity`) VALUES('{lastId}', '{item.Id}', '{item.BasketQuantity}','{item.BasketQuantity / item.MinUnit}');", connection);
                     command2.ExecuteNonQuery();
                     command21 = new MySqlCommand($"UPDATE `tea_coffe`.`product` SET `quantity` = `quantity`- {item.BasketQuantity} WHERE (`idProducts` = '{item.Id}');", connection);
                     command21.ExecuteNonQuery();
                     fulprice += item.BasketCost;
                 }
 
-                
+
                 string date = lastDate.ToString("yyyy.MM.dd HH:mm:ss");
                 // Запрос 2
                 MySqlCommand command3 = new MySqlCommand($"INSERT INTO `tea_coffe`.`order` (`OrderProducts`, `OrderPrice`, `employeid`, `date`) VALUES ('{lastId}', '{fulprice}', '{employeid}','{date}');", connection);
@@ -415,7 +409,7 @@ namespace Tea_Coffe
                             string storedSalt = reader.GetString(1);
                             string role = reader.GetString(2);
                             string hashedPassword = HashPassword(password, storedSalt);
-                            if( storedHash == hashedPassword)
+                            if (storedHash == hashedPassword)
                             {
                                 return role;
                             }
@@ -515,7 +509,7 @@ namespace Tea_Coffe
         public void ChangeUser(User user)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string com = "";
+            string com;
             if (user.Password == "" || user.Password == null)
             {
                 com = $"UPDATE `tea_coffe`.`user` SET `login` = '{user.Login}', `surname` = '{user.Surname}', `name` = '{user.Name}', `patronymic` = '{user.Patronymic}', `role` = (SELECT idUser_role from user_role where User_roleName = '{user.Role}') WHERE (`idUser` = '{user.IdUser}');";
@@ -541,7 +535,7 @@ namespace Tea_Coffe
             connection.Close();
         }
 
-        public double AverageBill(string datestart,string dateend)
+        public double AverageBill(string datestart, string dateend)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
             connection.Open();
@@ -551,9 +545,9 @@ namespace Tea_Coffe
             DataTable dataTable = new DataTable();
             mySqlDataAdapter.Fill(dataTable);
             string avg = dataTable.Rows[0][0].ToString();
-            
+
             connection.Close();
-            return(Convert.ToDouble(avg));
+            return (Convert.ToDouble(avg));
         }
 
         public DataTable BillProduct(string datestart, string dateend)
@@ -593,7 +587,7 @@ namespace Tea_Coffe
             string exePath = Assembly.GetExecutingAssembly().Location;
             string programPath = Path.GetDirectoryName(exePath);
             string file = Path.Combine(programPath, "Backup", $"backup{DateTime.Now:dd.MM.yyyy HH.mm.ss}.sql");
-            
+
             using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
                 using (MySqlCommand cmd = new MySqlCommand())

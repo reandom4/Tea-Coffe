@@ -1,18 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using static Tea_Coffe.Window1;
 
 namespace Tea_Coffe
@@ -26,14 +17,14 @@ namespace Tea_Coffe
 
         readonly Window1 mainWindow;
         // Конструктор для инициализации окна с подробной информацией о продукте
-        public FullProductInfo(ProductItem item,Window1 main,string role)
+        public FullProductInfo(ProductItem item, Window1 main, string role)
         {
             InitializeComponent();
             mainWindow = main;
             try
             {
                 productItem = item;
-                
+
                 name.Text = productItem.Name;
                 cost.Text = productItem.Cost.ToString();
 
@@ -77,7 +68,7 @@ namespace Tea_Coffe
                     AddToBasketGrid.Visibility = Visibility.Collapsed;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -104,8 +95,8 @@ namespace Tea_Coffe
             productItem.Cost += productItem.DefaultCost;
             Quantity.Content = productItem.Quantity;
             cost.Text = productItem.Cost.ToString();
-            
-            
+
+
 
         }
         // Уменьшение количества продукта при нажатии кнопки "-"
@@ -128,7 +119,7 @@ namespace Tea_Coffe
             {
 
                 var existingItem = mainWindow.Basket.FirstOrDefault(p => p.Id == productItem.Id);
-                
+
                 if (existingItem != null)
                 {
                     // Увеличиваем количество товара в корзине

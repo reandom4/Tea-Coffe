@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 
 using System.Windows;
-using System.Windows.Controls;
 
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -19,7 +18,7 @@ namespace Tea_Coffe
     /// <summary>
     /// Логика взаимодействия для authorization.xaml
     /// </summary>
-    
+
     public partial class Authorization : Window
     {
         readonly DataBase database = new DataBase();
@@ -46,26 +45,26 @@ namespace Tea_Coffe
             {
                 string login = textBoxLogin.Text;
                 string password = passwordBox.Password;
-                if(passwordBox.Visibility == Visibility.Collapsed )
+                if (passwordBox.Visibility == Visibility.Collapsed)
                 {
                     password = PasswordTextBox.Text;
                 }
                 string role = database.ValidateLogin(login, password);
                 if (role != null)
                 {
-                    Window1 window1 = new Window1(login,role);
+                    Window1 window1 = new Window1(login, role);
                     window1.Show();
                     this.Close();
                 }
                 else
                 {
                     ErrorMessage.Visibility = Visibility.Visible;
-                    if(firsterr)
+                    if (firsterr)
                     {
                         CaptchaPanel.Visibility = Visibility.Visible;
                         Refreshimage();
                     }
-                    firsterr= true;
+                    firsterr = true;
                 }
             }
             catch (Exception ex)
@@ -115,7 +114,7 @@ namespace Tea_Coffe
             Random rnd = new Random();
 
             //Генерируем текст
-            
+
 
             //Создадим изображение
             Bitmap result = new Bitmap(Width, Height);

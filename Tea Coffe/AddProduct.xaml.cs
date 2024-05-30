@@ -1,20 +1,13 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using static Tea_Coffe.Window1;
 
 namespace Tea_Coffe
@@ -190,7 +183,7 @@ namespace Tea_Coffe
                     MessageBox.Show("Описание не заполненно");
                     return;
                 }
-                
+
                 if (cost.Text == "0" || cost.Text == "")
                 {
                     MessageBox.Show("Цена не заполненно");
@@ -203,7 +196,7 @@ namespace Tea_Coffe
                 productItem.Taste_and_aroma = taste_and_aroma.Text;
                 productItem.ImageData = imgname;
                 dataBase.AddProduct(productItem);
-                MessageBox.Show(productItem.Name+" Успешно добавлен");
+                MessageBox.Show(productItem.Name + " Успешно добавлен");
                 this.Close();
             }
             catch (Exception ex)

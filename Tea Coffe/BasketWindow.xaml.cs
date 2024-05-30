@@ -1,17 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Xml.Linq;
 using static Tea_Coffe.Window1;
 
 namespace Tea_Coffe
@@ -25,7 +16,7 @@ namespace Tea_Coffe
         readonly WordHelper wordHelper = new WordHelper();
         readonly Window1 Window1;
         readonly int userid = 0;
-        public BasketWindow(List<ProductItem> items, Window1 main,int id)
+        public BasketWindow(List<ProductItem> items, Window1 main, int id)
         {
             InitializeComponent();
             try
@@ -106,11 +97,11 @@ namespace Tea_Coffe
 
                 FullBasketCost1.Text = FullCost.ToString() + "₽";
                 FullBasketCost2.Text = FullCost.ToString() + "₽";
-                if(productItem.Count == 1) 
+                if (productItem.Count == 1)
                 {
                     FullBasketQuantity.Text = productItem.Count.ToString() + " товар";
                 }
-                else if(productItem.Count >= 2 && productItem.Count <= 4)
+                else if (productItem.Count >= 2 && productItem.Count <= 4)
                 {
                     FullBasketQuantity.Text = productItem.Count.ToString() + " товара";
                 }
@@ -118,15 +109,15 @@ namespace Tea_Coffe
                 {
                     FullBasketQuantity.Text = productItem.Count.ToString() + " товаров";
                 }
-                if(productItem.Count == 0)
+                if (productItem.Count == 0)
                 {
                     emptycart.Visibility = Visibility.Visible;
                 }
                 else
-                { 
+                {
                     emptycart.Visibility = Visibility.Collapsed;
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -144,12 +135,12 @@ namespace Tea_Coffe
                 {
                     List<ProductItem> pr = ProductView.ItemsSource as List<ProductItem>;
                     pr.Remove(item);
-                    
+
                     ProductView.ItemsSource = null;
                     ProductView.ItemsSource = pr;
                     Count_menu(pr);
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -163,10 +154,10 @@ namespace Tea_Coffe
             {
                 List<ProductItem> pr = ProductView.ItemsSource as List<ProductItem>;
                 DateTime dateTime = DateTime.Now;
-                bool result = DataBase.AddOrder(pr,userid, dateTime);
-                if(result)
+                bool result = DataBase.AddOrder(pr, userid, dateTime);
+                if (result)
                 {
-                    
+
                     wordHelper.Creatcheque(pr, dateTime);
                     pr.Clear();
                     Window1.Showdata();
