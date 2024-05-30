@@ -7,154 +7,205 @@
         mc:Ignorable="d"
         Title="Window1" Height="1080" Width="1920" WindowStartupLocation="CenterScreen" WindowState="Maximized" MinWidth="1165" Closed="Window_Closed">
 
-    <ScrollViewer PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" >
+    <ScrollViewer x:Name="scrollViewer" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" >
         <Grid Background="White"  >
-            <ListView x:Name="ProductView" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,200,0,0"   BorderBrush="{x:Null}" Height="auto" VerticalAlignment="Top" >
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ListViewItem">
-                                    <Border BorderBrush="#e2e3e8" BorderThickness="1" Margin="5">
-                                        <ContentPresenter/>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </ListView.ItemContainerStyle>
-                <ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <UniformGrid Columns="5"/>
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Height="490" Width="360">
+            <StackPanel Margin="10,200,0,10">
+                <ListView x:Name="ProductView" d:ItemsSource="{d:SampleData ItemCount=5}" BorderBrush="{x:Null}" Height="auto" VerticalAlignment="Top" >
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListViewItem">
+                                        <Border BorderBrush="#e2e3e8" BorderThickness="1" Margin="5">
+                                            <ContentPresenter/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="5"/>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Height="490" Width="360">
 
-                            <Image Source="{Binding ImageData}" VerticalAlignment="Top" Stretch="UniformToFill" Height="340" Margin="10,10,10,0" PreviewMouseLeftButtonDown="OpenFullProductMenu" Cursor="Hand" />
-                            <Button Background="#FF2FAC66" BorderBrush="{x:Null}" Foreground="White" FontFamily="Calibri" HorizontalAlignment="Right" Width="40" Margin="0,10,10,0" Click="ChangeProduct" Visibility="{Binding AllowChange}" Height="40" VerticalAlignment="Top">
-                                <Button.Template>
-                                    <ControlTemplate TargetType="{x:Type Button}">
-                                        <Border x:Name="border"
+                                <Image Source="{Binding ImageData}" VerticalAlignment="Top" Stretch="UniformToFill" Height="340" Margin="10,10,10,0" PreviewMouseLeftButtonDown="OpenFullProductMenu" Cursor="Hand" />
+                                <Button Background="#FF2FAC66" BorderBrush="{x:Null}" Foreground="White" FontFamily="Calibri" HorizontalAlignment="Right" Width="40" Margin="0,10,10,0" Click="ChangeProduct" Visibility="{Binding AllowChange}" Height="40" VerticalAlignment="Top">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border x:Name="border"
 Background="{TemplateBinding Background}"
 CornerRadius="5">
-                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        </Border>
-                                        <ControlTemplate.Triggers>
-                                            <!-- Триггер для изменения внешнего вида при наведении на кнопку -->
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter TargetName="border" Property="Background" Value="#1f8b4f"/>
-                                                <Setter Property="Cursor" Value="Hand"/>
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Button.Template>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="/Resources/pencil (1).png" Width="26" Height="26"/>
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <!-- Триггер для изменения внешнего вида при наведении на кнопку -->
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="border" Property="Background" Value="#1f8b4f"/>
+                                                    <Setter Property="Cursor" Value="Hand"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Resources/pencil (1).png" Width="26" Height="26"/>
 
+                                    </StackPanel>
+                                </Button>
+                                <TextBlock Text="{Binding Name}" Height="46" FontSize="14" TextWrapping="Wrap" Margin="10,360,10,0" PreviewMouseLeftButtonDown="OpenFullProductMenu" Cursor="Hand" VerticalAlignment="Top"/>
+                                <StackPanel  Orientation="Horizontal" Margin="10,402,10,0" Height="39" VerticalAlignment="Top">
+                                    <TextBlock Text="{Binding Cost}" FontSize="24" TextWrapping="NoWrap" FontWeight="Bold"  Height="46" VerticalAlignment="Top" />
+                                    <TextBlock Text="₽" FontSize="24" Margin="6,0,0,0"></TextBlock>
                                 </StackPanel>
-                            </Button>
-                            <TextBlock Text="{Binding Name}" Height="46" FontSize="14" TextWrapping="Wrap" Margin="10,360,10,0" PreviewMouseLeftButtonDown="OpenFullProductMenu" Cursor="Hand" VerticalAlignment="Top"/>
-                            <StackPanel  Orientation="Horizontal" Margin="10,402,10,0" Height="39" VerticalAlignment="Top">
-                                <TextBlock Text="{Binding Cost}" FontSize="24" TextWrapping="NoWrap" FontWeight="Bold"  Height="46" VerticalAlignment="Top" />
-                                <TextBlock Text="₽" FontSize="24" Margin="6,0,0,0"></TextBlock>
-                            </StackPanel>
 
 
-                            <Grid Margin="0,441,0,0" Height="50" VerticalAlignment="Top" Visibility="{Binding AllowBasket}">
-                                <Button Content="В корзину" Background="#FF2FAC66" BorderBrush="{x:Null}" Foreground="White" FontSize="14" BorderThickness="0,1,1,1" SnapsToDevicePixels="False" Margin="170,8,10,8" Click="InBasketButton">
-                                    <Button.Style>
-                                        <Style TargetType="Button">
-                                            <Setter Property="Template">
-                                                <Setter.Value>
-                                                    <ControlTemplate TargetType="Button">
-                                                        <Border x:Name="border"
+                                <Grid Margin="0,441,0,0" Height="50" VerticalAlignment="Top" Visibility="{Binding AllowBasket}">
+                                    <Button Content="В корзину" Background="#FF2FAC66" BorderBrush="{x:Null}" Foreground="White" FontSize="14" BorderThickness="0,1,1,1" SnapsToDevicePixels="False" Margin="170,8,10,8" Click="InBasketButton">
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="Button">
+                                                            <Border x:Name="border"
                                 Background="{TemplateBinding Background}"
                                 CornerRadius="5">
-                                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                        </Border>
-                                                        <ControlTemplate.Triggers>
-                                                            <EventTrigger RoutedEvent="Click">
-                                                                <BeginStoryboard>
-                                                                    <Storyboard>
-                                                                        <!-- Анимация изменения цвета фона при нажатии -->
-                                                                        <ColorAnimation
+                                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                            </Border>
+                                                            <ControlTemplate.Triggers>
+                                                                <EventTrigger RoutedEvent="Click">
+                                                                    <BeginStoryboard>
+                                                                        <Storyboard>
+                                                                            <!-- Анимация изменения цвета фона при нажатии -->
+                                                                            <ColorAnimation
                                             Storyboard.TargetName="border"
                                             Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
                                             To="#FF808080" Duration="0:0:0.1" />
-                                                                        <ColorAnimation
+                                                                            <ColorAnimation
                                             Storyboard.TargetName="border"
                                             Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
                                             To="#FF2FAC66" Duration="0:0:0.1" BeginTime="0:0:0.1" />
-                                                                    </Storyboard>
-                                                                </BeginStoryboard>
-                                                            </EventTrigger>
-                                                            <!-- Триггер для изменения внешнего вида при наведении на кнопку -->
+                                                                        </Storyboard>
+                                                                    </BeginStoryboard>
+                                                                </EventTrigger>
+                                                                <!-- Триггер для изменения внешнего вида при наведении на кнопку -->
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter TargetName="border" Property="Background" Value="#1f8b4f"/>
+                                                                    <Setter Property="Cursor" Value="Hand"/>
+                                                                </Trigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+                                    <Border BorderBrush="#e2e3e8" BorderThickness="1" Margin="10,8,200,8" CornerRadius="5">
+                                        <Grid>
+                                            <Image Source="/Resources/plus.png" Margin="124,0,8,0" Height="16" VerticalAlignment="Center" MouseLeftButtonDown="PlusButtonImageAsync">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
                                                             <Trigger Property="IsMouseOver" Value="True">
-                                                                <Setter TargetName="border" Property="Background" Value="#1f8b4f"/>
                                                                 <Setter Property="Cursor" Value="Hand"/>
                                                             </Trigger>
-                                                        </ControlTemplate.Triggers>
-                                                    </ControlTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style>
-                                    </Button.Style>
-                                </Button>
-                                <Border BorderBrush="#e2e3e8" BorderThickness="1" Margin="10,8,200,8" CornerRadius="5">
-                                    <Grid>
-                                        <Image Source="/Resources/plus.png" Margin="124,0,8,0" Height="16" VerticalAlignment="Center" MouseLeftButtonDown="PlusButtonImageAsync">
-                                            <Image.Style>
-                                                <Style TargetType="Image">
-                                                    <Style.Triggers>
-                                                        <Trigger Property="IsMouseOver" Value="True">
-                                                            <Setter Property="Cursor" Value="Hand"/>
-                                                        </Trigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Image.Style>
-                                        </Image>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
 
-                                        <Image Source="/Resources/minus.png" Margin="9,0,123,0" Height="16" VerticalAlignment="Center" MouseLeftButtonDown="MinusButtonImage">
-                                            <Image.Style>
-                                                <Style TargetType="Image">
-                                                    <Style.Triggers>
-                                                        <Trigger Property="IsMouseOver" Value="True">
-                                                            <Setter Property="Cursor" Value="Hand"/>
-                                                        </Trigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Image.Style>
-                                        </Image>
-                                        <Grid Margin="30,0,24,0" HorizontalAlignment="Center">
-                                            <StackPanel Orientation="Horizontal">
-                                                <Label Content="{Binding Quantity}" VerticalAlignment="Center" Height="32" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="auto" />
-                                                <Label Content="{Binding Unit}" Height="32" Width="auto" VerticalContentAlignment="Center" VerticalAlignment="Center" Padding="0,0,0,0" />
-                                            </StackPanel>
+                                            <Image Source="/Resources/minus.png" Margin="9,0,123,0" Height="16" VerticalAlignment="Center" MouseLeftButtonDown="MinusButtonImage">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Cursor" Value="Hand"/>
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
+                                            <Grid Margin="30,0,24,0" HorizontalAlignment="Center">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="{Binding Quantity}" VerticalAlignment="Center" Height="32" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="auto" />
+                                                    <Label Content="{Binding Unit}" Height="32" Width="auto" VerticalContentAlignment="Center" VerticalAlignment="Center" Padding="0,0,0,0" />
+                                                </StackPanel>
+                                            </Grid>
+
                                         </Grid>
 
-                                    </Grid>
 
 
-
-                                </Border>
-                                <Grid x:Name="MaxQuantity" Margin="-3,8,0,0" Background="#7F000000" Width="353" HorizontalAlignment="Left" Visibility="{Binding MaxQuantity}">
-                                    <TextBlock FontSize="12" Foreground="White" TextWrapping="Wrap" Margin="3,0,3,19">
+                                    </Border>
+                                    <Grid x:Name="MaxQuantity" Margin="-3,8,0,0" Background="#7F000000" Width="353" HorizontalAlignment="Left" Visibility="{Binding MaxQuantity}">
+                                        <TextBlock FontSize="12" Foreground="White" TextWrapping="Wrap" Margin="3,0,3,19">
                                         <Run Text="Сейчас в наличии только"/>
                                         <Run Text="{Binding Quantity}"/>
                                         <Run Text="{Binding Unit}"/>
-                                    </TextBlock>
+                                        </TextBlock>
 
-                                    <TextBlock Text="" FontSize="12" Foreground="White" TextWrapping="Wrap" Margin="3,14,3,0"/>
+                                        <TextBlock Text="" FontSize="12" Foreground="White" TextWrapping="Wrap" Margin="3,14,3,0"/>
+                                    </Grid>
                                 </Grid>
+
                             </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <Grid x:Name="pagGrid" Margin="0,0,0,0" >
+                    <StackPanel Orientation="Horizontal" Width="auto" HorizontalAlignment="Center">
+                        <Button x:Name="PagLeftButton" Background="#FFC7C7C7" BorderBrush="{x:Null}" Foreground="White" FontFamily="Calibri" HorizontalAlignment="Left" Width="40"  Click="PagLeft" Visibility="{Binding AllowChange}" Height="40" VerticalAlignment="Center" IsEnabled="False" Margin="0,0,3,0">
+                            <Button.Template>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border x:Name="border"
+Background="{TemplateBinding Background}"
+CornerRadius="25">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <!-- Триггер для изменения внешнего вида при наведении на кнопку -->
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="border" Property="Background" Value="#1f8b4f"/>
+                                            <Setter Property="Cursor" Value="Hand"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Resources/left-arrow.png" Width="26" Height="26"/>
 
-                        </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                            </StackPanel>
+                        </Button>
+                        <TextBlock x:Name="PagTB" Text="1/1" FontSize="36" Padding="0,0,0,6"/>
+                        <Button x:Name="PagRightButton" Background="#FF2FAC66" BorderBrush="{x:Null}" Foreground="White" FontFamily="Calibri" HorizontalAlignment="Left" Width="40"  Click="PagRight" Visibility="{Binding AllowChange}" Height="40" VerticalAlignment="Center" Margin="3,0,0,0">
+                            <Button.Template>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border x:Name="border"
+Background="{TemplateBinding Background}"
+CornerRadius="25">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <!-- Триггер для изменения внешнего вида при наведении на кнопку -->
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="border" Property="Background" Value="#1f8b4f"/>
+                                            <Setter Property="Cursor" Value="Hand"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Resources/right-arrow.png" Width="26" Height="26"/>
 
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                </Grid>
+            </StackPanel>
             <Grid Margin="0,30,0,0" Height="100" VerticalAlignment="Top"  >
                 <Button HorizontalAlignment="Left" Margin="20,24,0,24" Height="38" Width="150" Background="#FF2FAC66" BorderBrush="{x:Null}" Foreground="White" FontFamily="Calibri" Click="ShowCatalogButton">
                     <StackPanel Orientation="Horizontal">
@@ -216,7 +267,7 @@ CornerRadius="5">
                                 </Style>
                             </TextBox.Style>
                         </TextBox>
-                        <Button Background="#FF2FAC66" BorderBrush="{x:Null}" Foreground="White" FontFamily="Calibri" HorizontalAlignment="Right" Width="36">
+                        <Button Background="#FF2FAC66" BorderBrush="{x:Null}" Foreground="White" FontFamily="Calibri" HorizontalAlignment="Right" Width="36" Click="SearchButtonClick">
                             <Button.Template>
                                 <ControlTemplate TargetType="{x:Type Button}">
                                     <Border x:Name="border"
@@ -261,15 +312,15 @@ CornerRadius="5">
 
                     </Grid>
                     <Grid x:Name="leftMenuTeaPanel" Margin="0,79,0,0" Height="69" VerticalAlignment="Top" HorizontalAlignment="Center" Width="381" Cursor="Hand" >
-                        <TextBlock x:Name="TeaTB" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Чай" VerticalAlignment="Center" FontSize="24" FontWeight="Bold" Padding="20,20,10,20" FontFamily="Calibri" MouseEnter="Hover_TeaTB" Width="381" PreviewMouseLeftButtonDown="BigFiltr_Sort"/>
+                        <TextBlock x:Name="TeaTB" HorizontalAlignment="Center" TextWrapping="Wrap" Text="ЧАЙ" VerticalAlignment="Center" FontSize="24" FontWeight="Bold" Padding="20,20,10,20" FontFamily="Calibri" MouseEnter="Hover_TeaTB" Width="381" PreviewMouseLeftButtonDown="BigFiltr_Sort"/>
                         <Image HorizontalAlignment="Left" Margin="355,26,0,26" Width="16" Source="/Resources/leftarrow.png"/>
                     </Grid>
                     <Grid x:Name="leftMenuCoffePanel" Margin="0,148,0,0" Height="69" VerticalAlignment="Top" HorizontalAlignment="Center" Width="381" Cursor="Hand">
-                        <TextBlock x:Name="CoffeTB" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Кофе" VerticalAlignment="Center" FontSize="24" FontWeight="Bold" Padding="20,20,10,20" FontFamily="Calibri" MouseEnter="Hover_CoffeTB" Width="381" PreviewMouseLeftButtonDown="BigFiltr_Sort"/>
+                        <TextBlock x:Name="CoffeTB" HorizontalAlignment="Center" TextWrapping="Wrap" Text="КОФЕ" VerticalAlignment="Center" FontSize="24" FontWeight="Bold" Padding="20,20,10,20" FontFamily="Calibri" MouseEnter="Hover_CoffeTB" Width="381" PreviewMouseLeftButtonDown="BigFiltr_Sort"/>
                         <Image HorizontalAlignment="Left" Margin="355,26,0,26" Width="16" Source="/Resources/leftarrow.png"/>
                     </Grid>
                     <Grid x:Name="leftMenuCocoaPanel" Margin="0,217,0,0" Height="69" VerticalAlignment="Top" HorizontalAlignment="Center" Width="381" Cursor="Hand">
-                        <TextBlock x:Name="CocoaTB" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Какао" VerticalAlignment="Center" FontSize="24" FontWeight="Bold" Padding="20,20,10,20" FontFamily="Calibri" MouseEnter="Hover_CocoaTB" Width="381" PreviewMouseLeftButtonDown="CacaoFiltr_Sort"/>
+                        <TextBlock x:Name="CocoaTB" HorizontalAlignment="Center" TextWrapping="Wrap" Text="КАКАО" VerticalAlignment="Center" FontSize="24" FontWeight="Bold" Padding="20,20,10,20" FontFamily="Calibri" MouseEnter="Hover_CocoaTB" Width="381" PreviewMouseLeftButtonDown="CacaoFiltr_Sort"/>
                         <Image HorizontalAlignment="Left" Margin="355,26,0,26" Width="16" Source="/Resources/leftarrow.png" RenderTransformOrigin="1.688,0.61"/>
                     </Grid>
                     <TextBlock x:Name="Storage" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Склад" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" Padding="20,20,10,20" FontFamily="Calibri" Width="381" PreviewMouseLeftButtonDown="OpenStorage" Margin="0,286,0,0" MouseEnter="Hover_AllTB" MouseLeave="AllTb_MouseLeave" Cursor="Hand" Visibility="Collapsed"/>
@@ -287,6 +338,7 @@ CornerRadius="5">
                     <TextBlock x:Name="Oolong" HorizontalAlignment="Left" Margin="10,217,0,0" TextWrapping="Wrap" Text="Улун" VerticalAlignment="Top" FontSize="24" Padding="10,20,10,20" FontFamily="Calibri"  MouseEnter="Panel_MouseEnter" MouseLeave="Panel_MouseLeave" Width="371" Cursor="Hand" PreviewMouseLeftButtonDown="Filtr_Sort"/>
                     <TextBlock x:Name="WhiteTea" HorizontalAlignment="Left" Margin="10,286,0,0" TextWrapping="Wrap" Text="Белый чай" VerticalAlignment="Top" FontSize="24" Padding="10,20,10,20" FontFamily="Calibri"  MouseEnter="Panel_MouseEnter" MouseLeave="Panel_MouseLeave" Width="371" Cursor="Hand" PreviewMouseLeftButtonDown="Filtr_Sort"/>
                     <TextBlock x:Name="Rooibos" HorizontalAlignment="Left" Margin="10,355,0,0" TextWrapping="Wrap" Text="Ройбуш" VerticalAlignment="Top" FontSize="24" Padding="10,20,10,20" FontFamily="Calibri"  MouseEnter="Panel_MouseEnter" MouseLeave="Panel_MouseLeave" Width="371" Cursor="Hand" PreviewMouseLeftButtonDown="Filtr_Sort"/>
+                    <TextBlock x:Name="Poer" HorizontalAlignment="Left" Margin="10,424,0,0" TextWrapping="Wrap" Text="Пуэр" VerticalAlignment="Top" FontSize="24" Padding="10,20,10,20" FontFamily="Calibri"  MouseEnter="Panel_MouseEnter" MouseLeave="Panel_MouseLeave" Width="371" Cursor="Hand" PreviewMouseLeftButtonDown="Filtr_Sort"/>
                 </Grid>
                 <Grid x:Name="RightMenuCoffePanel" Background="White" HorizontalAlignment="Left" Width="381" Margin="381,0,0,0" Visibility="Collapsed">
                     <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Кофе в зернах" VerticalAlignment="Top" FontSize="24" Padding="10,20,10,20" FontFamily="Calibri" MouseEnter="Panel_MouseEnter" MouseLeave="Panel_MouseLeave" Width="371" Cursor="Hand" PreviewMouseLeftButtonDown="Filtr_Sort"/>
@@ -319,6 +371,7 @@ CornerRadius="5">
                     </Border>
                 </Grid>
             </Grid>
+
 
 
 

@@ -84,9 +84,34 @@ namespace Tea_Coffe
             ProductView.ItemsSource = users;
         }
 
+        private void Refresh(DataTable dt)
+        {
+            List<User> users = new List<User>();
+            foreach (DataRow dr in dt.Rows)
+            {
+                User item = new User
+                {
+                    // Присвоение значения свойствам из данных строки таблицы
+                    IdUser = Convert.ToInt32(dr["idUser"]),
+                    Login = (string)dr["login"],
+                    Password = dr["password"].ToString(),
+                    Salt = dr["salt"].ToString(),
+                    Surname = dr["surname"].ToString(),
+                    Name = dr["name"].ToString(),
+                    Patronymic = dr["patronymic"].ToString(),
+                    Role = dr["User_roleName"].ToString(),
+                    NPS = $"{dr["name"]} {dr["patronymic"]} {dr["surname"].ToString().ToCharArray()[0]}."
+
+                };
+                users.Add(item);
+            }
+            ProductView.ItemsSource = null;
+            ProductView.ItemsSource = users;
+        }
         private void Search(object sender, TextChangedEventArgs e)
         {
-
+            DataTable dt = dataBase.LoadUsersSearch(SearchTB.Text);
+            Refresh(dt);
         }
 
         private void EditMenuItem_Click(object sender, RoutedEventArgs e)
@@ -121,6 +146,12 @@ namespace Tea_Coffe
             AddChangeUser addChangeUser = new AddChangeUser();
             addChangeUser.ShowDialog();
             Refresh();
+        }
+
+        private void SearchButtonClick(object sender, RoutedEventArgs e)
+        {
+            DataTable dt = dataBase.LoadUsersSearch(SearchTB.Text);
+            Refresh(dt);
         }
     }
 

@@ -16,7 +16,7 @@
         </StackPanel>
 
 
-        <Grid Margin="188,669,0,0" Height="50" VerticalAlignment="Top" HorizontalAlignment="Left" Width="375">
+        <Grid x:Name="AddToBasketGrid" Margin="188,669,0,0" Height="50" VerticalAlignment="Top" HorizontalAlignment="Left" Width="375">
             <Button Content="В корзину" Background="#FF2FAC66" BorderBrush="{x:Null}" Foreground="White" FontSize="14" BorderThickness="0,1,1,1" SnapsToDevicePixels="False"  Margin="193,8,10,8" Click="InBasket" >
                 <Button.Template>
                     <ControlTemplate TargetType="Button">

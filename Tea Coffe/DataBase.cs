@@ -50,6 +50,20 @@ namespace Tea_Coffe
             return dataTable;
 
         }
+        public DataTable LoadUsersSearch(string search)
+        {
+
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            connection.Open();
+            string query1 = $"SELECT * FROM tea_coffe.user join user_role where role = idUser_role and CONCAT(name, ' ', patronymic) like '%{search}%' ;";
+            MySqlCommand mySqlCommand = new MySqlCommand(query1, connection);
+            MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
+            DataTable dataTable = new DataTable();
+            mySqlDataAdapter.Fill(dataTable);
+            connection.Close();
+            return dataTable;
+
+        }
         public DataTable LoadProducts()
         {
 
@@ -186,6 +200,111 @@ namespace Tea_Coffe
             return dataTable;
 
         }
+        public DataTable BigFiltr(string Filtr, string sort, string search, int limit,int curtab)
+        {
+            if (sort == "Популярные")
+            {
+                sort = "total_quantity DESC";
+            }
+            if (sort == "Сначала дешёвые")
+            {
+                sort = "cost";
+            }
+            if (sort == "Сначала дорогие")
+            {
+                sort = "cost DESC";
+            }
+
+            if (Filtr.Split(' ')[0] == "Результаты" || Filtr.Split(' ')[0] == "Все")
+            {
+                Filtr = "";
+            }
+            else if (Filtr == "Чай" || Filtr == "ЧАЙ")
+            {
+                Filtr = "and  (Product_categoryname like '%Улун%' or Product_categoryname like  '%Чай%'  or Product_categoryname like '%Ройбуш%') ";
+            }
+            else if (Filtr == "Кофе" || Filtr == "КОФЕ")
+            {
+                Filtr = "and  (Product_categoryname like '%кофе%') ";
+            }
+            else if (Filtr == "Какао" || Filtr == "КАКАО")
+            {
+                Filtr = "and  (Product_categoryname like '%Горячий шоколад%' or Product_categoryname like  '%Какао%') ";
+            }
+            else
+            {
+                Filtr = $"and (Product_categoryname like '%{Filtr}%') ";
+            }
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            connection.Open();
+            string bigquery = $"SELECT p.*,u.*,c.*,IFNULL(o.total_quantity, 0) AS total_quantity FROM tea_coffe.product p LEFT JOIN (SELECT product_id, SUM(unitquantity) AS total_quantity FROM tea_coffe.order_items GROUP BY product_id) o ON p.idProducts = o.product_id JOIN products_unit u ON p.unit = u.idProducts_unit JOIN product_category c ON p.category = c.idProduct_category " +
+                $"Where  p.name like '%{search}%' " +
+                $"{Filtr} " +
+                $"Order by {sort} " +
+                $"limit {limit} offset {curtab*limit};";
+            MySqlCommand mySqlCommand = new MySqlCommand(bigquery, connection);
+            MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
+            DataTable dataTable = new DataTable();
+            mySqlDataAdapter.Fill(dataTable);
+            connection.Close();
+            return dataTable;
+
+        }
+
+        public int GetCount(string Filtr, string sort, string search)
+        {
+            if (sort == "Популярные")
+            {
+                sort = "total_quantity DESC";
+            }
+            if (sort == "Сначала дешёвые")
+            {
+                sort = "cost";
+            }
+            if (sort == "Сначала дорогие")
+            {
+                sort = "cost DESC";
+            }
+
+            if (Filtr.Split(' ')[0] == "Результаты" || Filtr.Split(' ')[0] == "Все")
+            {
+                Filtr = "";
+            }
+            else if (Filtr == "Чай" || Filtr == "ЧАЙ")
+            {
+                Filtr = "and  (Product_categoryname like '%Улун%' or Product_categoryname like  '%Чай%'  or Product_categoryname like '%Ройбуш%') ";
+            }
+            else if (Filtr == "Кофе" || Filtr == "КОФЕ")
+            {
+                Filtr = "and  (Product_categoryname like '%кофе%') ";
+            }
+            else if (Filtr == "Какао" || Filtr == "КАКАО")
+            {
+                Filtr = "and  (Product_categoryname like '%Горячий шоколад%' or Product_categoryname like  '%Какао%') ";
+            }
+            else
+            {
+                Filtr = $"and (Product_categoryname like '%{Filtr}%') ";
+            }
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            connection.Open();
+            string bigquery = $"SELECT  COUNT(*) AS total_rows FROM tea_coffe.product p LEFT JOIN (SELECT product_id, SUM(unitquantity) AS total_quantity FROM tea_coffe.order_items GROUP BY product_id) o ON p.idProducts = o.product_id JOIN products_unit u ON p.unit = u.idProducts_unit JOIN product_category c ON p.category = c.idProduct_category " +
+                $"Where  p.name like '%{search}%' " +
+                $"{Filtr} " +
+                $"Order by {sort} ; ";
+            
+            MySqlCommand mySqlCommand = new MySqlCommand(bigquery, connection);
+            MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
+            DataTable dataTable = new DataTable();
+            mySqlDataAdapter.Fill(dataTable);
+            connection.Close();
+            return Convert.ToInt32( dataTable.Rows[0][0].ToString());
+
+        }
+
+
+
+
         public DataTable BigFiltrProducts(string Filtr, string sort)
         {
             if (sort == "Популярные")
@@ -252,7 +371,7 @@ namespace Tea_Coffe
                 int fulprice = 0;
                 foreach (ProductItem item in items)
                 {
-                    command2 = new MySqlCommand($"INSERT INTO `tea_coffe`.`order_items` (`idOrder_Items`, `product_id`, `quantity`) VALUES('{lastId}', '{item.Id}', '{item.BasketQuantity}');", connection);
+                    command2 = new MySqlCommand($"INSERT INTO `tea_coffe`.`order_items` (`idOrder_Items`, `product_id`, `quantity` , `unitquantity`) VALUES('{lastId}', '{item.Id}', '{item.BasketQuantity}','{item.BasketQuantity/item.MinUnit}');", connection);
                     command2.ExecuteNonQuery();
                     command21 = new MySqlCommand($"UPDATE `tea_coffe`.`product` SET `quantity` = `quantity`- {item.BasketQuantity} WHERE (`idProducts` = '{item.Id}');", connection);
                     command21.ExecuteNonQuery();
@@ -396,10 +515,18 @@ namespace Tea_Coffe
         public void ChangeUser(User user)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
-            string salt = GenerateSalt(16);
-            string password = HashPassword(user.Password, salt);
+            string com = "";
+            if (user.Password == "" || user.Password == null)
+            {
+                com = $"UPDATE `tea_coffe`.`user` SET `login` = '{user.Login}', `surname` = '{user.Surname}', `name` = '{user.Name}', `patronymic` = '{user.Patronymic}', `role` = (SELECT idUser_role from user_role where User_roleName = '{user.Role}') WHERE (`idUser` = '{user.IdUser}');";
+            }
+            else
+            {
+                string salt = GenerateSalt(16);
+                string password = HashPassword(user.Password, salt);
+                com = $"UPDATE `tea_coffe`.`user` SET `login` = '{user.Login}', `password` = '{password}', `salt` = '{salt}', `surname` = '{user.Surname}', `name` = '{user.Name}', `patronymic` = '{user.Patronymic}', `role` = (SELECT idUser_role from user_role where User_roleName = '{user.Role}') WHERE (`idUser` = '{user.IdUser}');";
+            }
             connection.Open();
-            string com = $"UPDATE `tea_coffe`.`user` SET `login` = '{user.Login}', `password` = '{password}', `salt` = '{salt}', `surname` = '{user.Surname}', `name` = '{user.Name}', `patronymic` = '{user.Patronymic}', `role` = (SELECT idUser_role from user_role where User_roleName = '{user.Role}') WHERE (`idUser` = '{user.IdUser}');";
             MySqlCommand command = new MySqlCommand(com, connection);
             command.ExecuteNonQuery();
             connection.Close();
@@ -525,6 +652,20 @@ namespace Tea_Coffe
 
             connection.Close();
             return dataTable;
+        }
+
+        public int GetUserId(string login)
+        {
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            connection.Open();
+            string com = $"SELECT idUser FROM tea_coffe.user where login = '{login}'";
+            MySqlCommand mySqlCommand = new MySqlCommand(com, connection);
+            MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
+            DataTable dataTable = new DataTable();
+            mySqlDataAdapter.Fill(dataTable);
+
+            connection.Close();
+            return Convert.ToInt32(dataTable.Rows[0][0].ToString());
         }
     }
 

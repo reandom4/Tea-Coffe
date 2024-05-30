@@ -7,15 +7,37 @@
         mc:Ignorable="d"
         Title="AddChangeUser" Height="170" Width="410" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
-        <TextBox x:Name="name" HorizontalAlignment="Left" Margin="10,28,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" FontSize="14" MaxLength="35" PreviewTextInput="TextBox_PreviewTextInput"/>
+        <TextBox x:Name="name" HorizontalAlignment="Left" Margin="10,28,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" FontSize="14" MaxLength="35" PreviewTextInput="TextBox_PreviewTextInput" TextChanged="Name_TextChanged"/>
         <TextBlock x:Name="Productcount" TextWrapping="Wrap" Text="Имя" FontFamily="Calibri" Padding="0,0,0,0" Foreground="#FFA9ABB1" FontSize="12" Margin="10,13,0,0" HorizontalAlignment="Left" Width="66" Height="14" VerticalAlignment="Top" />
-        <TextBox x:Name="patronymic" HorizontalAlignment="Left" Margin="135,28,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" FontSize="14" MaxLength="35" PreviewTextInput="TextBox_PreviewTextInput"/>
+        <TextBox x:Name="patronymic" HorizontalAlignment="Left" Margin="135,28,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" FontSize="14" MaxLength="35" PreviewTextInput="TextBox_PreviewTextInput" TextChanged="Name_TextChanged"/>
         <TextBlock x:Name="Productcount_Копировать" TextWrapping="Wrap" Text="Отчество" FontFamily="Calibri" Padding="0,0,0,0" Foreground="#FFA9ABB1" FontSize="12" Margin="135,13,0,0" HorizontalAlignment="Left" Width="66" Height="14" VerticalAlignment="Top" />
-        <TextBox x:Name="surname" HorizontalAlignment="Left" Margin="260,28,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" FontSize="14" MaxLength="35" PreviewTextInput="TextBox_PreviewTextInput"/>
+        <TextBox x:Name="surname" HorizontalAlignment="Left" Margin="260,28,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" FontSize="14" MaxLength="35" PreviewTextInput="TextBox_PreviewTextInput" TextChanged="Name_TextChanged"/>
         <TextBlock x:Name="Productcount_Копировать1" TextWrapping="Wrap" Text="Фамилия" FontFamily="Calibri" Padding="0,0,0,0" Foreground="#FFA9ABB1" FontSize="12" Margin="260,13,0,0" HorizontalAlignment="Left" Width="70" Height="14" VerticalAlignment="Top" />
         <TextBox x:Name="login" HorizontalAlignment="Left" Margin="10,69,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" FontSize="14" MaxLength="35"/>
         <TextBlock x:Name="Productcount_Копировать2" TextWrapping="Wrap" Text="Логин" FontFamily="Calibri" Padding="0,0,0,0" Foreground="#FFA9ABB1" FontSize="12" Margin="10,54,0,0" HorizontalAlignment="Left" Width="66" Height="14" VerticalAlignment="Top" />
-        <TextBox x:Name="password" HorizontalAlignment="Left" Margin="134,69,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" FontSize="14" MaxLength="35"/>
+        <TextBox x:Name="password" HorizontalAlignment="Left" Margin="134,69,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="100" FontSize="14" MaxLength="35"/>
+
+        <Button Background="#FF2FAC66" BorderBrush="{x:Null}" Foreground="White" FontFamily="Calibri" HorizontalAlignment="Left" Width="21" Click="GeneratePass" Margin="233,69,0,0" Height="20.6" VerticalAlignment="Top">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border"
+                    Background="{TemplateBinding Background}"
+                    CornerRadius="1">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#1f8b4f"/>
+                            <Setter Property="Cursor" Value="Hand"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+            <StackPanel Orientation="Horizontal">
+                <Image Source="/Resources/refresh.png" Width="15" Height="15"/>
+            </StackPanel>
+        </Button>
+
         <TextBlock x:Name="Productcount_Копировать3" TextWrapping="Wrap" Text="Пароль" FontFamily="Calibri" Padding="0,0,0,0" Foreground="#FFA9ABB1" FontSize="12" Margin="135,54,0,0" HorizontalAlignment="Left" Width="66" Height="14" VerticalAlignment="Top" />
         <TextBlock x:Name="Productcount_Копировать4" TextWrapping="Wrap" Text="Роль" FontFamily="Calibri" Padding="0,0,0,0" Foreground="#FFA9ABB1" FontSize="12" Margin="260,54,0,0" HorizontalAlignment="Left" Width="70" Height="14" VerticalAlignment="Top" />
         <Button x:Name="ChangeButton" Content="Редактировать" Background="#FF2FAC66" BorderBrush="{x:Null}" Foreground="White" FontSize="14" BorderThickness="0,1,1,1" SnapsToDevicePixels="False"  Margin="280,95,0,0"  HorizontalAlignment="Left" Width="100" Height="21" VerticalAlignment="Top" Click="Change" Visibility="Collapsed" >

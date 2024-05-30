@@ -78,7 +78,7 @@
                         </Style>
                     </TextBox.Style>
                 </TextBox>
-                <Button Background="#FF2FAC66" BorderBrush="{x:Null}" Foreground="White" FontFamily="Calibri" HorizontalAlignment="Right" Width="36">
+                <Button Background="#FF2FAC66" BorderBrush="{x:Null}" Foreground="White" FontFamily="Calibri" HorizontalAlignment="Right" Width="36" Click="SearchButtonClick">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border x:Name="border"

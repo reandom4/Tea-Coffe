@@ -22,11 +22,11 @@ namespace Tea_Coffe
     /// </summary>
     public partial class FullProductInfo : Window
     {
-        ProductItem productItem = new ProductItem();
+        readonly ProductItem productItem = new ProductItem();
 
-        Window1 mainWindow;
+        readonly Window1 mainWindow;
         // Конструктор для инициализации окна с подробной информацией о продукте
-        public FullProductInfo(ProductItem item,Window1 main)
+        public FullProductInfo(ProductItem item,Window1 main,string role)
         {
             InitializeComponent();
             mainWindow = main;
@@ -70,6 +70,11 @@ namespace Tea_Coffe
                     taste_and_aromaHead.Visibility = Visibility.Visible;
                     taste_and_aroma.Visibility = Visibility.Visible;
                     taste_and_aroma.Text = productItem.Taste_and_aroma;
+                }
+
+                if (role != "admin")
+                {
+                    AddToBasketGrid.Visibility = Visibility.Collapsed;
                 }
             }
             catch(Exception ex)

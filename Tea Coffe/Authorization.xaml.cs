@@ -29,7 +29,7 @@ namespace Tea_Coffe
         {
             InitializeComponent();
             //
-            //Window1 window1 = new Window1("admin");
+            //Window1 window1 = new Window1("admin", "admin");
             //window1.Show();
             //this.Close();
             //
@@ -53,7 +53,7 @@ namespace Tea_Coffe
                 string role = database.ValidateLogin(login, password);
                 if (role != null)
                 {
-                    Window1 window1 = new Window1(role);
+                    Window1 window1 = new Window1(login,role);
                     window1.Show();
                     this.Close();
                 }
@@ -207,8 +207,10 @@ namespace Tea_Coffe
                 captchabutton.IsEnabled = false;
                 CaptchaErr.Visibility = Visibility.Visible;
                 // Создать таймер
-                DispatcherTimer timer = new DispatcherTimer();
-                timer.Interval = TimeSpan.FromSeconds(10);
+                DispatcherTimer timer = new DispatcherTimer
+                {
+                    Interval = TimeSpan.FromSeconds(10)
+                };
                 timer.Tick += Timer_Tick;
                 timer.Start();
                 Refreshimage();
@@ -245,7 +247,7 @@ namespace Tea_Coffe
 
             // Создание объекта Image и установка его источника
 
-            System.Windows.Controls.Image imageControl = new System.Windows.Controls.Image();
+            //System.Windows.Controls.Image imageControl = new System.Windows.Controls.Image();
             imageCaptcha.Source = bitmapImage;
         }
     }

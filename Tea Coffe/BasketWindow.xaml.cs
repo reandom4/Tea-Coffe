@@ -21,16 +21,18 @@ namespace Tea_Coffe
     /// </summary>
     public partial class BasketWindow : Window
     {
-        DataBase DataBase = new DataBase();
-        WordHelper wordHelper = new WordHelper();
-        Window1 Window1;
-        public BasketWindow(List<ProductItem> items, Window1 main)
+        readonly DataBase DataBase = new DataBase();
+        readonly WordHelper wordHelper = new WordHelper();
+        readonly Window1 Window1;
+        readonly int userid = 0;
+        public BasketWindow(List<ProductItem> items, Window1 main,int id)
         {
             InitializeComponent();
             try
             {
+                userid = id;
                 ProductView.ItemsSource = items;
-                count_menu(items);
+                Count_menu(items);
                 Window1 = main;
             }
             catch (Exception ex)
@@ -63,7 +65,7 @@ namespace Tea_Coffe
                 // Увеличиваем вес на 50 г
                 item.BasketQuantity += item.MinUnit;
                 item.BasketCost += item.DefaultCost;
-                count_menu(pr);
+                Count_menu(pr);
             }
             catch (Exception ex)
             {
@@ -84,7 +86,7 @@ namespace Tea_Coffe
                 // Увеличиваем вес на 50 г
                 item.BasketQuantity -= item.MinUnit;
                 item.BasketCost -= item.DefaultCost;
-                count_menu(pr);
+                Count_menu(pr);
             }
             catch (Exception ex)
             {
@@ -92,7 +94,7 @@ namespace Tea_Coffe
             }
         }
         // Обновляет отображение общей стоимости и количества товаров в корзине
-        private void count_menu(List<ProductItem> productItem)
+        private void Count_menu(List<ProductItem> productItem)
         {
             int FullCost = 0;
             try
@@ -145,7 +147,7 @@ namespace Tea_Coffe
                     
                     ProductView.ItemsSource = null;
                     ProductView.ItemsSource = pr;
-                    count_menu(pr);
+                    Count_menu(pr);
                 }
                 
             }
@@ -161,13 +163,15 @@ namespace Tea_Coffe
             {
                 List<ProductItem> pr = ProductView.ItemsSource as List<ProductItem>;
                 DateTime dateTime = DateTime.Now;
-                bool result = DataBase.AddOrder(pr, 2, dateTime);
+                bool result = DataBase.AddOrder(pr,userid, dateTime);
                 if(result)
                 {
-                    MessageBox.Show("Заказ успешно оформлен");
+                    
                     wordHelper.Creatcheque(pr, dateTime);
                     pr.Clear();
                     Window1.Showdata();
+                    MessageBox.Show("Заказ успешно оформлен");
+                    this.Close();
                 }
                 else
                 {

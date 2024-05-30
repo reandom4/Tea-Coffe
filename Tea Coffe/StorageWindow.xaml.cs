@@ -161,5 +161,22 @@ namespace Tea_Coffe
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void SearchButtonClick(object sender, RoutedEventArgs e)
+        {
+            string search = SearchTB.Text;
+
+
+            try
+            {
+
+                DataTable dt = dataBase.SearchProducts(search, "quantity");
+                Showdata(dt);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }
