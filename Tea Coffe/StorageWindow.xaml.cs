@@ -30,7 +30,7 @@ namespace Tea_Coffe
                 Console.WriteLine(ex.Message);
             }
         }
-
+        // Метод для отображения данных в DataGrid
         private void Showdata(DataTable dataTable)
         {
             List<ProductItem> productList = new List<ProductItem>();
@@ -66,7 +66,7 @@ namespace Tea_Coffe
 
             ProductView.ItemsSource = productList;
         }
-
+        // Обработчик события изменения текста в текстовом поле для поиска продуктов
         private void Search(object sender, TextChangedEventArgs e)
         {
             string search = SearchTB.Text;
@@ -83,7 +83,7 @@ namespace Tea_Coffe
                 MessageBox.Show(ex.Message);
             }
         }
-
+        // Обработчик события изменения количества продукта
         private void QuantityChange(object sender, RoutedEventArgs e)
         {
             try
@@ -98,7 +98,7 @@ namespace Tea_Coffe
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
+        // Обработчик события ввода текста в текстовом поле для количества
         private void NumericTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             foreach (char c in e.Text)
@@ -110,7 +110,7 @@ namespace Tea_Coffe
                 }
             }
         }
-        // Запрещает использование пробела в текстовом поле
+        // Обработчик события нажатия клавиши в текстовом поле для количества
         private void NumericTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             // Запрещаем использование пробела
@@ -119,7 +119,7 @@ namespace Tea_Coffe
                 e.Handled = true;
             }
         }
-
+        // Обработчик события нажатия кнопки для экспорта данных о продуктах в хранилище
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -153,7 +153,7 @@ namespace Tea_Coffe
                 MessageBox.Show(ex.Message);
             }
         }
-
+        // Обработчик события нажатия кнопки для выполнения поиска
         private void SearchButtonClick(object sender, RoutedEventArgs e)
         {
             string search = SearchTB.Text;

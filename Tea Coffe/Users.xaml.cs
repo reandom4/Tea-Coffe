@@ -12,8 +12,8 @@ namespace Tea_Coffe
     /// </summary>
     public partial class Users : Window
     {
-        readonly DataBase dataBase = new DataBase();
-        public Users()
+        readonly DataBase dataBase = new DataBase();// Создание экземпляра базы данных
+        public Users()// Исходный пользователь
         {
             InitializeComponent();
             try
@@ -46,7 +46,7 @@ namespace Tea_Coffe
             }
 
         }
-
+        // Метод для обновления пользовательского интерфейса с обновленными данными пользователей
         private void Refresh()
         {
             SearchTB.Text = string.Empty;
@@ -73,7 +73,7 @@ namespace Tea_Coffe
             ProductView.ItemsSource = null;
             ProductView.ItemsSource = users;
         }
-
+        // Метод для обновления пользовательского интерфейса с предоставленным DataTable
         private void Refresh(DataTable dt)
         {
             List<User> users = new List<User>();
@@ -98,12 +98,13 @@ namespace Tea_Coffe
             ProductView.ItemsSource = null;
             ProductView.ItemsSource = users;
         }
+        // Обработчик события поиска пользователей
         private void Search(object sender, TextChangedEventArgs e)
         {
             DataTable dt = dataBase.LoadUsersSearch(SearchTB.Text);
             Refresh(dt);
         }
-
+        // Обработчик события редактирования пользователя
         private void EditMenuItem_Click(object sender, RoutedEventArgs e)
         {
             var item = ((FrameworkElement)sender).DataContext as User;
@@ -111,7 +112,7 @@ namespace Tea_Coffe
             addChangeUser.ShowDialog();
             Refresh();
         }
-
+        // Обработчик события удаления пользователя
         private void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
         {
             var item = ((FrameworkElement)sender).DataContext as User;
@@ -130,21 +131,21 @@ namespace Tea_Coffe
                 }
             }
         }
-
+        // Обработчик события добавления нового пользователя
         private void AddUser(object sender, MouseButtonEventArgs e)
         {
             AddChangeUser addChangeUser = new AddChangeUser();
             addChangeUser.ShowDialog();
             Refresh();
         }
-
+        // Обработчик события нажатия кнопки поиска
         private void SearchButtonClick(object sender, RoutedEventArgs e)
         {
             DataTable dt = dataBase.LoadUsersSearch(SearchTB.Text);
             Refresh(dt);
         }
     }
-
+    // Класс, представляющий пользователя
     public class User
     {
         public int IdUser { get; set; }

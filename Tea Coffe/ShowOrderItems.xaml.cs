@@ -12,6 +12,7 @@ namespace Tea_Coffe
     public partial class ShowOrderItems : Window
     {
         readonly DataBase dataBase = new DataBase();
+        // Конструктор для инициализации окна с подробной информацией о заказе
         public ShowOrderItems(int id)
         {
             InitializeComponent();

@@ -12,24 +12,24 @@ namespace Tea_Coffe
     /// </summary>
     public partial class AddChangeUser : Window
     {
-        readonly DataBase dataBase = new DataBase();
-        readonly User startuser = null;
+        readonly DataBase dataBase = new DataBase();// Создание экземпляра базы данных
+        readonly User startuser = null;// Исходный пользователь
         public AddChangeUser(User user = null)
         {
             InitializeComponent();
 
-            startuser = user;
+            startuser = user;// Сохранение переданного пользователя
             if (user == null)
             {
-                AddButton.Visibility = Visibility.Visible;
+                AddButton.Visibility = Visibility.Visible;// Если пользователь не передан, показать кнопку добавления
             }
             else
             {
-                ChangeButton.Visibility = Visibility.Visible;
-                Init(user);
+                ChangeButton.Visibility = Visibility.Visible;// Если пользователь передан, показать кнопку изменения
+                Init(user);// Инициализация полей формы данными пользователя
             }
         }
-
+        // Инициализация полей формы данными пользователя
         private void Init(User user)
         {
             name.Text = user.Name;
@@ -38,10 +38,12 @@ namespace Tea_Coffe
             login.Text = user.Login;
             role.Text = user.Role;
         }
+        // Обработка события изменения пользователя
         private void Change(object sender, RoutedEventArgs e)
         {
             try
             {
+                // Создание нового объекта пользователя с обновленными данными
                 User user = new User
                 {
                     IdUser = startuser.IdUser,
@@ -52,6 +54,7 @@ namespace Tea_Coffe
                     Login = login.Text,
                     Role = role.Text
                 };
+                // Проверка заполненности обязательных полей
                 if (user.Name.Length <= 2)
                 {
                     MessageBox.Show("Имя не заполнено", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -85,11 +88,12 @@ namespace Tea_Coffe
             }
 
         }
-
+        // Обработка события добавления пользователя
         private void Add(object sender, RoutedEventArgs e)
         {
             try
             {
+                // Создание нового объекта пользователя с обновленными данными
                 User user = new User
                 {
                     Name = name.Text,
@@ -99,6 +103,7 @@ namespace Tea_Coffe
                     Login = login.Text,
                     Role = role.Text
                 };
+                // Проверка заполненности обязательных полей
                 if (user.Name.Length <= 2)
                 {
                     MessageBox.Show("Имя не заполнено", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -131,7 +136,7 @@ namespace Tea_Coffe
                 MessageBox.Show(ex.Message);
             }
         }
-
+        // Обработка события предварительного ввода текста в TextBox для проверки русских букв
         private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             // Регулярное выражение для проверки русских букв
@@ -144,12 +149,12 @@ namespace Tea_Coffe
                 e.Handled = true;
             }
         }
-
+        // Генерация случайного пароля
         private void GeneratePass(object sender, RoutedEventArgs e)
         {
             password.Text = GeneratePassword(8);
         }
-
+        // Метод генерации случайного пароля заданной длиной
         private string GeneratePassword(int length)
         {
             const string validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%&";
@@ -164,7 +169,7 @@ namespace Tea_Coffe
 
             return password.ToString();
         }
-
+        // Обработка события изменения текста в TextBox для автоматического преобразования первой буквы в верхний регистр
         private void Name_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
             if (!(sender is TextBox textBox) || string.IsNullOrEmpty(textBox.Text))

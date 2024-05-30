@@ -15,7 +15,7 @@ namespace Tea_Coffe
     internal class DataBase
     {
         public string connectionString = "Server='localhost';database='tea_coffe';uid='root';pwd='root';";
-
+        //Метод для загрузки данных из таблицы с именем, указанным в аргументе str.
         public DataTable LoadData(string str)
         {
 
@@ -30,6 +30,7 @@ namespace Tea_Coffe
             return dataTable;
 
         }
+        //Загружает данные пользователей из базы данных.
         public DataTable LoadUsers()
         {
 
@@ -44,6 +45,7 @@ namespace Tea_Coffe
             return dataTable;
 
         }
+        //Загружает пользователей с использованием строки поиска search.
         public DataTable LoadUsersSearch(string search)
         {
 
@@ -58,6 +60,7 @@ namespace Tea_Coffe
             return dataTable;
 
         }
+        //Загружает данные о продуктах из базы данных.
         public DataTable LoadProducts()
         {
 
@@ -72,7 +75,7 @@ namespace Tea_Coffe
             return dataTable;
 
         }
-
+        //Загружает данные о продуктах для хранения.
         public DataTable LoadProductsStorage()
         {
 
@@ -87,7 +90,7 @@ namespace Tea_Coffe
             return dataTable;
 
         }
-
+        //Поиск продуктов по строке search и сортировка результатов в соответствии со значением sort.
         public DataTable SearchProducts(string search, string sort)
         {
             if (sort == "Популярные")
@@ -113,7 +116,7 @@ namespace Tea_Coffe
             return dataTable;
 
         }
-
+        //Поиск продуктов с пагинацией, определяемой curtab (текущая страница) и itemontab (количество элементов на странице).
         public DataTable SearchProducts(string search, string sort, int curtab, int itemontab)
         {
             if (sort == "Популярные")
@@ -139,7 +142,7 @@ namespace Tea_Coffe
             return dataTable;
 
         }
-
+        //Фильтрация продуктов по категории и сортировка результатов.
         public DataTable FiltrProducts(string Filtr, string sort)
         {
             if (sort == "Популярные")
@@ -165,6 +168,7 @@ namespace Tea_Coffe
             return dataTable;
 
         }
+        //Комбинированный поиск и фильтрация продуктов по строке search и категории Filtr, с сортировкой результатов.
         public DataTable SearchFiltrProducts(string search, string Filtr, string sort)
         {
             if (sort == "Популярные")
@@ -194,6 +198,7 @@ namespace Tea_Coffe
             return dataTable;
 
         }
+        //Фильтрация продуктов с учетом различных параметров, таких как строка поиска, категория, сортировка и пагинация.
         public DataTable BigFiltr(string Filtr, string sort, string search, int limit, int curtab)
         {
             if (sort == "Популярные")
@@ -244,7 +249,7 @@ namespace Tea_Coffe
             return dataTable;
 
         }
-
+        //Получение общего количества результатов для указанных параметров фильтрации и сортировки.
         public int GetCount(string Filtr, string sort, string search)
         {
             if (sort == "Популярные")
@@ -295,10 +300,7 @@ namespace Tea_Coffe
             return Convert.ToInt32(dataTable.Rows[0][0].ToString());
 
         }
-
-
-
-
+        //Фильтрация продуктов с учетом категории и сортировки.
         public DataTable BigFiltrProducts(string Filtr, string sort)
         {
             if (sort == "Популярные")
@@ -324,6 +326,7 @@ namespace Tea_Coffe
             return dataTable;
 
         }
+        //Фильтрация продуктов категориями и сортировка.
         public DataTable CacaoFiltrProducts(string Filtr1, string Filtr2, string sort)
         {
             if (sort == "Популярные")
@@ -349,7 +352,7 @@ namespace Tea_Coffe
             return dataTable;
 
         }
-
+        //Добавление заказа в базу данных. Принимает список товаров, идентификатор сотрудника и дату.
         public bool AddOrder(List<ProductItem> items, int employeid, DateTime lastDate)
         {
             bool result = false;
@@ -389,7 +392,7 @@ namespace Tea_Coffe
             }
             return result;
         }
-
+        //Проверка логина и пароля пользователя при входе в систему. Возвращает роль пользователя, если аутентификация прошла успешно.
         public string ValidateLogin(string login, string password)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -421,6 +424,7 @@ namespace Tea_Coffe
 
             return null;
         }
+        //Хэширование пароля с использованием соли.
         private string HashPassword(string password, string salt)
         {
             using (var sha256 = SHA256.Create())
@@ -430,7 +434,7 @@ namespace Tea_Coffe
                 return Convert.ToBase64String(hash);
             }
         }
-
+        //Генерация случайной соли для пароля заданной длины.
         public static string GenerateSalt(int length)
         {
             // Создаем массив байтов для хранения случайных значений
@@ -448,7 +452,7 @@ namespace Tea_Coffe
             // Обрезаем строку до нужной длины, если она длиннее
             return salt.Substring(0, length);
         }
-
+        //Добавление нового продукта в базу данных.
         public void AddProduct(ProductItem item)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -460,6 +464,7 @@ namespace Tea_Coffe
             command.ExecuteNonQuery();
             connection.Close();
         }
+        //Удаление продукта из базы данных по его идентификатору.
         public void RemoveProduct(string id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -471,7 +476,7 @@ namespace Tea_Coffe
             command.ExecuteNonQuery();
             connection.Close();
         }
-
+        //Изменение информации о продукте.
         public void ChangeProduct(ProductItem item)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -483,7 +488,7 @@ namespace Tea_Coffe
             command.ExecuteNonQuery();
             connection.Close();
         }
-
+        //Изменение количества продукта на складе.
         public void ChangeQuantity(ProductItem item)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -494,7 +499,7 @@ namespace Tea_Coffe
             command.ExecuteNonQuery();
             connection.Close();
         }
-
+        //Создание нового пользователя.
         public void CreateUser(User user)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -506,6 +511,7 @@ namespace Tea_Coffe
             command.ExecuteNonQuery();
             connection.Close();
         }
+        //Изменение информации о пользователе.
         public void ChangeUser(User user)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -525,6 +531,7 @@ namespace Tea_Coffe
             command.ExecuteNonQuery();
             connection.Close();
         }
+        //Удаление пользователя.
         public void DeleteUser(User user)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -534,7 +541,7 @@ namespace Tea_Coffe
             command.ExecuteNonQuery();
             connection.Close();
         }
-
+        //Получение среднего чека за указанный период.
         public double AverageBill(string datestart, string dateend)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -549,7 +556,7 @@ namespace Tea_Coffe
             connection.Close();
             return (Convert.ToDouble(avg));
         }
-
+        //Получение товаров, проданных за указанный период.
         public DataTable BillProduct(string datestart, string dateend)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -581,7 +588,7 @@ namespace Tea_Coffe
             connection.Close();
             return dataTable;
         }
-
+        //Создание резервной копии базы данных.
         public void Backup()
         {
             string exePath = Assembly.GetExecutingAssembly().Location;
@@ -602,6 +609,7 @@ namespace Tea_Coffe
                 }
             }
         }
+        //Восстановление базы данных из резервной копии.
         public void Restore(string file)
         {
 
@@ -619,7 +627,7 @@ namespace Tea_Coffe
                 }
             }
         }
-
+        //Получение списка заказов.
         public DataTable GetOrders()
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -633,7 +641,7 @@ namespace Tea_Coffe
             connection.Close();
             return dataTable;
         }
-
+        //Получение элементов заказа по его идентификатору.
         public DataTable GetOrderItem(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -647,7 +655,7 @@ namespace Tea_Coffe
             connection.Close();
             return dataTable;
         }
-
+        //Получение идентификатора пользователя по его логину.
         public int GetUserId(string login)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);

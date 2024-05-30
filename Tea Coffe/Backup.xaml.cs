@@ -14,7 +14,7 @@ namespace Tea_Coffe
         {
             InitializeComponent();
         }
-
+        // Обработчик события для кнопки создания бэкапа
         private void CreateBackup(object sender, RoutedEventArgs e)
         {
             try
@@ -27,7 +27,7 @@ namespace Tea_Coffe
                 MessageBox.Show(ex.Message);
             }
         }
-
+        // Обработчик события для кнопки загрузки бэкапа
         private void DownloadBackup(object sender, RoutedEventArgs e)
         {
             try

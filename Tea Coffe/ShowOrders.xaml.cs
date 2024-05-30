@@ -17,7 +17,7 @@ namespace Tea_Coffe
             InitializeComponent();
             Init();
         }
-
+        // Метод инициализации, который загружает заказы и отображает их в интерфейсе
         private void Init()
         {
             try
@@ -48,7 +48,7 @@ namespace Tea_Coffe
                 MessageBox.Show(ex.Message);
             }
         }
-
+        // Класс, представляющий элемент заказа
         public class OrderItem
         {
             public int Id { get; set; }
@@ -58,12 +58,12 @@ namespace Tea_Coffe
             public string NPS { get; set; }
 
         }
-
+        // Метод, который открывает подробную информацию о заказе при двойном щелчке мыши
         private void OpenFullOrder(object sender, MouseButtonEventArgs e)
         {
-            var item = ((FrameworkElement)sender).DataContext as OrderItem;
-            ShowOrderItems showOrderItems = new ShowOrderItems(item.OrderProducts);
-            showOrderItems.ShowDialog();
+            var item = ((FrameworkElement)sender).DataContext as OrderItem;// Получение данных о заказе из контекста данных
+            ShowOrderItems showOrderItems = new ShowOrderItems(item.OrderProducts);// Создание окна для отображения подробной информации о заказе
+            showOrderItems.ShowDialog();// Открытие окна в виде диалогового окна
         }
     }
 }

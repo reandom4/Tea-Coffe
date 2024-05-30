@@ -19,17 +19,15 @@ namespace Tea_Coffe
             InitializeComponent();
             Init();
         }
-
+        // Инициализация элементов выбора даты с установкой диапазонов дат
         private void Init()
         {
             startDatePicker.DisplayDateStart = DateTime.Now.AddYears(-2);
             startDatePicker.DisplayDateEnd = DateTime.Now;
             endDatePicker.DisplayDateEnd = DateTime.Now;
             endDatePicker.DisplayDateStart = DateTime.Now.AddYears(-2);
-
-
         }
-
+        // Генерация отчетов на основе выбранного типа отчета и диапазона дат
         private void Generate(object sender, RoutedEventArgs e)
         {
             if (startDatePicker.SelectedDate.Value == null || endDatePicker.SelectedDate.Value == null)
@@ -38,7 +36,6 @@ namespace Tea_Coffe
             }
             try
             {
-
                 string startdate = startDatePicker.SelectedDate?.ToString("yyyy-MM-dd");
                 string enddate = endDatePicker.SelectedDate?.ToString("yyyy-MM-dd");
                 if (DateTime.Parse(startdate) > DateTime.Parse(enddate))
@@ -143,15 +140,13 @@ namespace Tea_Coffe
             }
 
         }
-
-
-
+        // Устанавливает начальную дату для элемента выбора конечной даты, чтобы предотвратить недопустимые диапазоны дат
         private void StartDatePicker_MouseLeave(object sender, MouseEventArgs e)
         {
             if (startDatePicker.SelectedDate != null)
                 endDatePicker.DisplayDateStart = startDatePicker.SelectedDate.Value;
         }
-
+        // Устанавливает конечную дату для элемента выбора начальной даты, чтобы предотвратить недопустимые диапазоны дат
         private void EndDatePicker_MouseLeave(object sender, MouseEventArgs e)
         {
             if (endDatePicker.SelectedDate != null)

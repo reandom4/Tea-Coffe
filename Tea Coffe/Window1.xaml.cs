@@ -197,7 +197,6 @@ namespace Tea_Coffe
             }
         }
 
-
         public List<ProductItem> Basket = new List<ProductItem>();
         // Метод для добавления продукта в корзину
         private void InBasketButton(object sender, RoutedEventArgs e)
@@ -234,8 +233,6 @@ namespace Tea_Coffe
                 MessageBox.Show(ex.Message);
             }
         }
-
-
 
         FullProductInfo fullProductInfo;
         // Метод для открытия полного описания продукта
@@ -421,12 +418,12 @@ namespace Tea_Coffe
             }
             OpenLeftMenu();
         }
-
+        // Закрывает левое меню при клике на фон левой панели.
         private void LeftPanelFonClick(object sender, MouseButtonEventArgs e)
         {
             CloseLeftMenu();
         }
-
+        // Анимирует открытие левого меню.
         private void OpenLeftMenu()
         {
             //Анимация выдвигание левого меню
@@ -450,6 +447,7 @@ namespace Tea_Coffe
             leftPanelFon.BeginAnimation(UIElement.OpacityProperty, DimmingMenuanimation);
             leftMenuPanel.BeginAnimation(MarginProperty, PromotionLeftMenuanimation);
         }
+        // Анимирует закрытие левого меню.
         private void CloseLeftMenu()
         {
             if (leftPanel.Visibility == Visibility.Collapsed)
@@ -487,12 +485,12 @@ namespace Tea_Coffe
             leftMenuPanel.BeginAnimation(MarginProperty, PromotionLeftMenuanimation);
 
         }
-
+        // Закрывает левое меню при нажатии на текстовое поле.
         private void TextBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             CloseLeftMenu();
         }
-
+        // Изменяет цвет текстового блока при наведении мыши.
         private void Hover_AllTB(object sender, MouseEventArgs e)
         {
             TextBlock tb = sender as TextBlock;
@@ -506,12 +504,13 @@ namespace Tea_Coffe
             CoffeTB.Foreground = Brushes.Black;
             CocoaTB.Foreground = Brushes.Black;
         }
-
+        // Возвращает цвет текстового блока к изначальному после ухода курсора с него.
         private void AllTb_MouseLeave(object sender, MouseEventArgs e)
         {
             TextBlock tb = sender as TextBlock;
             tb.Foreground = Brushes.Black;
         }
+        // Изменяет цвет текстового блока при наведении мыши на "Чай".
         private void Hover_TeaTB(object sender, MouseEventArgs e)
         {
             TeaTB.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0x2F, 0xAC, 0x66));
@@ -522,6 +521,7 @@ namespace Tea_Coffe
             CoffeTB.Foreground = Brushes.Black;
             CocoaTB.Foreground = Brushes.Black;
         }
+        // Изменяет цвет текстового блока при наведении мыши на "Кофе".
         private void Hover_CoffeTB(object sender, MouseEventArgs e)
         {
             CoffeTB.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0x2F, 0xAC, 0x66));
@@ -532,6 +532,7 @@ namespace Tea_Coffe
             TeaTB.Foreground = Brushes.Black;
             CocoaTB.Foreground = Brushes.Black;
         }
+        // Изменяет цвет текстового блока при наведении мыши на "Какао".
         private void Hover_CocoaTB(object sender, MouseEventArgs e)
         {
             CocoaTB.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0x2F, 0xAC, 0x66));
@@ -542,7 +543,7 @@ namespace Tea_Coffe
             TeaTB.Foreground = Brushes.Black;
             CoffeTB.Foreground = Brushes.Black;
         }
-
+        // Изменяет цвет текстового блока при наведении мыши.
         private void Panel_MouseEnter(object sender, MouseEventArgs e)
         {
             if (sender is TextBlock)
@@ -551,6 +552,7 @@ namespace Tea_Coffe
                 textBlock.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0x2F, 0xAC, 0x66));
             }
         }
+        // Возвращает цвет текстового блока к изначальному после ухода курсора с него.
         private void Panel_MouseLeave(object sender, MouseEventArgs e)
         {
             if (sender is TextBlock)
@@ -560,17 +562,17 @@ namespace Tea_Coffe
             }
 
         }
-
+        // Отображает панель сортировки при нажатии на сетку.
         private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             BottomSortPanel1.Visibility = Visibility.Visible;
         }
-
+        // Скрывает панель сортировки при уходе курсора с сетки.
         private void Grid_MouseLeave(object sender, MouseEventArgs e)
         {
             BottomSortPanel1.Visibility = Visibility.Collapsed;
         }
-
+        // Изменяет цвет границы текстового блока при наведении мыши.
         private void SortTB_MouseEnter(object sender, MouseEventArgs e)
         {
             if (sender is Border)
@@ -580,7 +582,7 @@ namespace Tea_Coffe
 
             }
         }
-
+        // Возвращает цвет границы текстового блока к изначальному после ухода курсора с него.
         private void SortTB_MouseLeave(object sender, MouseEventArgs e)
         {
             if (sender is Border)
@@ -596,7 +598,7 @@ namespace Tea_Coffe
             }
 
         }
-
+        // Обрабатывает клик по элементу сортировки.
         private void SortTB_Click(object sender, MouseButtonEventArgs e)
         {
             if (sender is Border)
@@ -631,7 +633,7 @@ namespace Tea_Coffe
             currenttab = 0;
             Paggination();
         }
-
+        // Асинхронно обрабатывает увеличение количества продукта.
         private async void PlusButtonImageAsync(object sender, MouseButtonEventArgs e)
         {
             var item = ((FrameworkElement)sender).DataContext as ProductItem;
@@ -649,6 +651,7 @@ namespace Tea_Coffe
             item.Quantity += item.MinUnit;
             item.Cost += item.DefaultCost;
         }
+        // Обрабатывает уменьшение количества продукта.
         private void MinusButtonImage(object sender, MouseButtonEventArgs e)
         {
             var item = ((FrameworkElement)sender).DataContext as ProductItem;
@@ -661,8 +664,6 @@ namespace Tea_Coffe
             item.Quantity -= item.MinUnit;
             item.Cost -= item.DefaultCost;
         }
-
-
 
         //конструктор ProductItem
         public class ProductItem : INotifyPropertyChanged
@@ -773,6 +774,7 @@ namespace Tea_Coffe
 
 
         BasketWindow basketWindow;
+        // Отображает окно корзины с полным списком продуктов.
         private void ShowFullBasket(object sender, MouseButtonEventArgs e)
         {
             basketWindow?.Close();
@@ -780,21 +782,21 @@ namespace Tea_Coffe
             basketWindow = new BasketWindow(Basket, this, userid);
             basketWindow.Show();
         }
-
+        // Закрывает окно корзины и другие окна при закрытии главного окна.
         private void Window_Closed(object sender, EventArgs e)
         {
 
             basketWindow?.Close();
             fullProductInfo?.Close();
         }
-
+        // Открывает окно добавления продукта.
         private void AddProductButton(object sender, MouseButtonEventArgs e)
         {
             AddProduct addProduct = new AddProduct();
             addProduct.ShowDialog();
             Paggination();
         }
-
+        // Открывает окно изменения продукта.
         private void ChangeProduct(object sender, RoutedEventArgs e)
         {
             var item = ((FrameworkElement)sender).DataContext as ProductItem;
@@ -802,8 +804,7 @@ namespace Tea_Coffe
             changeRemoveProduct.ShowDialog();
             Paggination();
         }
-
-
+        // Открывает окно хранилища.
         private void OpenStorage(object sender, MouseButtonEventArgs e)
         {
             CloseLeftMenu();
@@ -811,46 +812,46 @@ namespace Tea_Coffe
             storageWindow.ShowDialog();
 
         }
-
+        // Открывает окно пользователей.
         private void ShowUsers(object sender, MouseButtonEventArgs e)
         {
             CloseLeftMenu();
             Users users = new Users();
             users.ShowDialog();
         }
-
+        // Открывает окно отчетов.
         private void ShowReports(object sender, MouseButtonEventArgs e)
         {
             ReportGenerator reportGenerator = new ReportGenerator();
             reportGenerator.ShowDialog();
         }
-
+        // Открывает окно резервного копирования.
         private void ShowBD(object sender, MouseButtonEventArgs e)
         {
             Backup backup = new Backup();
             backup.ShowDialog();
         }
-
+        // Открывает окно заказов.
         private void OpenOrder(object sender, MouseButtonEventArgs e)
         {
             ShowOrders showOrders = new ShowOrders();
             showOrders.ShowDialog();
         }
-
+        // Пагинация - переходит к предыдущей странице.
         private void PagLeft(object sender, RoutedEventArgs e)
         {
             currenttab--;
             Paggination();
             scrollViewer.ScrollToTop();
         }
-
+        // Пагинация - переходит к следующей странице.
         private void PagRight(object sender, RoutedEventArgs e)
         {
             currenttab++;
             Paggination();
             scrollViewer.ScrollToTop();
         }
-
+        // Выполняет пагинацию
         private void Paggination()
         {
             string filter = CurrentTabTB.Text;
@@ -900,7 +901,7 @@ namespace Tea_Coffe
                 MessageBox.Show(ex.Message);
             }
         }
-
+        // Выполняет поиск по нажатию на кнопку
         private void SearchButtonClick(object sender, RoutedEventArgs e)
         {
             Paggination();
