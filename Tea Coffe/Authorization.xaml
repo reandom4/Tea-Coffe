@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tea_Coffe"
         mc:Ignorable="d"
-        Title="authorization" Height="385" Width="370" WindowStyle="None" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Icon="Resources/icone.ico"
+        Title="Авторизация" Height="385" Width="370"  WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
-
+    
         <TextBlock Text="Войти в личный кабинет" FontSize="26" FontWeight="Bold" Margin="36,19,36,0" TextWrapping="Wrap" TextAlignment="Center" Height="69" VerticalAlignment="Top"/>
         <Border BorderBrush="#e2e3e8" Margin="10,105,10,0" BorderThickness="1" CornerRadius="5" Height="39" VerticalAlignment="Top">
             <Grid>
@@ -188,10 +189,10 @@
                     </Button>
                 </Grid>
             </Border>
-            <Image HorizontalAlignment="Right" Height="24" Margin="0,230,28,0" VerticalAlignment="Top" Width="24" Source="/Resources/refresh.png" Cursor="Hand" MouseLeftButtonDown="RefreshCaptcha"/>
+            <Image x:Name="RefreshImg" HorizontalAlignment="Right" Height="24" Margin="0,230,28,0" VerticalAlignment="Top" Width="24" Source="/Resources/refresh.png" Cursor="Hand" MouseLeftButtonDown="RefreshCaptcha"/>
             <Label x:Name="CaptchaErr" Content="Попробуйте снова через 10 секунд" HorizontalAlignment="Center" Margin="0,302,0,0" VerticalAlignment="Top" Width="216" Foreground="Red" Visibility="Collapsed"/>
         </Grid>
-        <Image Height="15" VerticalAlignment="Top" HorizontalAlignment="Right" Width="15" Source="/Resources/close.png" MouseLeftButtonDown="Image_MouseLeftButtonDown" Cursor="Hand" Margin="0,3,3,0" />
+        <Border BorderBrush="#e2e3e8" BorderThickness="1"/>
 
     </Grid>
 </Window>

@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tea_Coffe"
         mc:Ignorable="d"
-        Title="AddChangeUser" Height="170" Width="410" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Icon="Resources/icone.ico"
+        Title="Пользователь" Height="170" Width="410" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <TextBox x:Name="name" HorizontalAlignment="Left" Margin="10,28,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" FontSize="14" MaxLength="35" PreviewTextInput="TextBox_PreviewTextInput" TextChanged="Name_TextChanged"/>
         <TextBlock x:Name="Productcount" TextWrapping="Wrap" Text="Имя" FontFamily="Calibri" Padding="0,0,0,0" Foreground="#FFA9ABB1" FontSize="12" Margin="10,13,0,0" HorizontalAlignment="Left" Width="66" Height="14" VerticalAlignment="Top" />

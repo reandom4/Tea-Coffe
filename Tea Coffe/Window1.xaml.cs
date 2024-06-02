@@ -5,8 +5,10 @@ using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -58,6 +60,10 @@ namespace Tea_Coffe
             {
                 MessageBox.Show(ex.Message);
             }
+
+            InitializeInactivityTimer();
+            this.MouseMove += new MouseEventHandler(OnUserActivity);
+            this.KeyDown += new KeyEventHandler(OnUserActivity);
         }
         // Метод для отображения данных продуктов
         public void Showdata()
@@ -242,7 +248,7 @@ namespace Tea_Coffe
 
             fullProductInfo?.Close();
 
-            fullProductInfo = new FullProductInfo(item, this, curRole);
+            fullProductInfo = new FullProductInfo(item, this, curRole);            
             fullProductInfo.Show();
             fullProductInfo.Activate();
             fullProductInfo.Focus();
@@ -780,7 +786,11 @@ namespace Tea_Coffe
             basketWindow?.Close();
 
             basketWindow = new BasketWindow(Basket, this, userid);
+            
             basketWindow.Show();
+            basketWindow.Activate();
+            basketWindow.Focus();
+
         }
         // Закрывает окно корзины и другие окна при закрытии главного окна.
         private void Window_Closed(object sender, EventArgs e)
@@ -906,6 +916,95 @@ namespace Tea_Coffe
         {
             Paggination();
             scrollViewer.ScrollToTop();
+        }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (MainWindow.Width < 1900)
+            {
+                if (this.FindName("ProductView") is ListView listView)
+                {
+                    // Создайте новый FrameworkElementFactory для UniformGrid
+                    FrameworkElementFactory uniformGridFactory = new FrameworkElementFactory(typeof(UniformGrid));
+                    uniformGridFactory.SetValue(UniformGrid.ColumnsProperty, 4);
+
+                    // Создайте новый ItemsPanelTemplate, используя созданный FrameworkElementFactory
+                    ItemsPanelTemplate newTemplate = new ItemsPanelTemplate(uniformGridFactory);
+
+                    // Примените новый ItemsPanelTemplate к ListView
+                    listView.ItemsPanel = newTemplate;
+                }
+            }
+            if (MainWindow.Width > 1920)
+            {
+                if (this.FindName("ProductView") is ListView listView)
+                {
+                    // Создайте новый FrameworkElementFactory для UniformGrid
+                    FrameworkElementFactory uniformGridFactory = new FrameworkElementFactory(typeof(UniformGrid));
+                    uniformGridFactory.SetValue(UniformGrid.ColumnsProperty, 5);
+
+                    // Создайте новый ItemsPanelTemplate, используя созданный FrameworkElementFactory
+                    ItemsPanelTemplate newTemplate = new ItemsPanelTemplate(uniformGridFactory);
+
+                    // Примените новый ItemsPanelTemplate к ListView
+                    listView.ItemsPanel = newTemplate;
+                }
+            }
+        }
+
+        private void ChangeAccount(object sender, MouseButtonEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show($"Вы уверены, что хотите выйти?", "Подтверждение выхода", MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    CloseAllWindowsAndOpenLogin();
+                });
+            }
+        }
+
+        private Timer _inactivityTimer;
+        private const int InactivityLimit = 120000;
+
+        private void InitializeInactivityTimer()
+        {
+            _inactivityTimer = new Timer(InactivityLimit);
+            _inactivityTimer.Elapsed += OnInactivityTimerElapsed;
+            _inactivityTimer.Start();
+        }
+
+        public void OnUserActivity(object sender, EventArgs e)
+        {
+            _inactivityTimer.Stop();
+            _inactivityTimer.Start();
+        }
+
+        private void OnInactivityTimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                CloseAllWindowsAndOpenLogin();
+            });
+        }
+
+        private void CloseAllWindowsAndOpenLogin()
+        {
+            _inactivityTimer.Stop();
+            _inactivityTimer.Dispose();
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window != this)
+                {
+                    window.Close();
+                }
+            }
+            Authorization loginWindow = new Authorization();
+            loginWindow.Show();
+            this.Close();
+
+            // Открываем окно авторизации
+            
         }
     }
 }

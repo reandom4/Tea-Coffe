@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:Tea_Coffe"
              StartupUri="Authorization.xaml">
     <Application.Resources>
-         
+        
     </Application.Resources>
 </Application>

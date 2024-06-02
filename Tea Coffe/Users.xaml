@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tea_Coffe"
         mc:Ignorable="d"
-        Title="Users" Height="450" Width="515" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Icon="Resources/icone.ico"
+        Title="Пользователи" Height="450" Width="515" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <ListView x:Name="ProductView" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="3,53,6,0" BorderBrush="{x:Null}" Height="auto" VerticalAlignment="Top">
             <ListView.Resources>

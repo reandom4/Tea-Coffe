@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tea_Coffe"
         mc:Ignorable="d"
-                       Title="" Height="783" Width="955"   ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Icon="Resources/icone.ico"
+        Title="Изменить товар" Height="783" Width="955"   ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
 
         <Image x:Name="image"  Stretch="UniformToFill" Height="549" Margin="14,10,0,0" VerticalAlignment="Top" Source="/Resources/R.png" HorizontalAlignment="Left" Width="549" Cursor="Hand" MouseLeftButtonDown="AddImage" />

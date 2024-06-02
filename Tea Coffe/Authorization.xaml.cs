@@ -27,11 +27,7 @@ namespace Tea_Coffe
         public Authorization()
         {
             InitializeComponent();
-            //
-            //Window1 window1 = new Window1("admin", "admin");
-            //window1.Show();
-            //this.Close();
-            //
+            
         }
         // Обработчик события для закрытия окна при нажатии на изображение
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -194,6 +190,8 @@ namespace Tea_Coffe
             Refreshimage();
         }
         // Проверяет введенный текст капчи и скрывает панель капчи при правильном вводе
+
+        
         private void Entercaptcha(object sender, RoutedEventArgs e)
         {
             if (CaptchaTB.Text == capt)
@@ -204,7 +202,9 @@ namespace Tea_Coffe
             {
                 CaptchaTB.IsEnabled = false;
                 captchabutton.IsEnabled = false;
+                RefreshImg.IsEnabled = false;
                 CaptchaErr.Visibility = Visibility.Visible;
+                
                 // Создать таймер
                 DispatcherTimer timer = new DispatcherTimer
                 {
@@ -221,6 +221,7 @@ namespace Tea_Coffe
             // Разблокировать поле для ввода
             CaptchaTB.IsEnabled = true;
             captchabutton.IsEnabled = true;
+            RefreshImg.IsEnabled = true;
             CaptchaErr.Visibility = Visibility.Collapsed;
             // Остановить таймер
             DispatcherTimer timer = (DispatcherTimer)sender;
@@ -248,6 +249,11 @@ namespace Tea_Coffe
 
             //System.Windows.Controls.Image imageControl = new System.Windows.Controls.Image();
             imageCaptcha.Source = bitmapImage;
+        }
+
+        public void Closeapp()
+        {
+            this.Close();
         }
     }
 }

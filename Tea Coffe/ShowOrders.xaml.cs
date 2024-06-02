@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Timers;
 using System.Windows;
 using System.Windows.Input;
 
@@ -16,6 +17,7 @@ namespace Tea_Coffe
         {
             InitializeComponent();
             Init();
+
         }
         // Метод инициализации, который загружает заказы и отображает их в интерфейсе
         private void Init()
@@ -65,5 +67,7 @@ namespace Tea_Coffe
             ShowOrderItems showOrderItems = new ShowOrderItems(item.OrderProducts);// Создание окна для отображения подробной информации о заказе
             showOrderItems.ShowDialog();// Открытие окна в виде диалогового окна
         }
+
+        
     }
 }

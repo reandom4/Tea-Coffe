@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tea_Coffe"
         mc:Ignorable="d"
-         Title="Report Generator" Height="230" Width="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Icon="Resources/icone.ico"
+        Title="Отчеты" Height="230" Width="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid Margin="10">
 
 

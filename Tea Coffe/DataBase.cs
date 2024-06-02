@@ -2,11 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.IO;
-using System.Reflection;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Transactions;
+
 using static Tea_Coffe.Window1;
 
 namespace Tea_Coffe
@@ -381,8 +383,6 @@ namespace Tea_Coffe
                 MySqlCommand command3 = new MySqlCommand($"INSERT INTO `tea_coffe`.`order` (`OrderProducts`, `OrderPrice`, `employeid`, `date`) VALUES ('{lastId}', '{fulprice}', '{employeid}','{date}');", connection);
                 command3.ExecuteNonQuery();
 
-                // Запрос 3 и так далее
-
                 // Если все запросы выполнены успешно, коммитим транзакцию
                 transaction.Complete();
                 result = true;
@@ -589,11 +589,9 @@ namespace Tea_Coffe
             return dataTable;
         }
         //Создание резервной копии базы данных.
-        public void Backup()
+        public void Backup(string filePath)
         {
-            string exePath = Assembly.GetExecutingAssembly().Location;
-            string programPath = Path.GetDirectoryName(exePath);
-            string file = Path.Combine(programPath, "Backup", $"backup{DateTime.Now:dd.MM.yyyy HH.mm.ss}.sql");
+
 
             using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
@@ -603,7 +601,7 @@ namespace Tea_Coffe
                     {
                         cmd.Connection = conn;
                         conn.Open();
-                        mb.ExportToFile(file);
+                        mb.ExportToFile(filePath);
                         conn.Close();
                     }
                 }
@@ -668,6 +666,154 @@ namespace Tea_Coffe
 
             connection.Close();
             return Convert.ToInt32(dataTable.Rows[0][0].ToString());
+        }
+        public void Outputcsv(string table, string filePath)
+        {
+
+            string query = $"SELECT * FROM {table};"; // Замените на свой запрос
+
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    using (MySqlDataAdapter adapter = new MySqlDataAdapter(command))
+                    {
+                        DataTable dataTable = new DataTable();
+                        adapter.Fill(dataTable);
+                        WriteDataTableToCsv(dataTable, filePath);
+
+
+                    }
+                }
+            }
+
+        }
+        static void WriteDataTableToCsv(DataTable dataTable, string csvFilePath)
+        {
+            // Создаем файл CSV
+            using (StreamWriter writer = new StreamWriter(csvFilePath))
+            {
+                // Записываем заголовки столбцов
+                foreach (DataColumn column in dataTable.Columns)
+                {
+                    writer.Write(column.ColumnName + ",");
+                }
+                writer.WriteLine();
+
+                // Записываем данные
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    foreach (DataColumn column in dataTable.Columns)
+                    {
+                        writer.Write(row[column].ToString() + ",");
+                    }
+                    writer.WriteLine();
+                }
+            }
+        }
+
+        public void ImportCsvToDatabase(string csvFilePath, string tableName)
+        {
+            var records = ReadCsvFile(csvFilePath);
+            InsertRecordsIntoDatabase(records, tableName);
+        }
+
+        private List<Dictionary<string, string>> ReadCsvFile(string csvFilePath)
+        {
+            var records = new List<Dictionary<string, string>>();
+
+            using (var reader = new StreamReader(csvFilePath))
+            {
+                string headerLine = reader.ReadLine();
+                var headers = headerLine.Split(',');
+
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    var values = line.Split(',');
+                    var record = new Dictionary<string, string>();
+
+                    for (int i = 0; i < headers.Length; i++)
+                    {
+                        record[headers[i]] = values[i];
+                    }
+
+                    records.Add(record);
+                }
+            }
+
+            return records;
+        }
+
+        private void InsertRecordsIntoDatabase(List<Dictionary<string, string>> records, string tableName)
+        {
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                var columnsInTable = GetColumnsInTable(tableName, connection);
+
+                foreach (var record in records)
+                {
+                    var columns = string.Join(", ", record.Keys.Where(k => columnsInTable.Contains(k)));
+                    var parameters = string.Join(", ", record.Keys.Where(k => columnsInTable.Contains(k)).Select(k => "@" + k));
+                    var query = $"INSERT INTO {tableName} ({columns}) VALUES ({parameters})";
+
+                    using (var command = new MySqlCommand(query, connection))
+                    {
+                        foreach (var kvp in record.Where(kvp => columnsInTable.Contains(kvp.Key)))
+                        {
+                            if (kvp.Value == "")
+                            {
+                                command.Parameters.AddWithValue("@" + kvp.Key, DBNull.Value);
+                            }
+                            else
+                            {
+                                command.Parameters.AddWithValue("@" + kvp.Key, kvp.Value); 
+                            }
+                            
+                        }
+
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
+        private List<string> GetColumnsInTable(string tableName, MySqlConnection connection)
+        {
+            var columns = new List<string>();
+
+            using (var command = new MySqlCommand($"SHOW COLUMNS FROM {tableName}", connection))
+            using (var reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    columns.Add(reader.GetString(0));
+                }
+            }
+
+            return columns;
+        }
+
+        public int GetLastOrderId()
+        {
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            connection.Open();
+            MySqlCommand command = new MySqlCommand("SELECT MAX(idOrder_Items) FROM order_items", connection);
+            int lastId = Convert.ToInt32(command.ExecuteScalar());
+            return lastId;
+        }
+
+        public string GetUserName(int id)
+        {
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            connection.Open();
+            MySqlCommand command = new MySqlCommand($"SELECT CONCAT(name , ' ',patronymic , ' ',CONCAT(SUBSTRING(surname, 1, 1), '.')) AS SurnameInitial  FROM tea_coffe.user where idUser = {id};", connection);
+            string name = (string)command.ExecuteScalar();
+            return name;
         }
     }
 

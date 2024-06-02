@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tea_Coffe"
         mc:Ignorable="d"
-               Title="StorageWindow" Height="480" Width="720" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Icon="Resources/icone.ico"
+        Title="Заказы" Height="480" Width="720" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <ListView x:Name="ProductView" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="3,46,0,0"   BorderBrush="{x:Null}" Height="auto" VerticalAlignment="Top" HorizontalAlignment="Left" Width="707"  >
             <ListView.ItemContainerStyle>

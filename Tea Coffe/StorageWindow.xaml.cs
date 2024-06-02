@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -29,6 +30,7 @@ namespace Tea_Coffe
             {
                 Console.WriteLine(ex.Message);
             }
+
         }
         // Метод для отображения данных в DataGrid
         private void Showdata(DataTable dataTable)
@@ -170,5 +172,7 @@ namespace Tea_Coffe
                 MessageBox.Show(ex.Message);
             }
         }
+
+        
     }
 }

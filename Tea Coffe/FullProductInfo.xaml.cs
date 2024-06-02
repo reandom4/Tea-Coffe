@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -21,6 +22,9 @@ namespace Tea_Coffe
         {
             InitializeComponent();
             mainWindow = main;
+
+            this.MouseMove += new MouseEventHandler(OnUserActivity);
+            this.KeyDown += new KeyEventHandler(OnUserActivity);
             try
             {
                 productItem = item;
@@ -63,7 +67,7 @@ namespace Tea_Coffe
                     taste_and_aroma.Text = productItem.Taste_and_aroma;
                 }
 
-                if (role != "admin")
+                if (role != "cashier")
                 {
                     AddToBasketGrid.Visibility = Visibility.Collapsed;
                 }
@@ -145,5 +149,12 @@ namespace Tea_Coffe
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void OnUserActivity(object sender, EventArgs e)
+        {
+            mainWindow.OnUserActivity(sender, e);
+        }
+
+
     }
 }

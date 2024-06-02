@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Input;
 using static Tea_Coffe.Window1;
@@ -19,6 +20,10 @@ namespace Tea_Coffe
         public BasketWindow(List<ProductItem> items, Window1 main, int id)
         {
             InitializeComponent();
+
+
+            this.MouseMove += new MouseEventHandler(OnUserActivity);
+            this.KeyDown += new KeyEventHandler(OnUserActivity);
             try
             {
                 userid = id;
@@ -158,7 +163,7 @@ namespace Tea_Coffe
                 if (result)
                 {
 
-                    wordHelper.Creatcheque(pr, dateTime);
+                    wordHelper.Creatcheque(pr, dateTime, userid);
                     pr.Clear();
                     Window1.Showdata();
                     MessageBox.Show("Заказ успешно оформлен");
@@ -173,6 +178,12 @@ namespace Tea_Coffe
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+
+        private void OnUserActivity(object sender, EventArgs e)
+        {
+            Window1.OnUserActivity(sender, e);
         }
     }
 }

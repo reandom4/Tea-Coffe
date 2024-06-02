@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Timers;
 using System.Windows;
+using System.Windows.Input;
 using static Tea_Coffe.Window1;
 
 namespace Tea_Coffe
@@ -16,6 +18,7 @@ namespace Tea_Coffe
         public ShowOrderItems(int id)
         {
             InitializeComponent();
+            
             try
             {
                 DataTable dataTable = dataBase.GetOrderItem(id);
@@ -50,5 +53,7 @@ namespace Tea_Coffe
                 MessageBox.Show(ex.Message);
             }
         }
+
+        
     }
 }

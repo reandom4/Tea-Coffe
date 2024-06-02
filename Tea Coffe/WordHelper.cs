@@ -1,16 +1,20 @@
 ﻿using Microsoft.Office.Interop.Word;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Reflection;
+using System.Runtime;
 using static Tea_Coffe.Window1;
+
 using Word = Microsoft.Office.Interop.Word;
 
 namespace Tea_Coffe
 {
     internal class WordHelper
     {
-        public void Creatcheque(List<ProductItem> items, DateTime dateTime)
+        readonly DataBase dataBase = new DataBase();
+        public void Creatcheque(List<ProductItem> items, DateTime dateTime,int userid)
         {
             Word.Application wordApp = new Word.Application
             {
@@ -71,26 +75,28 @@ namespace Tea_Coffe
             table.Cell(items.Count + 1, 2).Range.ParagraphFormat.SpaceAfter = 0;
             table.Cell(items.Count + 1, 3).Range.ParagraphFormat.SpaceAfter = 0;
 
-
-
+            
+            string name = dataBase.GetUserName(userid);
+            int checknumber = dataBase.GetLastOrderId();
+            CompanyInfo inf = GetSettings();
             Word.Paragraph textAfterTable = doc.Paragraphs.Add();
             textAfterTable.Format.Alignment = Word.WdParagraphAlignment.wdAlignParagraphLeft; // Выравнивание по правому краю
             textAfterTable.Range.Font.Bold = 0;
             textAfterTable.Range.Font.Size = 8;
             textAfterTable.Format.SpaceAfter = 0;
-            textAfterTable.Range.Text = "Адрес: Московская обл. Балашиха г." +
-                              "Место расчета: г. Заводская ул. Бажанова д. 14\n" +
-                              "КАССИР: Иванов С.В.\n" +
-                              "Сайт ФНС: www.nalog.ru\n" +
-                              "СНО: ОСН\n" +
-                              "ЗН ККТ: 0123456789\n" +
-                              "Чек №: 9876543210\n" +
+            textAfterTable.Range.Text =  $"Адрес: {inf.Adres}\n" +
+                              $"Место расчета: г. {inf.Place}\n" +
+                              $"КАССИР: {name}\n" +
+                              $"Сайт ФНС: {inf.FNS}\n" +
+                              $"СНО: {inf.SNO}\n" +
+                              $"ЗН ККТ: {inf.KKT}\n" +
+                              $"Чек №: {checknumber}\n" +
                               $"Дата и время: {dateTime:dd.MM.yyyy HH.mm.ss}" +
-                              "ИНН: 123456789012\n" +
-                              "РК ККТ: 456789\n" +
-                              "ФН № 987654321098\n" +
-                              "ФД № example.ofd.com\n" +
-                              "ФП: 123123123\n";
+                              $"ИНН: {inf.INN}\n" +
+                              $"РК ККТ:{inf.RKKKT}\n" +
+                              $"ФН № {inf.FN}\n" +
+                              $"ФД № {inf.FD}\n" +
+                              $"ФП: {inf.FP}\n";
 
 
             // Сохраняем документ
@@ -429,5 +435,93 @@ namespace Tea_Coffe
 
             Console.WriteLine("Чек успешно создан.");
         }
-    }
+
+        public CompanyInfo GetSettings()
+        {
+            string configFile = "setting.ini";
+
+            // Проверка существования файла
+
+            // Чтение содержимого файла и разбивка его на строки
+            string[] lines = File.ReadAllLines(configFile);
+
+            // Создание словаря для хранения переменных конфигурации
+            Dictionary<string, string> config = new Dictionary<string, string>();
+
+            // Обработка каждой строки файла
+            foreach (string line in lines)
+            {
+                // Разделение строки на ключ и значение
+                string[] parts = line.Split('=');
+                if (parts.Length == 2)
+                {
+                    // Добавление в словарь
+                    config[parts[0].Trim()] = parts[1].Trim();
+                }
+            }
+
+            // Использование переменных конфигурации
+            CompanyInfo info = new CompanyInfo();
+            if (config.TryGetValue("Адрес", out string dbString))
+            {
+                info.Adres = dbString;
+            }
+            if (config.TryGetValue("Место_расчета", out dbString))
+            {
+                info.Place = dbString;
+            }
+            if (config.TryGetValue("КАССИР", out dbString))
+            {
+                info.Kassir = dbString;
+            }
+            if (config.TryGetValue("Сайт_ФНС", out dbString))
+            {
+                info.FNS = dbString;
+            }
+            if (config.TryGetValue("СНО", out dbString))
+            {
+                info.SNO = dbString;
+            }
+            if (config.TryGetValue("ЗНККТ", out dbString))
+            {
+                info.KKT = dbString;
+            }
+            if (config.TryGetValue("ИНН", out dbString))
+            {
+                info.INN = dbString;
+            }
+            if (config.TryGetValue("РКККТ", out dbString))
+            {
+                info.RKKKT = dbString;
+            }
+            if (config.TryGetValue("ФН", out dbString))
+            {
+                info.FN = dbString;
+            }
+            if (config.TryGetValue("ФД", out dbString))
+            {
+                info.FD = dbString;
+            }
+            if (config.TryGetValue("ФП", out dbString))
+            {
+                info.FP = dbString;
+            }
+            return info;
+
+        }
+        public class CompanyInfo
+        {
+            public string Adres { get; set; }
+            public string Place { get; set; }
+            public string Kassir { get; set; }
+            public string FNS { get; set; }
+            public string SNO { get; set; }
+            public string KKT { get; set; }
+            public string INN { get; set; }
+            public string RKKKT { get; set; }
+            public string FN { get; set; }
+            public string FD { get; set; }
+            public string FP { get; set; }
+        }
+        }
 }

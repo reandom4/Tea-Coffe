@@ -3,6 +3,7 @@ using System;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -161,8 +162,8 @@ namespace Tea_Coffe
                     long fileSizeInBytes = fileInfo.Length;
                     long fileSizeInKB = fileSizeInBytes / 1024; // переводим байты в килобайты
 
-                    // Устанавливаем максимальный размер файла (например, 5 МБ)
-                    long maxSizeInKB = 10 * 1024;
+                    // Устанавливаем максимальный размер файла =
+                    long maxSizeInKB = 3 * 1024;
 
                     if (fileSizeInKB > maxSizeInKB)
                     {
@@ -251,5 +252,7 @@ namespace Tea_Coffe
                 Console.WriteLine(ex.Message);
             }
         }
+
+
     }
 }

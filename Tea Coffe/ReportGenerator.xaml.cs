@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Timers;
 using System.Windows;
 using System.Windows.Input;
 using static Tea_Coffe.Window1;
@@ -14,10 +15,12 @@ namespace Tea_Coffe
     {
         readonly DataBase dataBase = new DataBase();
         readonly WordHelper wordHelper = new WordHelper();
+
         public ReportGenerator()
         {
             InitializeComponent();
             Init();
+
         }
         // Инициализация элементов выбора даты с установкой диапазонов дат
         private void Init()
@@ -30,12 +33,14 @@ namespace Tea_Coffe
         // Генерация отчетов на основе выбранного типа отчета и диапазона дат
         private void Generate(object sender, RoutedEventArgs e)
         {
-            if (startDatePicker.SelectedDate.Value == null || endDatePicker.SelectedDate.Value == null)
-            {
-                MessageBox.Show("Укажите даты");
-            }
+            wordHelper.GetSettings();
+            
             try
             {
+                if (startDatePicker.SelectedDate.Value == null || endDatePicker.SelectedDate.Value == null)
+                {
+                    MessageBox.Show("Укажите даты");
+                }
                 string startdate = startDatePicker.SelectedDate?.ToString("yyyy-MM-dd");
                 string enddate = endDatePicker.SelectedDate?.ToString("yyyy-MM-dd");
                 if (DateTime.Parse(startdate) > DateTime.Parse(enddate))
@@ -152,5 +157,7 @@ namespace Tea_Coffe
             if (endDatePicker.SelectedDate != null)
                 startDatePicker.DisplayDateEnd = endDatePicker.SelectedDate.Value;
         }
+
+        
     }
 }

@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tea_Coffe"
         mc:Ignorable="d"
-        Title="BasketWindow" Height="527" Width="900" WindowStyle="None" MinWidth="933" MinHeight="350" WindowStartupLocation="CenterScreen" Cursor="">
+        Icon="Resources/icone.ico"
+        Title="Корзина" Height="527" Width="900"  MinWidth="933" MinHeight="350" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
     <Grid>
         <TextBlock HorizontalAlignment="Left" Margin="26,26,0,0" TextWrapping="Wrap" Text="Моя корзина" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" FontFamily="Calibri"/>
         <Image Height="15" VerticalAlignment="Top" HorizontalAlignment="Right" Width="15" Source="/Resources/close.png" Margin="0,3,5,0" MouseLeftButtonDown="Image_MouseLeftButtonDown" Cursor="Hand" />

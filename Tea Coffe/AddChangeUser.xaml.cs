@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -17,7 +18,6 @@ namespace Tea_Coffe
         public AddChangeUser(User user = null)
         {
             InitializeComponent();
-
             startuser = user;// Сохранение переданного пользователя
             if (user == null)
             {
@@ -28,6 +28,7 @@ namespace Tea_Coffe
                 ChangeButton.Visibility = Visibility.Visible;// Если пользователь передан, показать кнопку изменения
                 Init(user);// Инициализация полей формы данными пользователя
             }
+            
         }
         // Инициализация полей формы данными пользователя
         private void Init(User user)
@@ -186,5 +187,7 @@ namespace Tea_Coffe
                 textBox.CaretIndex = caretIndex;
             }
         }
+
+
     }
 }
