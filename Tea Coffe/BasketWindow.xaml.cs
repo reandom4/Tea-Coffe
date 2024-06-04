@@ -180,7 +180,7 @@ namespace Tea_Coffe
             }
         }
 
-
+        //Обновление таймера при активности
         private void OnUserActivity(object sender, EventArgs e)
         {
             Window1.OnUserActivity(sender, e);

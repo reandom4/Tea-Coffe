@@ -33,13 +33,13 @@
 
             <TextBlock Text="" FontSize="12" Foreground="White" TextWrapping="Wrap" Margin="3,14,3,0"/>
         </Grid>
-        <StackPanel  Orientation="Horizontal" Margin="193,690,608,44">
+        <StackPanel  Orientation="Horizontal" Margin="193,690,0,0" Height="65" VerticalAlignment="Top" HorizontalAlignment="Left" Width="154">
             <TextBlock x:Name="quantityTextBlock" Text="100" FontSize="24" TextWrapping="NoWrap" FontWeight="Bold" VerticalAlignment="Top"  />
             <ComboBox x:Name="unitComboBox" Width="100" Height="34" Margin="5,0,0,0" FontSize="24" VerticalAlignment="Top" SelectedIndex="0" VerticalContentAlignment="Stretch" Padding="6,0,5,0" SelectionChanged="ChangeUnit"  >
 
             </ComboBox>
         </StackPanel>
-        <ComboBox x:Name="categoryComboBox" FontSize="24" SelectedIndex="2" VerticalContentAlignment="Stretch" Padding="6,0,5,0" SelectionChanged="ChangeUnit"  Margin="378,690,396,0" Height="34" VerticalAlignment="Top"  />
+        <ComboBox x:Name="categoryComboBox" FontSize="24" SelectedIndex="0" VerticalContentAlignment="Stretch" Padding="6,0,5,0" SelectionChanged="ChangeUnit"  Margin="378,690,396,0" Height="34" VerticalAlignment="Top"  />
         <Button Content="Создать" Background="#FF2FAC66" BorderBrush="{x:Null}" Foreground="White" FontSize="14" BorderThickness="0,1,1,1" SnapsToDevicePixels="False"  Margin="378,732,396,0" Click="CreateProduct" Height="34" VerticalAlignment="Top" RenderTransformOrigin="0.477,1" >
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">

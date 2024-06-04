@@ -76,7 +76,18 @@ namespace Tea_Coffe
                     MessageBox.Show("Пароль не заполнен", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
-
+                if (user.Role == "Админ")
+                {
+                    user.Role = "admin";
+                }
+                if (user.Role == "Кассир")
+                {
+                    user.Role = "cashier";
+                }
+                if (user.Role == "Кладовщик")
+                {
+                    user.Role = "storekeeper";
+                }
                 dataBase.ChangeUser(user);
 
                 MessageBox.Show("Пользователь успешно изменен", "", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -125,7 +136,18 @@ namespace Tea_Coffe
                     MessageBox.Show("Пароль не заполнен", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
-
+                if (user.Role == "Админ")
+                {
+                    user.Role = "admin"; 
+                }
+                if (user.Role == "Кассир")
+                {
+                    user.Role = "cashier"; 
+                }
+                if (user.Role == "Кладовщик")
+                {
+                    user.Role = "storekeeper"; 
+                }
                 dataBase.CreateUser(user);
 
                 MessageBox.Show("Пользователь успешно добавлен", "", MessageBoxButton.OK, MessageBoxImage.Information);

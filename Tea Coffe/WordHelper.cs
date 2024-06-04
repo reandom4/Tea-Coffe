@@ -14,6 +14,7 @@ namespace Tea_Coffe
     internal class WordHelper
     {
         readonly DataBase dataBase = new DataBase();
+        // Создание чека
         public void Creatcheque(List<ProductItem> items, DateTime dateTime,int userid)
         {
             Word.Application wordApp = new Word.Application
@@ -112,53 +113,7 @@ namespace Tea_Coffe
 
             Console.WriteLine("Чек успешно создан.");
         }
-
-        public void CreateAvg(double avg)
-        {
-            // Создаем объект приложения Word
-            Word.Application wordApp = new Word.Application
-            {
-                Visible = true
-            };
-            // Создаем новый документ
-            Document doc = wordApp.Documents.Add();
-
-            // Устанавливаем размер страницы документа на минимальное значение
-            doc.PageSetup.PaperSize = WdPaperSize.wdPaperA5;
-            doc.PageSetup.Orientation = WdOrientation.wdOrientPortrait;
-
-            // Добавляем заголовок
-            Paragraph title = doc.Paragraphs.Add();
-            title.Range.Text = "Магазин чая и кофе";
-            title.Range.Font.Size = 24;
-            title.Range.Font.Bold = 1; // Жирный шрифт
-            title.Alignment = WdParagraphAlignment.wdAlignParagraphCenter; // Выравнивание по центру
-            title.Range.InsertParagraphAfter();
-
-            // Получаем средний чек из базы данных
-            double averageCheck = avg;
-
-            // Добавляем информацию о среднем чеке
-            Paragraph averageCheckParagraph = doc.Paragraphs.Add();
-            averageCheckParagraph.Range.Text = $"Средний чек = {averageCheck:0.00}";
-            averageCheckParagraph.Range.Font.Size = 16;
-            averageCheckParagraph.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
-            averageCheckParagraph.Range.InsertParagraphAfter();
-
-            // Сохраняем документ
-            string exePath = Assembly.GetExecutingAssembly().Location;
-            string programPath = Path.GetDirectoryName(exePath);
-            string chequesFolderPath = Path.Combine(programPath, "Отчеты", "Средний чек");
-            string filePath = Path.Combine(chequesFolderPath, $"Отчет о средним чеке{DateTime.Now:dd.MM.yyyy HH.mm.ss}.docx");
-            doc.SaveAs2(filePath);
-
-            // Закрываем документ и выходим из Word
-            //doc.Close();
-            //wordApp.Quit();
-
-            Console.WriteLine($"Документ успешно создан и сохранен по пути: {filePath}");
-        }
-
+        // Создание отчета о популярных товарах
         public void Createpopular(List<ProductItem> items)
         {
             Word.Application wordApp = new Word.Application
@@ -238,7 +193,7 @@ namespace Tea_Coffe
 
             Console.WriteLine("Чек успешно создан.");
         }
-
+        // Создание отчета отчета о выручке
         public void CreateBill(List<ProductItem> items)
         {
             Word.Application wordApp = new Word.Application
@@ -322,6 +277,7 @@ namespace Tea_Coffe
 
             Console.WriteLine("Чек успешно создан.");
         }
+        // Создание отчета о среднем чеке
         public void Process(Dictionary<string, string> items)
         {
             string exePath = Assembly.GetExecutingAssembly().Location;
@@ -368,7 +324,7 @@ namespace Tea_Coffe
             //app.Quit();
 
         }
-
+        // Создание отчета инвентаризации
         public void CreateStorage(List<ProductItem> items)
         {
             Word.Application wordApp = new Word.Application
@@ -435,7 +391,7 @@ namespace Tea_Coffe
 
             Console.WriteLine("Чек успешно создан.");
         }
-
+        // Получение настроек
         public CompanyInfo GetSettings()
         {
             string configFile = "setting.ini";

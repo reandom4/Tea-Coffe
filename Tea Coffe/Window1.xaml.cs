@@ -70,63 +70,6 @@ namespace Tea_Coffe
         {
             try
             {
-                //DataTable dataTable = new DataTable();
-                //dataTable = dataBase.SearchProducts("", "Популярные");
-
-                //List<ProductItem> productList = new List<ProductItem>();
-
-
-                //foreach (DataRow row in dataTable.Rows)
-                //{
-                //    // Создание нового объекта ProductItem
-                //    ProductItem item = new ProductItem
-                //    {
-                //        // Присвоение значения свойствам из данных строки таблицы
-                //        Id = Convert.ToInt32(row["idProducts"]),
-                //        Name = row["name"].ToString(),
-                //        ImageData = System.IO.Directory.GetCurrentDirectory() + "\\image\\" + row["photo"].ToString(),
-                //        Cost = Convert.ToInt32(row["cost"]),
-                //        DefaultCost = Convert.ToInt32(row["cost"]),
-                //        Unit = row["Products_unitname"].ToString(),
-                //        MinUnit = Convert.ToInt32(row["products_unitcol"]),
-                //        Quantity = Convert.ToInt32(row["products_unitcol"]),
-                //        QuantityInStock = Convert.ToInt32(row["quantity"]),
-                //        Category = row["Product_categoryname"].ToString(),
-                //        AllowChange = "Collapsed",
-                //        AllowBasket = "Collapsed"
-
-                //    };
-                //    if (item.QuantityInStock < item.MinUnit)
-                //    {
-                //        item.Quantity = 0;
-                //        if (curRole != "admin")
-                //        {
-                //            continue;
-                //        }
-                //    }
-                //    if (curRole == "admin")
-                //    {
-                //        item.AllowChange = "Visible";
-
-                //    }
-                //    if (curRole == "cashier")
-                //    {
-                //        item.AllowBasket = "Visible";
-                //    }
-                //    // Добавление объекта ProductItem в список
-                //    productList.Add(item);
-                //    item.Description = row["description"].ToString();
-                //    item.Cooking_method = row["cooking_method"].ToString();
-                //    item.Taste_and_aroma = row["taste_and_aroma"].ToString();
-                //    item.MaxQuantity = "Collapsed";
-
-                //}
-
-
-                //ProductView.ItemsSource = null;
-                //ProductView.ItemsSource = productList;
-                //Productcount.Text = $"найдено {productList.Count}";
-
                 CurrentTabTB.Text = $"Все товары";
                 mainsortTB.Text = "Популярные";
                 expensiveTB.Background = Brushes.White; ;
@@ -778,7 +721,6 @@ namespace Tea_Coffe
             public int Total_quantity { get; set; }
         }
 
-
         BasketWindow basketWindow;
         // Отображает окно корзины с полным списком продуктов.
         private void ShowFullBasket(object sender, MouseButtonEventArgs e)
@@ -917,7 +859,7 @@ namespace Tea_Coffe
             Paggination();
             scrollViewer.ScrollToTop();
         }
-
+        // Обработка изменения размера формы
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (MainWindow.Width < 1900)
@@ -951,7 +893,7 @@ namespace Tea_Coffe
                 }
             }
         }
-
+        // Смена пользователя
         private void ChangeAccount(object sender, MouseButtonEventArgs e)
         {
             MessageBoxResult result = MessageBox.Show($"Вы уверены, что хотите выйти?", "Подтверждение выхода", MessageBoxButton.YesNo);
@@ -966,20 +908,20 @@ namespace Tea_Coffe
 
         private Timer _inactivityTimer;
         private const int InactivityLimit = 120000;
-
+        // Инициализация таймера
         private void InitializeInactivityTimer()
         {
             _inactivityTimer = new Timer(InactivityLimit);
             _inactivityTimer.Elapsed += OnInactivityTimerElapsed;
             _inactivityTimer.Start();
         }
-
+        // Сброс таймера при активности
         public void OnUserActivity(object sender, EventArgs e)
         {
             _inactivityTimer.Stop();
             _inactivityTimer.Start();
         }
-
+        // Выполняется при истечении времени таймера
         private void OnInactivityTimerElapsed(object sender, ElapsedEventArgs e)
         {
             Application.Current.Dispatcher.Invoke(() =>
@@ -987,7 +929,7 @@ namespace Tea_Coffe
                 CloseAllWindowsAndOpenLogin();
             });
         }
-
+        // Закрывает все окна и открывает форму авторизации
         private void CloseAllWindowsAndOpenLogin()
         {
             _inactivityTimer.Stop();

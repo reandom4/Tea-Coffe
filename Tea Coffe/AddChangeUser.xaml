@@ -60,9 +60,9 @@
             </Button.Template>
         </Button>
         <ComboBox x:Name="role" HorizontalAlignment="Left" Margin="260,69,0,0" VerticalAlignment="Top" Width="120" Height="21">
-            <ComboBoxItem Content="admin" FontSize="14"/>
-            <ComboBoxItem Content="cashier" FontSize="14"/>
-            <ComboBoxItem Content="storekeeper" FontSize="14"/>
+            <ComboBoxItem Content="Админ" FontSize="14"/>
+            <ComboBoxItem Content="Кассир" FontSize="14"/>
+            <ComboBoxItem Content="Кладовщик" FontSize="14"/>
         </ComboBox>
         <Button x:Name="AddButton" Content="Добавить" Background="#FF2FAC66" BorderBrush="{x:Null}" Foreground="White" FontSize="14" BorderThickness="0,1,1,1" SnapsToDevicePixels="False"  Margin="280,95,0,0"  HorizontalAlignment="Left" Width="100" Height="21" VerticalAlignment="Top" Click="Add" Visibility="Collapsed" >
             <Button.Template>

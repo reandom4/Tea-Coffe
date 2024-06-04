@@ -167,7 +167,7 @@ namespace Tea_Coffe
 
                     if (fileSizeInKB > maxSizeInKB)
                     {
-                        MessageBox.Show("Файл слишком большой. Максимальный размер файла: 10 МБ.");
+                        MessageBox.Show("Файл слишком большой. Максимальный размер файла: 3 МБ.");
                         return;
                     }
                     // Загружаем изображение

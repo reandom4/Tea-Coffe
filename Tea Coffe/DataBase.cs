@@ -8,7 +8,6 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Transactions;
-
 using static Tea_Coffe.Window1;
 
 namespace Tea_Coffe
@@ -63,21 +62,6 @@ namespace Tea_Coffe
 
         }
         //Загружает данные о продуктах из базы данных.
-        public DataTable LoadProducts()
-        {
-
-            MySqlConnection connection = new MySqlConnection(connectionString);
-            connection.Open();
-            string query1 = "SELECT * FROM tea_coffe.product join products_unit on unit = idProducts_unit join product_category on category = idProduct_category;";
-            MySqlCommand mySqlCommand = new MySqlCommand(query1, connection);
-            MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
-            DataTable dataTable = new DataTable();
-            mySqlDataAdapter.Fill(dataTable);
-            connection.Close();
-            return dataTable;
-
-        }
-        //Загружает данные о продуктах для хранения.
         public DataTable LoadProductsStorage()
         {
 
@@ -93,105 +77,27 @@ namespace Tea_Coffe
 
         }
         //Поиск продуктов по строке search и сортировка результатов в соответствии со значением sort.
-        public DataTable SearchProducts(string search, string sort)
+        public DataTable SearchProducts(string search, string filtr)
         {
-            if (sort == "Популярные")
+            if (filtr == "Чай" || filtr == "ЧАЙ")
             {
-                sort = "total_quantity DESC";
+                filtr = "and  (Product_categoryname like '%Улун%' or Product_categoryname like  '%Чай%'  or Product_categoryname like '%Ройбуш%') ";
             }
-            if (sort == "Сначала дешёвые")
+            else if (filtr == "Кофе" || filtr == "КОФЕ")
             {
-                sort = "cost";
+                filtr = "and  (Product_categoryname like '%кофе%') ";
             }
-            if (sort == "Сначала дорогие")
+            else if (filtr == "Какао" || filtr == "КАКАО")
             {
-                sort = "cost DESC";
+                filtr = "and  (Product_categoryname like '%Горячий шоколад%' or Product_categoryname like  '%Какао%') ";
+            }
+            else
+            {
+                filtr = "";
             }
             MySqlConnection connection = new MySqlConnection(connectionString);
             connection.Open();
-            string query1 = $"SELECT p.*,u.*,c.*,IFNULL(o.total_Position, 0) AS total_Position,IFNULL(o.total_quantity, 0) AS total_quantity FROM tea_coffe.product p LEFT JOIN (SELECT product_id, SUM(quantity) AS total_Position, Sum(unitquantity) AS total_quantity FROM tea_coffe.order_items GROUP BY product_id) o ON p.idProducts = o.product_id JOIN products_unit u ON p.unit = u.idProducts_unit JOIN product_category c ON p.category = c.idProduct_category Where name like '%{search}%' Order by {sort};";
-            MySqlCommand mySqlCommand = new MySqlCommand(query1, connection);
-            MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
-            DataTable dataTable = new DataTable();
-            mySqlDataAdapter.Fill(dataTable);
-            connection.Close();
-            return dataTable;
-
-        }
-        //Поиск продуктов с пагинацией, определяемой curtab (текущая страница) и itemontab (количество элементов на странице).
-        public DataTable SearchProducts(string search, string sort, int curtab, int itemontab)
-        {
-            if (sort == "Популярные")
-            {
-                sort = "total_quantity DESC";
-            }
-            if (sort == "Сначала дешёвые")
-            {
-                sort = "cost";
-            }
-            if (sort == "Сначала дорогие")
-            {
-                sort = "cost DESC";
-            }
-            MySqlConnection connection = new MySqlConnection(connectionString);
-            connection.Open();
-            string query1 = $"SELECT p.*,u.*,c.*,IFNULL(o.total_Position, 0) AS total_Position,IFNULL(o.total_quantity, 0) AS total_quantity FROM tea_coffe.product p LEFT JOIN (SELECT product_id, SUM(quantity) AS total_Position, Sum(unitquantity) AS total_quantity FROM tea_coffe.order_items GROUP BY product_id) o ON p.idProducts = o.product_id JOIN products_unit u ON p.unit = u.idProducts_unit JOIN product_category c ON p.category = c.idProduct_category Where name like '%{search}%' Order by {sort} Limit {itemontab} Offset {curtab * itemontab}; ";
-            MySqlCommand mySqlCommand = new MySqlCommand(query1, connection);
-            MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
-            DataTable dataTable = new DataTable();
-            mySqlDataAdapter.Fill(dataTable);
-            connection.Close();
-            return dataTable;
-
-        }
-        //Фильтрация продуктов по категории и сортировка результатов.
-        public DataTable FiltrProducts(string Filtr, string sort)
-        {
-            if (sort == "Популярные")
-            {
-                sort = "total_quantity DESC";
-            }
-            if (sort == "Сначала дешёвые")
-            {
-                sort = "cost";
-            }
-            if (sort == "Сначала дорогие")
-            {
-                sort = "cost DESC";
-            }
-            MySqlConnection connection = new MySqlConnection(connectionString);
-            connection.Open();
-            string query1 = $"SELECT p.*,u.*,c.*,IFNULL(o.total_quantity, 0) AS total_quantity FROM tea_coffe.product p LEFT JOIN (SELECT product_id, SUM(unitquantity) AS total_quantity FROM tea_coffe.order_items GROUP BY product_id) o ON p.idProducts = o.product_id JOIN products_unit u ON p.unit = u.idProducts_unit JOIN product_category c ON p.category = c.idProduct_category Where Product_categoryname = '{Filtr}' Order by {sort};";
-            MySqlCommand mySqlCommand = new MySqlCommand(query1, connection);
-            MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
-            DataTable dataTable = new DataTable();
-            mySqlDataAdapter.Fill(dataTable);
-            connection.Close();
-            return dataTable;
-
-        }
-        //Комбинированный поиск и фильтрация продуктов по строке search и категории Filtr, с сортировкой результатов.
-        public DataTable SearchFiltrProducts(string search, string Filtr, string sort)
-        {
-            if (sort == "Популярные")
-            {
-                sort = "total_quantity DESC";
-            }
-            if (sort == "Сначала дешёвые")
-            {
-                sort = "cost";
-            }
-            if (sort == "Сначала дорогие")
-            {
-                sort = "cost DESC";
-            }
-            if (search != "")
-            {
-                search = $"And p.name ='{search}'";
-            }
-            MySqlConnection connection = new MySqlConnection(connectionString);
-            connection.Open();
-            string query1 = $"SELECT p.*,u.*,c.*,IFNULL(o.total_quantity, 0) AS total_quantity FROM tea_coffe.product p LEFT JOIN (SELECT product_id, SUM(unitquantity) AS total_quantity FROM tea_coffe.order_items GROUP BY product_id) o ON p.idProducts = o.product_id JOIN products_unit u ON p.unit = u.idProducts_unit JOIN product_category c ON p.category = c.idProduct_category Where Product_categoryname = '{Filtr}' {search} Order by {sort};";
+            string query1 = $"SELECT * FROM tea_coffe.product join products_unit on unit = idProducts_unit join product_category on category = idProduct_category Where name like '%{search}%' {filtr} order by (quantity / products_unitcol);";
             MySqlCommand mySqlCommand = new MySqlCommand(query1, connection);
             MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
             DataTable dataTable = new DataTable();
@@ -300,58 +206,6 @@ namespace Tea_Coffe
             mySqlDataAdapter.Fill(dataTable);
             connection.Close();
             return Convert.ToInt32(dataTable.Rows[0][0].ToString());
-
-        }
-        //Фильтрация продуктов с учетом категории и сортировки.
-        public DataTable BigFiltrProducts(string Filtr, string sort)
-        {
-            if (sort == "Популярные")
-            {
-                sort = "total_quantity DESC";
-            }
-            if (sort == "Сначала дешёвые")
-            {
-                sort = "cost";
-            }
-            if (sort == "Сначала дорогие")
-            {
-                sort = "cost DESC";
-            }
-            MySqlConnection connection = new MySqlConnection(connectionString);
-            connection.Open();
-            string query1 = $"SELECT p.*,u.*,c.*,IFNULL(o.total_quantity, 0) AS total_quantity FROM tea_coffe.product p LEFT JOIN (SELECT product_id, SUM(unitquantity) AS total_quantity FROM tea_coffe.order_items GROUP BY product_id) o ON p.idProducts = o.product_id JOIN products_unit u ON p.unit = u.idProducts_unit JOIN product_category c ON p.category = c.idProduct_category Where Product_categoryname like '%{Filtr}%' Order by {sort};";
-            MySqlCommand mySqlCommand = new MySqlCommand(query1, connection);
-            MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
-            DataTable dataTable = new DataTable();
-            mySqlDataAdapter.Fill(dataTable);
-            connection.Close();
-            return dataTable;
-
-        }
-        //Фильтрация продуктов категориями и сортировка.
-        public DataTable CacaoFiltrProducts(string Filtr1, string Filtr2, string sort)
-        {
-            if (sort == "Популярные")
-            {
-                sort = "total_quantity DESC";
-            }
-            if (sort == "Сначала дешёвые")
-            {
-                sort = "cost";
-            }
-            if (sort == "Сначала дорогие")
-            {
-                sort = "cost DESC";
-            }
-            MySqlConnection connection = new MySqlConnection(connectionString);
-            connection.Open();
-            string query1 = $"SELECT p.*,u.*,c.*,IFNULL(o.total_quantity, 0) AS total_quantity FROM tea_coffe.product p LEFT JOIN (SELECT product_id, SUM(unitquantity) AS total_quantity FROM tea_coffe.order_items GROUP BY product_id) o ON p.idProducts = o.product_id JOIN products_unit u ON p.unit = u.idProducts_unit JOIN product_category c ON p.category = c.idProduct_category Where Product_categoryname like '%{Filtr1}%' or Product_categoryname like '%{Filtr2}%' Order by {sort};";
-            MySqlCommand mySqlCommand = new MySqlCommand(query1, connection);
-            MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
-            DataTable dataTable = new DataTable();
-            mySqlDataAdapter.Fill(dataTable);
-            connection.Close();
-            return dataTable;
 
         }
         //Добавление заказа в базу данных. Принимает список товаров, идентификатор сотрудника и дату.
@@ -667,6 +521,7 @@ namespace Tea_Coffe
             connection.Close();
             return Convert.ToInt32(dataTable.Rows[0][0].ToString());
         }
+        //Выгрузка в scv
         public void Outputcsv(string table, string filePath)
         {
 
@@ -691,6 +546,7 @@ namespace Tea_Coffe
             }
 
         }
+        //Запись в scv
         static void WriteDataTableToCsv(DataTable dataTable, string csvFilePath)
         {
             // Создаем файл CSV
@@ -714,13 +570,13 @@ namespace Tea_Coffe
                 }
             }
         }
-
+        //Загрузка из scv в бд
         public void ImportCsvToDatabase(string csvFilePath, string tableName)
         {
             var records = ReadCsvFile(csvFilePath);
             InsertRecordsIntoDatabase(records, tableName);
         }
-
+        //Чтение scv файла
         private List<Dictionary<string, string>> ReadCsvFile(string csvFilePath)
         {
             var records = new List<Dictionary<string, string>>();
@@ -747,7 +603,7 @@ namespace Tea_Coffe
 
             return records;
         }
-
+        //Загрузка записей в бд
         private void InsertRecordsIntoDatabase(List<Dictionary<string, string>> records, string tableName)
         {
             using (var connection = new MySqlConnection(connectionString))
@@ -782,6 +638,7 @@ namespace Tea_Coffe
                 }
             }
         }
+        //Получить шапку таблицы
         private List<string> GetColumnsInTable(string tableName, MySqlConnection connection)
         {
             var columns = new List<string>();
@@ -797,7 +654,7 @@ namespace Tea_Coffe
 
             return columns;
         }
-
+        //Получить id последнего заказа
         public int GetLastOrderId()
         {
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -806,7 +663,7 @@ namespace Tea_Coffe
             int lastId = Convert.ToInt32(command.ExecuteScalar());
             return lastId;
         }
-
+        //Получить фио по id
         public string GetUserName(int id)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);

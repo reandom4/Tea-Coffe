@@ -47,6 +47,8 @@ namespace Tea_Coffe
 
                 categoryComboBox.ItemsSource = dataBase.LoadData("product_category").DefaultView;
                 categoryComboBox.DisplayMemberPath = "Product_categoryname";
+                categoryComboBox.SelectedValuePath = "Product_categoryname";
+                categoryComboBox.SelectedValue = "Чай";
             }
             catch (Exception ex)
             {
@@ -99,7 +101,7 @@ namespace Tea_Coffe
 
                     if (fileSizeInKB > maxSizeInKB)
                     {
-                        MessageBox.Show("Файл слишком большой. Максимальный размер файла: 10 МБ.");
+                        MessageBox.Show("Файл слишком большой. Максимальный размер файла: 3 МБ.");
                         return;
                     }
                     // Загружаем изображение

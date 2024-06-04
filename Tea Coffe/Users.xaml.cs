@@ -37,6 +37,18 @@ namespace Tea_Coffe
                         NPS = $"{dr["name"]} {dr["patronymic"]} {dr["surname"].ToString().ToCharArray()[0]}."
 
                     };
+                    if (item.Role == "admin")
+                    {
+                        item.Role = "Админ";
+                    }
+                    if (item.Role == "cashier")
+                    {
+                        item.Role = "Кассир";
+                    }
+                    if (item.Role == "storekeeper")
+                    {
+                        item.Role = "Кладовщик";
+                    }
                     users.Add(item);
                 }
                 ProductView.ItemsSource = users;
@@ -69,6 +81,18 @@ namespace Tea_Coffe
                     NPS = $"{dr["name"]} {dr["patronymic"]} {dr["surname"].ToString().ToCharArray()[0]}."
 
                 };
+                if (item.Role == "admin")
+                {
+                    item.Role = "Админ";
+                }
+                if (item.Role == "cashier")
+                {
+                    item.Role = "Кассир";
+                }
+                if (item.Role == "storekeeper")
+                {
+                    item.Role = "Кладовщик";
+                }
                 users.Add(item);
             }
             ProductView.ItemsSource = null;
@@ -94,6 +118,18 @@ namespace Tea_Coffe
                     NPS = $"{dr["name"]} {dr["patronymic"]} {dr["surname"].ToString().ToCharArray()[0]}."
 
                 };
+                if (item.Role == "admin")
+                {
+                    item.Role = "Админ";
+                }
+                if (item.Role == "cashier")
+                {
+                    item.Role = "Кассир";
+                }
+                if (item.Role == "storekeeper")
+                {
+                    item.Role = "Кладовщик";
+                }
                 users.Add(item);
             }
             ProductView.ItemsSource = null;
@@ -158,7 +194,6 @@ namespace Tea_Coffe
         public string Name { get; set; }
         public string Patronymic { get; set; }
         public string Role { get; set; }
-
         public string NPS { get; set; }
     }
 }

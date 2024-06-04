@@ -69,7 +69,7 @@ namespace Tea_Coffe
                 MessageBox.Show(ex.Message);
             }
         }
-
+        //Выгружает таблицу из бд
         private void CreateTable(object sender, RoutedEventArgs e)
         {
             string db = reportTypeComboBox.Text;
@@ -103,7 +103,7 @@ namespace Tea_Coffe
                 MessageBox.Show(ex.Message);
             }
         }
-
+        //Загружает таблицу в бд
         private void DownloadTable(object sender, RoutedEventArgs e)
         {
             try

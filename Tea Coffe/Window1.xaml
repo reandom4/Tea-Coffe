@@ -232,7 +232,7 @@ CornerRadius="25">
                 </Button>
                 <Border BorderBrush="#e2e3e8" BorderThickness="1,0,1,1" Margin="0,-1,0,100" />
                 <Border BorderBrush="#e2e3e8" BorderThickness="1" Margin="0,99,0,0"/>
-                <Border BorderBrush="#e2e3e8" Margin="220,31,387,31" BorderThickness="1" CornerRadius="5">
+                <Border BorderBrush="#e2e3e8" Margin="220,31,230,31" BorderThickness="1" CornerRadius="5">
                     <Grid Margin="0,0,0,0">
                         <TextBox x:Name="SearchTB" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
          VerticalAlignment="Center"
@@ -293,9 +293,9 @@ CornerRadius="25">
                     </Grid>
                 </Border>
 
-                <Image x:Name="BasketImage" Margin="0,31,70,31" Source="/Resources/shopping-cart.png" HorizontalAlignment="Right" Width="40" Cursor="Hand" PreviewMouseLeftButtonDown="ShowFullBasket" Visibility="Collapsed"/>
-                <Image Margin="0,31,140,31" Source="/Resources/user (1).png" HorizontalAlignment="Right" Width="40" Cursor="Hand" PreviewMouseLeftButtonDown="ChangeAccount"/>
-                <Image x:Name="AddProductImage" Margin="0,31,210,31" Source="/Resources/plus.png" PreviewMouseLeftButtonDown="AddProductButton" Cursor="Hand" Visibility="Collapsed" HorizontalAlignment="Right" Width="40"/>
+                <Image x:Name="BasketImage" Margin="0,31,140,31" Source="/Resources/shopping-cart.png" HorizontalAlignment="Right" Width="40" Cursor="Hand" PreviewMouseLeftButtonDown="ShowFullBasket" Visibility="Collapsed"/>
+                <Image Margin="0,31,70,31" Source="/Resources/user (1).png" HorizontalAlignment="Right" Width="40" Cursor="Hand" PreviewMouseLeftButtonDown="ChangeAccount"/>
+                <Image x:Name="AddProductImage" Margin="0,31,140,31" Source="/Resources/plus.png" PreviewMouseLeftButtonDown="AddProductButton" Cursor="Hand" Visibility="Collapsed" HorizontalAlignment="Right" Width="40"/>
 
             </Grid>
             <StackPanel Margin="18,150,0,0" Height="auto" VerticalAlignment="Top" HorizontalAlignment="Left" Width="auto" Orientation="Horizontal">
@@ -309,7 +309,7 @@ CornerRadius="25">
                 <Grid x:Name="leftPanelFon" Background="#26000000" PreviewMouseLeftButtonDown="LeftPanelFonClick"/>
                 <Grid x:Name="leftMenuPanel" Background="White" HorizontalAlignment="Left" Width="381">
                     <Grid x:Name="ShowAll" Margin="0,10,0,0" Height="69" VerticalAlignment="Top" HorizontalAlignment="Center" Width="381" Cursor="Hand" >
-                        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Все товары" VerticalAlignment="Center" FontSize="24" FontWeight="Bold" Padding="20,20,10,20" FontFamily="Calibri" Width="381" PreviewMouseLeftButtonDown="ShowallFiltr" MouseEnter="Hover_AllTB" MouseLeave="AllTb_MouseLeave"/>
+                        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Все товары" VerticalAlignment="Center" FontSize="24" FontWeight="Bold" Padding="20,20,10,20" FontFamily="Calibri" Width="381" PreviewMouseLeftButtonDown="ShowallFiltr" MouseEnter="Hover_AllTB" MouseLeave="AllTb_MouseLeave" Cursor="Hand"/>
 
                     </Grid>
                     <Grid x:Name="leftMenuTeaPanel" Margin="0,79,0,0" Height="69" VerticalAlignment="Top" HorizontalAlignment="Center" Width="381" Cursor="Hand" >

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Net.NetworkInformation;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
@@ -72,12 +73,12 @@ namespace Tea_Coffe
         private void Search(object sender, TextChangedEventArgs e)
         {
             string search = SearchTB.Text;
-
+            string filtr = Filtr.Text;
 
             try
             {
 
-                DataTable dt = dataBase.SearchProducts(search, "quantity");
+                DataTable dt = dataBase.SearchProducts(search, filtr);
                 Showdata(dt);
             }
             catch (Exception ex)
@@ -126,7 +127,9 @@ namespace Tea_Coffe
         {
             try
             {
-                DataTable dataTable = dataBase.LoadProductsStorage();
+                string search = SearchTB.Text;
+                string filtr = Filtr.Text;
+                DataTable dataTable = dataBase.SearchProducts("", filtr);
 
                 List<ProductItem> productList = new List<ProductItem>();
 
@@ -173,6 +176,24 @@ namespace Tea_Coffe
             }
         }
 
-        
+        private void Filtr_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+            string search = SearchTB.Text;
+            string filtr = Filtr.Text;
+            if (Filtr.SelectedItem is ComboBoxItem selectedItem)
+            {
+                filtr = selectedItem.Content.ToString();
+            }
+            try
+            {
+
+                DataTable dt = dataBase.SearchProducts(search, filtr);
+                Showdata(dt);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }

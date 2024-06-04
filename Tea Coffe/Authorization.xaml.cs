@@ -251,9 +251,5 @@ namespace Tea_Coffe
             imageCaptcha.Source = bitmapImage;
         }
 
-        public void Closeapp()
-        {
-            this.Close();
-        }
     }
 }
