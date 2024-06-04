@@ -27,7 +27,7 @@ namespace Tea_Coffe
         public Authorization()
         {
             InitializeComponent();
-            
+
         }
         // Обработчик события для закрытия окна при нажатии на изображение
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -191,7 +191,7 @@ namespace Tea_Coffe
         }
         // Проверяет введенный текст капчи и скрывает панель капчи при правильном вводе
 
-        
+        private int countdown = 10;
         private void Entercaptcha(object sender, RoutedEventArgs e)
         {
             if (CaptchaTB.Text == capt)
@@ -200,15 +200,16 @@ namespace Tea_Coffe
             }
             else
             {
+                countdown = 10;
                 CaptchaTB.IsEnabled = false;
                 captchabutton.IsEnabled = false;
                 RefreshImg.IsEnabled = false;
                 CaptchaErr.Visibility = Visibility.Visible;
-                
+                CaptchaErr.Content = $"Попробуйте снова через {countdown} секунд";
                 // Создать таймер
                 DispatcherTimer timer = new DispatcherTimer
                 {
-                    Interval = TimeSpan.FromSeconds(10)
+                    Interval = TimeSpan.FromSeconds(1)
                 };
                 timer.Tick += Timer_Tick;
                 timer.Start();
@@ -218,15 +219,38 @@ namespace Tea_Coffe
         // Разблокирует поле ввода капчи после истечения времени таймера
         private void Timer_Tick(object sender, EventArgs e)
         {
-            // Разблокировать поле для ввода
-            CaptchaTB.IsEnabled = true;
-            captchabutton.IsEnabled = true;
-            RefreshImg.IsEnabled = true;
-            CaptchaErr.Visibility = Visibility.Collapsed;
-            // Остановить таймер
-            DispatcherTimer timer = (DispatcherTimer)sender;
-            timer.Stop();
-            timer.Tick -= Timer_Tick;
+            if (countdown > 0)
+            {
+                countdown--;
+                if (countdown > 4)
+                {
+                    CaptchaErr.Content = $"Попробуйте снова через {countdown} секунд";
+                }
+                else if (countdown > 1 && countdown < 5)
+                {
+                    CaptchaErr.Content = $"Попробуйте снова через {countdown} секунды";
+                }
+                else if (countdown == 1)
+                {
+                    CaptchaErr.Content = $"Попробуйте снова через {countdown} секунду";
+                }
+                else
+                {
+                    CaptchaErr.Content = $"Попробуйте снова через {countdown} секунд";
+                }
+            }
+            else
+            {
+                // Разблокировать поле для ввода
+                CaptchaTB.IsEnabled = true;
+                captchabutton.IsEnabled = true;
+                RefreshImg.IsEnabled = true;
+                CaptchaErr.Visibility = Visibility.Collapsed;
+                // Остановить таймер
+                DispatcherTimer timer = (DispatcherTimer)sender;
+                timer.Stop();
+                timer.Tick -= Timer_Tick;
+            }
         }
         // Обновляет изображение капчи
         private void Refreshimage()

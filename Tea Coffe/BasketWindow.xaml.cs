@@ -117,10 +117,12 @@ namespace Tea_Coffe
                 if (productItem.Count == 0)
                 {
                     emptycart.Visibility = Visibility.Visible;
+                    OrderButton.IsEnabled = false;
                 }
                 else
                 {
                     emptycart.Visibility = Visibility.Collapsed;
+                    OrderButton.IsEnabled = true;
                 }
 
             }

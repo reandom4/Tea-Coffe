@@ -13,6 +13,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using static Tea_Coffe.Window1;
 
 namespace Tea_Coffe
 {
@@ -43,12 +44,12 @@ namespace Tea_Coffe
             {
                 Users.Visibility = Visibility.Visible;
                 Reports.Visibility = Visibility.Visible;
-                AddProductImage.Visibility = Visibility.Visible;
+                AddProductGrid.Visibility = Visibility.Visible;
                 BD.Visibility = Visibility.Visible;
             }
             if (role == "cashier")
             {
-                BasketImage.Visibility = Visibility.Visible;
+                BasketGrid.Visibility = Visibility.Visible;
                 Orders.Visibility = Visibility.Visible;
             }
 
@@ -947,6 +948,74 @@ namespace Tea_Coffe
 
             // Открываем окно авторизации
             
+        }
+
+        private void Grid_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if (sender is Grid grid)
+            {
+                foreach (var child in grid.Children)
+                {
+                    if (child is TextBlock textBlock)
+                    {
+                        textBlock.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0x2F, 0xAC, 0x66)); // Замените на нужный цвет
+                    }
+                }
+            }
+        }
+
+        private void Grid_MouseLeave2(object sender, MouseEventArgs e)
+        {
+            if (sender is Grid grid)
+            {
+                foreach (var child in grid.Children)
+                {
+                    if (child is TextBlock textBlock)
+                    {
+                        textBlock.Foreground = new SolidColorBrush(Colors.Black); // Замените на исходный цвет
+                    }
+                }
+            }
+        }
+
+        private void Grid_MouseEnterBasket(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                Grid_MouseEnter(sender, e);
+                if (Basket.Count > 0)
+                {
+                    int FullCost = 0;
+                    foreach (var item in Basket)
+                    {
+                        FullCost += item.BasketCost;
+                    }
+                    if (Basket.Count == 1)
+                    {
+                        BasketQuantityTB.Text = $"В корзине {Basket.Count.ToString()} товар";
+                    }
+                    else if (Basket.Count >= 2 && Basket.Count <= 4)
+                    {
+                        BasketQuantityTB.Text = $"В корзине {Basket.Count.ToString()} товара";
+                    }
+                    else
+                    {
+                        BasketQuantityTB.Text = $"В корзине {Basket.Count.ToString()} товаров";
+                    }
+                    BasketCostTB.Text = $"На сумму {FullCost} ₽";
+                    BasketInfoBorder.Visibility = Visibility.Visible;
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void Grid_MouseLeaveBasket(object sender, MouseEventArgs e)
+        {
+            Grid_MouseLeave2(sender, e);
+            BasketInfoBorder.Visibility = Visibility.Collapsed;
         }
     }
 }

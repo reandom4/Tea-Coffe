@@ -9,7 +9,6 @@
         Title="Корзина" Height="527" Width="900"  MinWidth="933" MinHeight="350" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
     <Grid>
         <TextBlock HorizontalAlignment="Left" Margin="26,26,0,0" TextWrapping="Wrap" Text="Моя корзина" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" FontFamily="Calibri"/>
-        <Image Height="15" VerticalAlignment="Top" HorizontalAlignment="Right" Width="15" Source="/Resources/close.png" Margin="0,3,5,0" MouseLeftButtonDown="Image_MouseLeftButtonDown" Cursor="Hand" />
         <ListView x:Name="ProductView" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,60,270,0"   BorderBrush="{x:Null}" Height="auto" VerticalAlignment="Top" >
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
@@ -110,7 +109,7 @@
                 <Border BorderBrush="Black" BorderThickness="1" Margin="5,26,5,27"/>
             </Grid>
         </Border>
-        <Button Margin="0,121,5,0" Height="38" Background="#FF2FAC66" BorderBrush="{x:Null}" Foreground="White" FontFamily="Calibri" VerticalAlignment="Top" Content="Оформить заказ" FontSize="16" HorizontalAlignment="Right" Width="251" Click="AddOrderButton" >
+        <Button x:Name="OrderButton" Margin="0,121,5,0" Height="38" Background="#FF2FAC66" BorderBrush="{x:Null}" Foreground="White" FontFamily="Calibri" VerticalAlignment="Top" Content="Оформить заказ" FontSize="16" HorizontalAlignment="Right" Width="251" Click="AddOrderButton" >
 
             <Button.Template>
                 <ControlTemplate TargetType="Button">

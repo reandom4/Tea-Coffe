@@ -190,7 +190,7 @@
                 </Grid>
             </Border>
             <Image x:Name="RefreshImg" HorizontalAlignment="Right" Height="24" Margin="0,230,28,0" VerticalAlignment="Top" Width="24" Source="/Resources/refresh.png" Cursor="Hand" MouseLeftButtonDown="RefreshCaptcha"/>
-            <Label x:Name="CaptchaErr" Content="Попробуйте снова через 10 секунд" HorizontalAlignment="Center" Margin="0,302,0,0" VerticalAlignment="Top" Width="216" Foreground="Red" Visibility="Collapsed"/>
+            <Label x:Name="CaptchaErr" Content="Попробуйте снова через 10 секунд" HorizontalAlignment="Center" Margin="0,302,0,0" VerticalAlignment="Top" Width="216" Foreground="Red" Visibility="Collapsed" Height="30"/>
         </Grid>
         <Border BorderBrush="#e2e3e8" BorderThickness="1"/>
 

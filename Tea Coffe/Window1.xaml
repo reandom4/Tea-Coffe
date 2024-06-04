@@ -292,10 +292,22 @@ CornerRadius="25">
                         </Button>
                     </Grid>
                 </Border>
+                <Grid Margin="0,18,10,22" HorizontalAlignment="Right" Width="50" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave2" Cursor="Hand">
+                    <Image Margin="0,0,0,20" Source="/Resources/user (1).png" HorizontalAlignment="Center" Width="34" Cursor="Hand" PreviewMouseLeftButtonDown="ChangeAccount" Height="36" VerticalAlignment="Bottom"/>
+                    <TextBlock Margin="0,0,0,3" TextWrapping="Wrap" Text="Выйти" VerticalAlignment="Bottom" HorizontalAlignment="Center" PreviewMouseLeftButtonDown="ChangeAccount"/>
 
-                <Image x:Name="BasketImage" Margin="0,31,140,31" Source="/Resources/shopping-cart.png" HorizontalAlignment="Right" Width="40" Cursor="Hand" PreviewMouseLeftButtonDown="ShowFullBasket" Visibility="Collapsed"/>
-                <Image Margin="0,31,70,31" Source="/Resources/user (1).png" HorizontalAlignment="Right" Width="40" Cursor="Hand" PreviewMouseLeftButtonDown="ChangeAccount"/>
-                <Image x:Name="AddProductImage" Margin="0,31,140,31" Source="/Resources/plus.png" PreviewMouseLeftButtonDown="AddProductButton" Cursor="Hand" Visibility="Collapsed" HorizontalAlignment="Right" Width="40"/>
+                </Grid>
+                <Grid x:Name="BasketGrid" Margin="0,18,65,22" HorizontalAlignment="Right" Width="50" Visibility="Visible" MouseEnter="Grid_MouseEnterBasket" MouseLeave="Grid_MouseLeaveBasket" Cursor="Hand">
+                    <Image x:Name="BasketImage" Margin="0,4,0,14" Source="/Resources/shopping-cart.png" Cursor="Hand" PreviewMouseLeftButtonDown="ShowFullBasket" Visibility="Visible" HorizontalAlignment="Left" Width="46"/>
+                    <TextBlock Margin="0,41,0,0" TextWrapping="Wrap" Text="Корзина" HorizontalAlignment="Center" PreviewMouseLeftButtonDown="ShowFullBasket" Height="16" VerticalAlignment="Top"/>
+
+                </Grid>
+                <Grid x:Name="AddProductGrid" Margin="1782,18,0,22" Width="56" HorizontalAlignment="Left" Visibility="Collapsed" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave2" Cursor="Hand">
+
+                    <TextBlock Margin="0,41,0,0" TextWrapping="Wrap" Text="Добавить" HorizontalAlignment="Center" Width="56" PreviewMouseLeftButtonDown="AddProductButton" Height="16" VerticalAlignment="Top"/>
+                    <Image x:Name="AddProductImage" Margin="0,5,0,0" Source="/Resources/plus.png" PreviewMouseLeftButtonDown="AddProductButton" Cursor="Hand" Visibility="Visible" HorizontalAlignment="Center" Width="36" Height="37" VerticalAlignment="Top"/>
+
+                </Grid>
 
             </Grid>
             <StackPanel Margin="18,150,0,0" Height="auto" VerticalAlignment="Top" HorizontalAlignment="Left" Width="auto" Orientation="Horizontal">
@@ -372,6 +384,12 @@ CornerRadius="25">
                     </Border>
                 </Grid>
             </Grid>
+            <Border x:Name="BasketInfoBorder" BorderBrush="#e2e3e8" BorderThickness="1" CornerRadius="5" Margin="0,111,25,0" Background="White" HorizontalAlignment="Right" Width="130" Height="40" VerticalAlignment="Top" Visibility="Collapsed">
+                <Grid>
+                    <TextBlock x:Name="BasketQuantityTB" HorizontalAlignment="Center" Margin="0,5,0,0" TextWrapping="Wrap" Text="В корзине 11 товаров" VerticalAlignment="Top" Width="auto" FontSize="11"/>
+                    <TextBlock x:Name="BasketCostTB" HorizontalAlignment="Center" Margin="0,19,0,0" TextWrapping="Wrap" Text="На сумму 350 ₽" VerticalAlignment="Top" Width="auto" FontSize="11"/>
+                </Grid>
+            </Border>
 
 
 
