@@ -1,4 +1,5 @@
-﻿using Microsoft.Office.Interop.Word;
+﻿
+using Microsoft.Office.Interop.Word;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -135,7 +136,7 @@ namespace Tea_Coffe
 
             // Создаем новый параграф и добавляем текст перед таблицей
             Word.Paragraph titlePara2 = doc.Paragraphs.Add();
-            titlePara2.Range.Text = "Магазин чая и кофе";
+            titlePara2.Range.Text = "10 Самых популярных товаров";
             titlePara2.Range.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphLeft;
             titlePara2.Format.SpaceAfter = 12; // 12 единиц - это расстояние в точках
             titlePara2.Range.Font.Bold = 1;
@@ -183,7 +184,7 @@ namespace Tea_Coffe
             // Сохраняем документ
             string exePath = Assembly.GetExecutingAssembly().Location;
             string programPath = Path.GetDirectoryName(exePath);
-            string chequesFolderPath = Path.Combine(programPath, "Отчеты", "чеки");
+            string chequesFolderPath = Path.Combine(programPath, "Отчеты", "Отчет о популярных товарах");
             string filePath = Path.Combine(chequesFolderPath, $"Отчет о наиболее популярных товарах{DateTime.Now:dd.MM.yyyy HH.mm.ss}.docx");
             doc.SaveAs2(filePath);
 
@@ -191,7 +192,7 @@ namespace Tea_Coffe
             //doc.Close();
             //wordApp.Quit();
 
-            Console.WriteLine("Чек успешно создан.");
+
         }
         // Создание отчета отчета о выручке
         public void CreateBill(List<ProductItem> items)
@@ -215,7 +216,7 @@ namespace Tea_Coffe
 
             // Создаем новый параграф и добавляем текст перед таблицей
             Word.Paragraph titlePara2 = doc.Paragraphs.Add();
-            titlePara2.Range.Text = "Магазин чая и кофе";
+            titlePara2.Range.Text = "Отчет о прибыли";
             titlePara2.Range.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphLeft;
             titlePara2.Format.SpaceAfter = 12; // 12 единиц - это расстояние в точках
             titlePara2.Range.Font.Bold = 1;
@@ -267,7 +268,7 @@ namespace Tea_Coffe
             // Сохраняем документ
             string exePath = Assembly.GetExecutingAssembly().Location;
             string programPath = Path.GetDirectoryName(exePath);
-            string chequesFolderPath = Path.Combine(programPath, "Отчеты", "Популярные товары");
+            string chequesFolderPath = Path.Combine(programPath, "Отчеты", "Отчет о выручке");
             string filePath = Path.Combine(chequesFolderPath, $"Отчет о выручке{DateTime.Now:dd.MM.yyyy HH.mm.ss}.docx");
             doc.SaveAs2(filePath);
 
@@ -275,7 +276,7 @@ namespace Tea_Coffe
             //doc.Close();
             //wordApp.Quit();
 
-            Console.WriteLine("Чек успешно создан.");
+
         }
         // Создание отчета о среднем чеке
         public void Process(Dictionary<string, string> items)
@@ -317,8 +318,8 @@ namespace Tea_Coffe
                     ReplaceWith: missing, Replace: replace);
             }
             //сохранение в новый файл
-            string chequesFolderPath = Path.Combine(programPath, "Отчеты", "Средний чек");
-            string filePath = Path.Combine(chequesFolderPath, $"Средний чек{DateTime.Now:dd.MM.yyyy HH.mm.ss}.docx");
+            string chequesFolderPath = Path.Combine(programPath, "Отчеты", "Отчет о среднем чеке");
+            string filePath = Path.Combine(chequesFolderPath, $"Отчет о среднем чеке{DateTime.Now:dd.MM.yyyy HH.mm.ss}.docx");
             app.ActiveDocument.SaveAs(filePath);
             //app.ActiveDocument.Close();
             //app.Quit();
@@ -479,5 +480,7 @@ namespace Tea_Coffe
             public string FD { get; set; }
             public string FP { get; set; }
         }
-        }
+
+        
+    }
 }

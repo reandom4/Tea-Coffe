@@ -22,8 +22,8 @@ namespace Tea_Coffe
             InitializeComponent();
 
 
-            this.MouseMove += new MouseEventHandler(OnUserActivity);
-            this.KeyDown += new KeyEventHandler(OnUserActivity);
+            this.MouseMove += new MouseEventHandler(main.OnUserActivity);
+            this.KeyDown += new KeyEventHandler(main.OnUserActivity);
             try
             {
                 userid = id;
@@ -183,9 +183,6 @@ namespace Tea_Coffe
         }
 
         //Обновление таймера при активности
-        private void OnUserActivity(object sender, EventArgs e)
-        {
-            Window1.OnUserActivity(sender, e);
-        }
+
     }
 }

@@ -113,15 +113,20 @@ namespace Tea_Coffe
                     // Копируем изображение в нужную папку (здесь "C:\\Images" - пример пути)
                     string destinationFolder = Directory.GetCurrentDirectory() + "\\image\\";
                     string destinationPath = System.IO.Path.Combine(destinationFolder, System.IO.Path.GetFileName(imagePath));
-                    if (!File.Exists(destinationPath))
+                    if (File.Exists(destinationPath))
                     {
-                        File.Copy(imagePath, destinationPath);
-                        imgname = System.IO.Path.GetFileName(imagePath);
+                        string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(imagePath);
+                        string extension = Path.GetExtension(imagePath);
+                        int count = 1;
+
+                        while (File.Exists(destinationPath))
+                        {
+                            string tempFileName = $"{fileNameWithoutExtension}({count++}){extension}";
+                            destinationPath = Path.Combine(destinationFolder, tempFileName);
+                        }
                     }
-                    else
-                    {
-                        imgname = System.IO.Path.GetFileName(imagePath);
-                    }
+                    File.Copy(imagePath, destinationPath);
+                    imgname = System.IO.Path.GetFileName(destinationPath);
 
 
                 }

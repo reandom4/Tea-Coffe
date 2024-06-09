@@ -15,7 +15,7 @@ namespace Tea_Coffe
     {
         readonly DataBase dataBase = new DataBase();
         readonly WordHelper wordHelper = new WordHelper();
-
+        readonly WordDocCreator wordDocCreator = new WordDocCreator();
         public ReportGenerator()
         {
             InitializeComponent();
@@ -97,6 +97,7 @@ namespace Tea_Coffe
 
 
                     }
+                    //wordDocCreator.CreateBill2();
                     wordHelper.CreateBill(productList);
                 }
                 if (reportTypeComboBox.Text == "Отчет о наиболее популярных товарах")

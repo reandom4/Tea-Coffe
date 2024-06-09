@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
@@ -193,9 +195,8 @@ namespace Tea_Coffe
             fullProductInfo?.Close();
 
             fullProductInfo = new FullProductInfo(item, this, curRole);            
-            fullProductInfo.Show();
-            fullProductInfo.Activate();
-            fullProductInfo.Focus();
+            fullProductInfo.ShowDialog();
+            
         }
         // Метод для поиска и сортировки продуктов
         private void Search_Sort(object sender, TextChangedEventArgs e)
@@ -730,9 +731,7 @@ namespace Tea_Coffe
 
             basketWindow = new BasketWindow(Basket, this, userid);
             
-            basketWindow.Show();
-            basketWindow.Activate();
-            basketWindow.Focus();
+            basketWindow.ShowDialog();
 
         }
         // Закрывает окно корзины и другие окна при закрытии главного окна.
@@ -741,6 +740,10 @@ namespace Tea_Coffe
 
             basketWindow?.Close();
             fullProductInfo?.Close();
+            string exePath = Assembly.GetExecutingAssembly().Location;
+            string programPath = Path.GetDirectoryName(exePath);
+            string filePath = Path.Combine(programPath, "Backup", $"Backup{DateTime.Now:dd.MM.yyyy HH.mm.ss}.sql");
+            dataBase.Backup(filePath);
         }
         // Открывает окно добавления продукта.
         private void AddProductButton(object sender, MouseButtonEventArgs e)
@@ -908,7 +911,7 @@ namespace Tea_Coffe
         }
 
         private Timer _inactivityTimer;
-        private const int InactivityLimit = 120000;
+        private const int InactivityLimit = 5000;
         // Инициализация таймера
         private void InitializeInactivityTimer()
         {

@@ -297,7 +297,7 @@ CornerRadius="25">
                     <TextBlock Margin="0,0,0,3" TextWrapping="Wrap" Text="Выйти" VerticalAlignment="Bottom" HorizontalAlignment="Center" PreviewMouseLeftButtonDown="ChangeAccount"/>
 
                 </Grid>
-                <Grid x:Name="BasketGrid" Margin="0,18,65,22" HorizontalAlignment="Right" Width="50" Visibility="Visible" MouseEnter="Grid_MouseEnterBasket" MouseLeave="Grid_MouseLeaveBasket" Cursor="Hand">
+                <Grid x:Name="BasketGrid" Margin="0,18,65,22" HorizontalAlignment="Right" Width="50" Visibility="Collapsed" MouseEnter="Grid_MouseEnterBasket" MouseLeave="Grid_MouseLeaveBasket" Cursor="Hand">
                     <Image x:Name="BasketImage" Margin="0,4,0,14" Source="/Resources/shopping-cart.png" Cursor="Hand" PreviewMouseLeftButtonDown="ShowFullBasket" Visibility="Visible" HorizontalAlignment="Left" Width="46"/>
                     <TextBlock Margin="0,41,0,0" TextWrapping="Wrap" Text="Корзина" HorizontalAlignment="Center" PreviewMouseLeftButtonDown="ShowFullBasket" Height="16" VerticalAlignment="Top"/>
 
